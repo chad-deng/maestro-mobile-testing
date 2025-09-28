@@ -34,14 +34,38 @@ Environment: FAT (Factory Acceptance Testing)
 
 ## Getting Started
 
-1. Install Maestro CLI
+### Quick Setup
+
+1. **Initial setup (first time only):**
+   ```bash
+   ./setup.sh --install-maestro --install-deps --create-reports
+   ```
+
+2. **Run tests in FAT environment:**
+   ```bash
+   ./run-maestro.sh
+   ```
+
+3. **Run tests in staging environment:**
+   ```bash
+   ./run-maestro.sh -e staging
+   ```
+
+### Manual Setup
+
+1. Install Maestro CLI:
+   ```bash
+   curl -Ls "https://get.maestro.mobile.dev" | bash
+   ```
+
 2. Install Node.js dependencies:
    ```bash
    npm install
    ```
-3. Run tests:
+
+3. Run tests using the runner script:
    ```bash
-   maestro test scenarios/
+   ./run-maestro.sh --help
    ```
 
 ## Requirements
@@ -50,9 +74,49 @@ Environment: FAT (Factory Acceptance Testing)
 - Node.js
 - Mobile device or emulator with the target app installed
 
-## Scripts
+## Scripts and Tools
 
-The `script/` directory contains helper JavaScript files for:
+### Test Runner Scripts
+
+- **`run-maestro.sh`** - Main test runner with environment support
+- **`setup.sh`** - Environment setup and dependency installation
+- **`examples/run-examples.sh`** - Interactive examples and usage demonstrations
+
+### Helper Scripts
+
+The `script/` directory contains JavaScript helper files for:
 - Product management operations
 - Deactivation procedures
 - Register management
+
+### Environment Configuration
+
+The `environments/` directory contains environment-specific configurations:
+- `fat.env` - Factory Acceptance Testing environment
+- `staging.env` - Staging environment
+- `production.env` - Production environment
+
+## Usage Examples
+
+```bash
+# Run all tests in FAT environment (default)
+./run-maestro.sh
+
+# Run specific scenario in staging
+./run-maestro.sh -e staging scenarios/0001-Activation.yaml
+
+# Run with custom credentials
+./run-maestro.sh -b mystore -u user@example.com -p mypassword
+
+# Run on specific device with JUnit output
+./run-maestro.sh -d emulator-5554 -f junit -o ./test-reports
+
+# Validate configuration without running tests
+./run-maestro.sh --validate -e production
+
+# List available scenarios and environments
+./run-maestro.sh --list-scenarios
+./run-maestro.sh --list-envs
+```
+
+For more detailed usage instructions, see [TESTING_GUIDE.md](TESTING_GUIDE.md).
