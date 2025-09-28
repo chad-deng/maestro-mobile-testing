@@ -1,0 +1,7 @@
+appId: com.storehub.pos.test
+---
+- tapOn: "LOG IN"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"

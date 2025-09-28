@@ -1,0 +1,8 @@
+appId: com.storehub.pos.test
+---
+- tapOn: "LOG IN"
+- tapOn: "0"
+- tapOn: "0"
+- tapOn: "1"
+- tapOn: "1"
+- assertVisible: "Aw shucks, that’s the wrong PIN. Try again?"

@@ -1,0 +1,71 @@
+appId: com.storehub.pos.test
+---
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- assertVisible: "Open Shift"
+- tapOn: "Open Shift"
+- tapOn: "CONFIRM"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Register"
+- tapOn: "New fix price without tracking"
+- tapOn:
+    id: "al_product_1"
+- tapOn:
+    id: "al_btn_772"
+    index: 0
+- tapOn:
+    id: "al_number_selector_plus"
+- assertVisible:
+    text: "2"
+    index: 0
+- tapOn:
+    id: "al_number_selector_minus"
+- assertVisible:
+    text: "1"
+    index: 1
+- tapOn:
+    id: "al_modal_option_add_update"
+- tapOn:
+    text: "New fix price with single variants without tracking"
+    index: 1
+- tapOn: ""
+- tapOn: ""
+- tapOn:
+    point: "45%,43%"
+- tapOn: "100%"
+- tapOn:
+    point: "65%,52%"
+- tapOn:
+    id: "al_btn_457"
+- tapOn:
+    point: "80%,78%"
+- tapOn: "UPDATE"
+- tapOn:
+    id: "al_purchasedItem_title"
+    index: 0
+- tapOn:
+    text: "Delete"
+    index: 2
+- tapOn:
+    id: "al_checkout"
+- tapOn:
+    id: "al_exact"
+- tapOn:
+    id: "salesTypeBtnText"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Transactions"
+- assertVisible:
+    text: "2.00"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Close Shift"
+- tapOn:
+    id: "al_close_register"
+- tapOn:
+    id: "CONFIRM"
+- tapOn: "CONTINUE"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"

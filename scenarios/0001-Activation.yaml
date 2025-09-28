@@ -1,0 +1,39 @@
+appId: com.storehub.pos.test
+---
+- launchApp:
+    appId: "com.storehub.pos.test"
+    stopApp: false
+    permissions:
+      all: "allow"
+##- tapOn: "StoreHub Fat"
+- tapOn: "ACTIVATE REGISTER"
+- tapOn:
+    id: "activation_store_name"
+- inputText: "mcm"
+- tapOn:
+    id: "activation_email"
+- inputText: "chad.deng@storehub.com"
+- tapOn:
+    id: "activation_password"
+- inputText: "1Qaz2wsx"
+- tapOn: " Activate your register "
+- tapOn:
+    point: "50%,36%"
+- tapOn:
+    id: "al_continue"
+- tapOn:
+    id: "al_continue"
+- tapOn: "chad"
+- tapOn: "CONFIRM"
+- tapOn:
+    id: "al_pin_1"
+- tapOn:
+    id: "al_pin_1"
+- tapOn:
+    id: "al_pin_1"
+- tapOn:
+    id: "al_pin_1"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"

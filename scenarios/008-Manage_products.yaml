@@ -1,0 +1,45 @@
+appId: com.storehub.pos.test
+---
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Manage Products"
+- tapOn:
+    id: "al_textinput_290"
+- inputText: "Android"
+- tapOn:
+    point: "92%,73%"
+- tapOn:
+    text: "Android 1.7.5"
+    index: 1
+- assertVisible:
+    text: "Android 1.7.5"
+    index: 0
+- tapOn:
+    id: "al_btn_924"
+- tapOn: "al_actionbar_left_sided"
+- inputText: "Maestro Test"
+- tapOn:
+    id: "al_product_quantity"
+- tapOn: "1"
+- tapOn:
+    id: "com.google.android.inputmethod.latin:id/0_resource_name_obfuscated"
+    index: 15
+- tapOn:
+    id: "al_product_saveBtn"
+- tapOn:
+    id: "al_textinput_290"
+- inputText: "Maestro Test"
+- tapOn:
+    id: "com.google.android.inputmethod.latin:id/key_pos_ime_action"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_register"
+- runScript: 
+    file: ../script/delete_product.js
+    env:
+       myAccount: 'mcm'
+       myEmail: 'chad.deng@storehub.com'
+       myPassword: '1Qaz2wsx'
+       myRegisterId: '19'

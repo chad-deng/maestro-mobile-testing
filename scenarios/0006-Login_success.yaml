@@ -1,0 +1,8 @@
+appId: com.storehub.pos.test
+---
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- assertVisible: "Open Shift"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"

@@ -1,0 +1,17 @@
+appId: com.storehub.pos.test
+---
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- tapOn:
+    id: "al_btn_567"
+- assertVisible: "Online"
+- tapOn:
+    id: "al_showFilter_btn"
+- assertVisible: "Pending Acceptance"
+- assertVisible: "Finding Rider"
+- assertVisible: "Rider Found"
+- assertVisible: "Picked Up"
+- tapOn: "APPLY"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"

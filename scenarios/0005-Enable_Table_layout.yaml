@@ -1,0 +1,67 @@
+appId: com.storehub.pos.test
+---
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_settings"
+- tapOn: "Layouts"
+- tapOn:
+    point: "94%,35%"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Register"
+- tapOn: "Open Register"
+- tapOn:
+    id: "CONFIRM"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Register"
+- tapOn:
+    text: "Orders: 0"
+    index: 3
+- inputText: "3"
+- tapOn:
+    id: "CONFIRM"
+- tapOn: "New fix price without tracking"
+- tapOn:
+    id: "al_product_0"
+- tapOn:
+    id: "al_submit_orders"
+- tapOn: "1-2, Orders: 1"
+- tapOn:
+    id: "OpenOrderItem"
+- tapOn:
+    id: "al_checkout"
+- tapOn:
+    id: "al_actionbar_right"
+- inputText: "25.30"
+- tapOn:
+    id: "al_btn_715"
+- tapOn:
+    id: "al_exact"
+    index: 0
+- tapOn:
+    id: "al_new_sale"
+- tapOn: "Credit Card"
+- tapOn:
+    id: "al_new_sale"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_settings"
+- tapOn: "Layouts"
+- tapOn:
+    point: "95%,35%"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Close Shift"
+- tapOn:
+    id: "al_close_register"
+- tapOn:
+    id: "CONFIRM"
+- tapOn: "CONTINUE"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"

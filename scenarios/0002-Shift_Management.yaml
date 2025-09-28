@@ -1,0 +1,62 @@
+appId: com.storehub.pos.test
+---
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- assertVisible: "Open Shift"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Sales Report"
+- assertVisible: "Sales Report Unavailable"
+- tapOn:
+    id: "al_text_824"
+- tapOn: "Open Shift"
+- tapOn:
+    id: "al_textinput_557"
+- inputText: "100.00"
+- tapOn: "CONFIRM"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Register"
+- tapOn: "New fix price without tracking"
+- tapOn: "New unit without variants (without track inventory) + w..."
+- inputText: "100"
+- tapOn: "CONFIRM"
+- assertVisible: "70.00"
+- assertVisible: "7.00"
+- assertVisible: "0.84"
+- assertVisible: "RM 77.84"
+- tapOn: "al_checkout"
+- assertVisible: "RM 77.85"
+- tapOn: "EXACT"
+- assertVisible: "Transaction Complete"
+- assertVisible: "Total Paid RM 77.85"
+- tapOn: "New Sale"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    text: "Sales Report"
+- assertVisible: "Sales Report"
+- assertVisible: "Opened by chad deng"
+- tapOn:
+    id: "al_text_271"
+    index: 1
+- assertVisible: "Expected Drawer"
+- tapOn:
+    id: "al_text_271"
+    index: 2
+- assertVisible: "Cash"
+- tapOn:
+    id: "al_text_271"
+    index: 3
+- assertVisible: "Total Tendered"
+- assertVisible: "PRINT DAILY REPORT"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Close Shift"
+- tapOn: "Close Register"
+- inputText: "100.00"
+- tapOn: "CONFIRM"
+- tapOn: "CONTINUE"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"

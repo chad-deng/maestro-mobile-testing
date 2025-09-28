@@ -1,0 +1,14 @@
+appId: com.storehub.pos.test
+env:
+  ENV: 'fat'
+executionOrder:
+  continueOnFailure: false # default is true
+  flowsOrder:
+    - 0001-Activation.yaml
+    - 0002-Shift_Management.yaml
+    - 0010-Login_failed.yaml
+    - 0003-Clock_in_out.yaml
+    - 0004-Basic_Transaction_Processing.yaml
+    - 0005-Enable_Table_layout.yaml
+    - 0006-Login_success.yaml
+    - 0020-Search_product.yaml

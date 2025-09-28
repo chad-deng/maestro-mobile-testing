@@ -1,0 +1,9 @@
+appId: com.storehub.pos.test
+---
+- runScript: 
+    file: ../script/deactivate.js
+    env:
+       myAccount: 'mcm'
+       myEmail: 'chad.deng@storehub.com'
+       myPassword: '1Qaz2wsx'
+       myRegisterId: '19'

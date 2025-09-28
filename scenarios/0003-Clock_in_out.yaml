@@ -1,0 +1,12 @@
+appId: com.storehub.pos.test
+---
+- tapOn:
+    id: al_tab_CLOCK IN/OUT
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
+- assertVisible:
+    id: Info
+- tapOn:
+    id: al_modalinfo_ok
