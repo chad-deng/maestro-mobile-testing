@@ -1,0 +1,26 @@
+appId: com.storehub.pos.test
+---
+- launchApp:
+    appId: "com.storehub.pos.test"
+    stopApp: false
+    permissions:
+      all: "allow"
+- inputText: "kdstest"
+- "hideKeyboard"
+- tapOn:
+    id: "activation_email"
+- inputText: "yifan.zhu+kds@storehub.com"
+- "hideKeyboard"
+- tapOn:
+    id: "activation_password"
+- inputText: 123456
+- "hideKeyboard"
+- tapOn:
+    id: "al_continue"
+- tapOn:
+    id: "al_btn_383"
+    index: 0
+- tapOn:
+    id: "CONFIRM"
+- tapOn:
+    id: "al_btn_988"

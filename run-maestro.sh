@@ -259,9 +259,10 @@ run_maestro_tests() {
     # Build maestro command
     local maestro_cmd="maestro test"
     
-    # Add device specification if provided
+    # Set device environment variable if provided (Maestro uses this for device selection)
     if [ -n "$device_id" ]; then
-        maestro_cmd="$maestro_cmd --device $device_id"
+        export MAESTRO_DEVICE_ID="$device_id"
+        print_info "Device specified: $device_id"
     fi
     
     # Add output format if provided

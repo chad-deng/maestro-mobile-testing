@@ -1,0 +1,289 @@
+appId: com.storehub.pos.test
+---
+- launchApp:
+    appId: "com.storehub.pos.test"
+    stopApp: false
+    permissions:
+      all: "allow"
+- tapOn: "ACTIVATE REGISTER"
+- tapOn:
+    id: "activation_store_name"
+- inputText: "kdstest"
+- "hideKeyboard"
+- tapOn:
+    id: "activation_email"
+- inputText: "yifan.zhu+kds@storehub.com"
+- "hideKeyboard"
+- tapOn:
+    id: "activation_password"
+- inputText: 123456
+- "hideKeyboard"
+- tapOn:
+    id: "al_continue"
+- tapOn:
+    id: "al_btn_383"
+    index: 0
+- tapOn:
+    id: "CONFIRM"
+- tapOn:
+    id: "al_btn_988"
+- tapOn:
+    id: "al_pin_2"
+- tapOn:
+    id: "al_pin_9"
+- tapOn:
+    id: "al_pin_9"
+- tapOn: "8"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_settings"
+- tapOn:
+    id: "al_leftTab_Layouts"
+- tapOn:
+    point: "94%,34%"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_register"
+- tapOn: "Open Register"
+- tapOn:
+    id: "CONFIRM"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_register"
+- tapOn: "1-0, Orders: 0"
+- tapOn: "3"
+- tapOn:
+    id: "CONFIRM"
+# - tapOn: "al_tab_126-150"
+# - tapOn: "al_tab_201-225"
+# - tapOn:
+#     id: "al_tab_276-300"
+# - tapOn:
+#     id: "al_tab_351-375"
+# - tapOn:
+#     id: "al_tab_426-450"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Manage Products"
+- tapOn:
+    id: "al_productList_item"
+    index: 0
+- repeat:
+    times: 20
+    commands:
+    - swipe:
+        from:
+          id: "al_productList_item"
+        direction: "UP"
+- repeat:
+    times: 10
+    commands:
+    - swipe:
+        from:
+          id: "al_productList_item"
+        direction: "DOWN"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_settings"
+- tapOn:
+    id: "al_leftTab_Printer"
+- tapOn:
+    id: "al_leftTab_Customer Display"
+- tapOn:
+    id: "al_leftTab_Kitchen Display System"
+- tapOn:
+    id: "al_leftTab_Beep Menu"
+- tapOn:
+    id: "al_leftTab_Beep Delivery"
+- tapOn:
+    id: "al_leftTab_Multiple Register Sync"
+- tapOn:
+    id: "al_leftTab_Default Network"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_transactions"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_register"
+- tapOn: "1-0, Orders: 0"
+- tapOn: "3"
+- tapOn:
+    id: "CONFIRM"
+- tapOn: "51-75"
+- repeat:
+    times: 5
+    commands:
+    - swipe:
+        from:
+          id: "al_product_12"
+        direction: "LEFT"
+- repeat:
+    times: 5
+    commands:
+    - swipe:
+        from:
+          id: "al_product_12"
+        direction: "RIGHT"
+- tapOn:
+    id: "al_tab_modifier"
+- tapOn:
+    id: "al_product_0"
+- tapOn:
+    id: "al_btn_772"
+    index: 5
+- tapOn:
+    id: "al_btn_772"
+    index: 6
+- tapOn:
+    id: "al_btn_772"
+    index: 7
+- tapOn:
+    id: "al_btn_772"
+    index: 8
+- tapOn:
+    id: "al_btn_772"
+    index: 12
+- tapOn:
+    id: "al_btn_772"
+    index: 15
+- tapOn:
+    id: "al_btn_772"
+    index: 14
+- tapOn:
+    id: "al_btn_772"
+    index: 19
+- tapOn:
+    id: "al_btn_772"
+    index: 20
+- tapOn:
+    id: "al_btn_772"
+    index: 20
+- tapOn:
+    id: "al_btn_772"
+    index: 22
+- tapOn:
+    id: "al_btn_772"
+    index: 17
+- tapOn:
+    id: "al_btn_772"
+    index: 18
+- tapOn:
+    id: "al_btn_772"
+    index: 20
+- tapOn:
+    id: "al_btn_772"
+    index: 9
+- tapOn:
+    id: "al_btn_772"
+    index: 10
+- tapOn:
+    id: "al_btn_772"
+    index: 11
+- tapOn:
+    id: "al_btn_772"
+    index: 24
+- tapOn:
+    id: "al_btn_772"
+    index: 28
+- tapOn:
+    id: "al_btn_772"
+    index: 27
+- "scroll"
+- tapOn:
+    id: "al_btn_772"
+    index: 23
+- tapOn:
+    id: "al_modal_option_add_update"
+- tapOn:
+    id: "al_checkout"
+- tapOn:
+    id: "al_exact"
+- tapOn:
+    id: "al_new_sale"
+- tapOn:
+    id: "tableLayoutTableItem"
+- tapOn: "3"
+- tapOn:
+    id: "CONFIRM"
+- tapOn:
+    id: "al_tab_1-25"
+- tapOn:
+    id: "al_product_3"
+- tapOn:
+    id: "al_product_8"
+- tapOn:
+    id: "al_product_13"
+- repeat:
+    times: 1
+    commands:
+    - swipe:
+        from:
+          id: "al_product_12"
+        direction: "LEFT"
+- repeat:
+    times: 1
+    commands:
+    - tapOn:
+        id: "al_product_3"
+    - tapOn:
+        id: "al_product_8"
+    - tapOn:
+        id: "al_product_13"
+- repeat:
+    times: 1
+    commands:
+    - swipe:
+        from:
+          id: "al_product_12"
+        direction: "LEFT"
+- repeat:
+    times: 1
+    commands:
+    - tapOn:
+        id: "al_product_3"
+    - tapOn:
+        id: "al_product_8"
+    - tapOn:
+        id: "al_product_13"
+- tapOn:
+    id: "al_checkout"
+- tapOn:
+    id: "al_exact"
+- tapOn:
+    id: "al_new_sale"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Close Shift"
+- tapOn:
+    id: "al_close_register"
+- tapOn:
+    id: "CONFIRM"
+- tapOn:
+    id: "al_modalinfo_ok"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_settings"
+- tapOn: "Layouts"
+- tapOn:
+    point: "95%,34%"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"
+- stopApp: "com.storehub.pos.test"
+- runScript: 
+    file: script/deactivate.js
+    env:
+       myAccount: 'kdstest'
+       myEmail: 'yifan.zhu+kds@storehub.com'
+       myPassword: '123456'
+       myRegisterId: '5'

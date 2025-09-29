@@ -10,9 +10,11 @@ appId: com.storehub.pos.test
 - tapOn:
     id: "activation_store_name"
 - inputText: "mcm"
+- hideKeyboard
 - tapOn:
     id: "activation_email"
 - inputText: "chad.deng@storehub.com"
+- hideKeyboard
 - tapOn:
     id: "activation_password"
 - inputText: "1Qaz2wsx"

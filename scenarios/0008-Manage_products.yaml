@@ -19,12 +19,12 @@ appId: com.storehub.pos.test
     id: "al_btn_924"
 - tapOn: "al_actionbar_left_sided"
 - inputText: "Maestro Test"
+- hideKeyboard
 - tapOn:
     id: "al_product_quantity"
 - tapOn: "1"
 - tapOn:
-    id: "com.google.android.inputmethod.latin:id/0_resource_name_obfuscated"
-    index: 15
+    point: "94%,69%"
 - tapOn:
     id: "al_product_saveBtn"
 - tapOn:
@@ -36,10 +36,11 @@ appId: com.storehub.pos.test
     point: "4%,6%"
 - tapOn:
     id: "al_register"
-- runScript: 
+- runScript:
     file: ../script/delete_product.js
     env:
        myAccount: 'mcm'
        myEmail: 'chad.deng@storehub.com'
        myPassword: '1Qaz2wsx'
        myRegisterId: '19'
+       myProductName: 'Maestro Test'
