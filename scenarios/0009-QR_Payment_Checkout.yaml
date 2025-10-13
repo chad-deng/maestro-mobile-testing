@@ -1,0 +1,47 @@
+appId: com.storehub.pos.test
+---
+# Login with 1111 password, add first product to cart, checkout with QR payment, and sign out
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- assertVisible: "Open Shift"
+- tapOn: "Open Shift"
+- tapOn: "CONFIRM"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Register"
+
+# Add first product to cart
+- tapOn:
+    id: "al_product_1"
+- tapOn:
+    id: "al_modal_option_add_update"
+
+# Proceed to checkout
+- tapOn:
+    id: "al_checkout"
+
+# Select QR payment method
+- tapOn:
+    point: "65%,83%"
+- tapOn:
+    point: "96%,6%"
+- tapOn: "Approve Manually"
+- tapOn:
+    id: "al_textinput_686"
+- inputText: "Manual approved"
+- hideKeyboard
+- tapOn: "CONFIRM"
+- tapOn: "New Sale"
+
+# Close shift and sign out
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Close Shift"
+- tapOn:
+    id: "al_close_register"
+- tapOn:
+    id: "CONFIRM"
+- tapOn: "CONTINUE"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"

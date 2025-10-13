@@ -36,6 +36,10 @@ appId: com.storehub.pos.test
     point: "4%,6%"
 - tapOn:
     id: "al_register"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"
 - runScript:
     file: ../script/delete_product.js
     env:
