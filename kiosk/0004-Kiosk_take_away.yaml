@@ -1,0 +1,25 @@
+appId: com.storehub.kiosk.test
+---
+- tapOn: Tap to begin your order!
+- tapOn: al_btn_252
+- tapOn:
+    text: al_btn_460
+    index: 1
+- tapOn: al_btn_562
+- tapOn: al_btn_214
+- tapOn: al_btn_202
+- tapOn:
+    id: "al_btn_qr_payment"
+    index: 2
+- tapOn: "al_btn_52"
+- tapOn: "al_btn_422"
+- tapOn: "al_btn_422"
+- tapOn: "al_btn_422"
+- tapOn: "al_btn_422"
+- tapOn: "Continue"
+- tapOn: al_textinput_978
+- inputText: Hello World
+- tapOn: Confirm
+- tapOn: al_btn_40
+
+

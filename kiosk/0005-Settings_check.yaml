@@ -1,0 +1,51 @@
+appId: com.storehub.kiosk.test
+---
+- tapOn: "Tap to begin your order!"
+- tapOn: "⚙️ Settings"
+- tapOn:
+    id: "al_btn_422"
+    index: 0
+- tapOn:
+    id: "al_btn_422"
+    index: 0
+- tapOn:
+    id: "al_btn_422"
+    index: 0
+- tapOn:
+    id: "al_btn_422"
+    index: 0
+- tapOn: "al_btn_260"
+- tapOn:
+    id: "al_btn_110"
+    index: 0
+- assertVisible: "Shift Management"
+- tapOn:
+    id: "al_btn_110"
+    index: 1
+- tapOn: "al_kiosk_sync_start"
+- assertVisible: "100"
+- tapOn:
+    id: "al_btn_110"
+    index: 2
+- tapOn:
+    id: "al_btn_180"
+- assertVisible: "Print Shift Report"
+- tapOn:
+    id: "al_btn_110"
+    index: 3
+- assertVisible:
+    text: "Session Timeout"
+    index: 1
+- tapOn:
+    id: "al_btn_110"
+    index: 4
+- assertVisible: "Printer Management"
+- assertVisible: "Search Printer"
+- assertVisible: "Print Test Receipt"
+- tapOn:
+    id: "al_search_printer"
+- assertVisible: "Searching for Printers"
+- tapOn:
+    id: "al_btn_933"
+- tapOn:
+    id: "al_btn_941"

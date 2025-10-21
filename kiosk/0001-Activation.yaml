@@ -1,7 +1,7 @@
-appId: com.storehub.pos.test
+appId: com.storehub.kiosk.test
 ---
 - launchApp:
-    appId: "com.storehub.pos.test"
+    appId: "com.storehub.kiosk.test"
     stopApp: false
     permissions:
       all: "allow"
@@ -25,21 +25,17 @@ appId: com.storehub.pos.test
     id: "al_continue"
 - tapOn:
     id: "al_continue"
-- tapOn: "step"
+- tapOn: "Guoguo"
 - tapOn: "CONFIRM"
-- tapOn:
-    id: "al_pin_1"
-- tapOn:
-    id: "al_pin_1"
-- tapOn:
-    id: "al_pin_1"
-- tapOn:
-    id: "al_pin_1"
-- tapOn:
-    point: "4%,28%"
-- tapOn:
-    id: "al_settings"
-- tapOn:
-    id: "al_leftTab_Kiosk Mode"
-- tapOn:
-    point: "93%,33%"
+# - tapOn:
+#     id: "al_pin_1"
+# - tapOn:
+#     id: "al_pin_1"
+# - tapOn:
+#     id: "al_pin_1"
+# - tapOn:
+#     id: "al_pin_1"
+# - tapOn:
+#     point: "4%,28%"
+# - tapOn:
+#     id: "al_sign_out"
