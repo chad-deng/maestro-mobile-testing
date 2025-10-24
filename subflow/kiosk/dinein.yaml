@@ -1,0 +1,40 @@
+appId: com.storehub.kiosk.test
+---
+- tapOn: "Tap to begin your order!"
+- tapOn:
+    id: "al_btn_850"
+- tapOn:
+    id: "al_btn_824"
+    index: 1
+- tapOn:
+    id: "al_btn_continue"
+- tapOn: "₱ 267.68"
+- tapOn:
+    id: "al_btn_401"
+- tapOn:
+    id: "al_btn_562"
+- tapOn:
+    point: "62%,23%"
+- tapOn: "al_btn_595"
+- tapOn: "al_btn_401"
+- tapOn: "al_btn_562"
+- tapOn: "al_btn_214"
+- tapOn: "al_btn_202"
+- tapOn: "al_btn_qr_payment"
+- tapOn:
+    id: al_btn_52
+- tapOn:
+    id: "al_btn_422"
+    index: 0
+- tapOn:
+    id: "al_btn_422"
+    index: 0
+- tapOn:
+    id: "al_btn_422"
+    index: 0
+- tapOn:
+    id: "al_btn_422"
+    index: 0
+- tapOn: "al_btn_260"
+- tapOn: "al_btn_56"
+- tapOn: "al_btn_40"

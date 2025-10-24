@@ -6,5 +6,5 @@ appId: com.storehub.kiosk.test
 - repeat:
     times: 999999
     commands:
-      - runFlow: ../subflow/kiosk/dinein.yaml
-      - runFlow: ../subflow/kiosk/take_away.yaml
+      - runFlow: ../../subflow/kiosk/dinein.yaml
+      - runFlow: ../../subflow/kiosk/take_away.yaml

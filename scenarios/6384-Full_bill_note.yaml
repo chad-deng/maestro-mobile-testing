@@ -1,0 +1,36 @@
+appId: com.storehub.pos.test
+---
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Register"
+- tapOn:
+    id: "al_product_0"
+- tapOn:
+    id: "al_product_8"
+- tapOn:
+    id: "al_btn_772"
+    index: 2
+- tapOn:
+    id: "al_modal_option_add_update"
+- inputText: 100
+- tapOn:
+    id: "CONFIRM"
+- tapOn: "al_Discount"
+- tapOn: "Add Note"
+- inputText: "This is a long text note test"
+- tapOn:
+    point: "93%,69%"
+- "hideKeyboard"
+- tapOn:
+    point: "84%,63%"
+- tapOn: "Discount"
+- assertVisible: "This is a long text note test\n"
+- tapOn:
+    point: "84%,63%"
+- tapOn:
+    point: "72%,6%"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"

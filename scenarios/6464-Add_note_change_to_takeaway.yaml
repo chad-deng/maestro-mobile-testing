@@ -1,0 +1,34 @@
+appId: com.storehub.pos.test
+---
+- runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Register"
+- tapOn:
+    id: "al_product_0"
+- tapOn:
+    text: "New fix price without tracking"
+    index: 1
+- tapOn:
+    id: "al_product_23"
+- inputText: "Test,Hollo"
+- "hideKeyboard"
+- tapOn:
+    text: "New fix price without tracking"
+    index: 1
+- assertVisible: "Test,Hollo"
+- tapOn:
+    text: "New fix price without tracking"
+    index: 1
+- tapOn:
+    point: "64%,51%"
+- tapOn:
+    text: "New fix price without tracking"
+    index: 1
+- assertVisible: "Test,Hollo"
+- tapOn:
+    point: "72%,6%"
+- tapOn:
+    point: "4%,6%"
+- tapOn:
+    id: "al_sign_out"
