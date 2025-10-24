@@ -1,0 +1,10 @@
+appId: com.storehub.kiosk.test
+---
+# Continuous loop: runs dinein and takeaway flows repeatedly
+# Note: Maestro doesn't support infinite loops, so using a large repeat count
+# To stop: press Ctrl+C in the terminal
+- repeat:
+    times: 999999
+    commands:
+      - runFlow: ../subflow/kiosk/dinein.yaml
+      - runFlow: ../subflow/kiosk/take_away.yaml
