@@ -1,0 +1,16 @@
+appId: com.storehub.kiosk.test
+---
+- tapOn: "Tap to begin your order!"
+- assertVisible: "Dine-in"
+- assertVisible: "Takeaway"
+- tapOn: "al_btn_850"
+- tapOn: "al_btn_422"
+- tapOn: "al_btn_422"
+- tapOn: "al_btn_422"
+- tapOn: "al_btn_422"
+- tapOn: "Continue"
+- tapOn: "al_kiosk_open_shift"
+- tapOn:
+    id: "al_btn_933"
+- tapOn:
+    id: "al_btn_941"

@@ -20,9 +20,10 @@ appId: com.storehub.pos.test
     id: "al_transactions"
 - tapOn: "al_btn_140"
 - tapOn:
-    text: "30.00"
-    index: 0
-- tapOn: "Delete"
+    id: al_textinput_557
+    index: 2
+- tapOn:
+    id: com.google.android.inputmethod.latin:id/key_pos_del
 - tapOn: "Delete"
 - tapOn:
     point: "94%,69%"

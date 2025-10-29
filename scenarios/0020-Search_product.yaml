@@ -2,9 +2,6 @@ appId: com.storehub.pos.test
 ---
 - runFlow: ../subflow/login.yaml # <-- Run commands from "Login.yaml"
 - tapOn:
-    point: "4%,6%"
-- tapOn: "Register"
-- tapOn:
     id: searchButton
 - tapOn: "Search products"
 - inputText: "name"
@@ -12,6 +9,15 @@ appId: com.storehub.pos.test
 - assertVisible: "longgggggggggggggggggggggggggggggggggggggg   name pro"
 - tapOn: "longgggggggggggggggggggggggggggggggggggggg   name pro"
 - tapOn: al_btn_769
+# Close shift and sign out
+# - tapOn:
+#     point: "4%,6%"
+# - tapOn: "Close Shift"
+# - tapOn:
+#     id: "al_close_register"
+# - tapOn:
+#     id: "CONFIRM"
+# - tapOn: "CONTINUE"
 - tapOn:
     point: "4%,6%"
 - tapOn:

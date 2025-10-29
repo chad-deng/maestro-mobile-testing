@@ -5,8 +5,7 @@ appId: com.storehub.kiosk.test
     stopApp: false
     permissions:
       all: "allow"
-##- tapOn: "StoreHub Fat"
-- tapOn: "ACTIVATE REGISTER"
+
 - tapOn:
     id: "activation_store_name"
 - inputText: "mcm"

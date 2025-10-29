@@ -4,6 +4,12 @@ appId: com.storehub.pos.test
 - tapOn:
     point: "4%,6%"
 - tapOn: "Register"
+- tapOn: "Open Shift"
+- tapOn:
+    id: "CONFIRM"
+- tapOn:
+    point: "4%,6%"
+- tapOn: "Register"
 - tapOn: "Add Customer"
 - inputText: "sophie"
 - tapOn:
