@@ -1,4 +1,7 @@
 appId: com.storehub.kiosk.test
+tags:
+  - Open_shift
+  - smoke
 ---
 - tapOn: "Tap to begin your order!"
 - assertVisible: "Dine-in"

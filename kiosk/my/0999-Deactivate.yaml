@@ -1,4 +1,7 @@
 appId: com.storehub.kiosk.test
+tags:
+  - Deactiovate
+  - smoke
 ---
 - runScript: 
     file: ../script/deactivate.js

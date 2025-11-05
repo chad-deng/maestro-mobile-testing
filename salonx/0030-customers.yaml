@@ -1,0 +1,53 @@
+appId: com.storehub.salonx.dev
+tags:
+  - customers
+  - P1
+---
+
+- tapOn:
+    point: "4%,29%"
+- tapOn:
+    point: "51%,4%"
+- inputText: "abe"
+- assertVisible: "阿部 隼人 abe@demo.com"
+- inputText: "abcd"
+- assertVisible: "No customers found"
+- tapOn:
+    point: "51%,4%"
+- "eraseText"
+- tapOn:
+    id: "Return"
+- tapOn:
+    point: "96%,4%"
+- tapOn:
+    point: "63%,17%"
+- "inputRandomPersonName"
+- copyTextFrom:
+    point: "63%,14%"
+- tapOn:
+    point: "63%,16%"
+- "inputRandomEmail"
+- tapOn:
+    point: "63%,20%"
+- inputRandomNumber:
+    length: 11
+- tapOn:
+    point: "63%,24%"
+- tapOn:
+    point: "63%,24%"
+- tapOn:
+    point: "63%,29%"
+- inputRandomText:
+    length: 5
+- tapOn:
+    point: "87%,6%"
+- tapOn:
+    point: "51%,4%"
+- tapOn:
+    point: "54%,10%"
+- tapOn:
+    point: "88%,11%"
+- tapOn:
+    point: "50%,27%"
+- tapOn:
+    point: "12%,11%"

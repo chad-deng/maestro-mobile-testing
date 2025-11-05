@@ -1,8 +1,15 @@
 appId: com.storehub.kiosk.test
 tags:
-  - close_shift
+  - Deactiovate
   - smoke
 ---
+- runScript: 
+    file: ../../script/deactivate.js
+    env:
+       myAccount: 'mcm-ph'
+       myEmail: 'chad.deng+ph@storehub.com'
+       myPassword: '123321'
+       myRegisterId: '1'
 - tapOn: "Tap to begin your order!"
 - assertVisible: "Dine-in"
 - assertVisible: "Takeaway"
@@ -13,8 +20,6 @@ tags:
 - tapOn: "al_btn_422"
 - tapOn: "Continue"
 - tapOn:
-    id: "al_kiosk_close_shift"
-- tapOn:
-    id: "al_btn_933"
-- tapOn:
-    id: "al_btn_941"
+    id: "al_btn_110"
+    index: 1
+- tapOn: "al_kiosk_sync_start"

@@ -1,4 +1,7 @@
 appId: com.storehub.kiosk.test
+tags:
+  - Dine-in
+  - smoke
 ---
 - tapOn: "Tap to begin your order!"
 - assertVisible: "Dine-in"

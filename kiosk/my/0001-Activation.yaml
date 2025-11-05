@@ -1,4 +1,7 @@
 appId: com.storehub.kiosk.test
+tags:
+  - activation
+  - smoke
 ---
 - launchApp:
     appId: "com.storehub.kiosk.test"

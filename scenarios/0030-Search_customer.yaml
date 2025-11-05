@@ -33,7 +33,8 @@ appId: com.storehub.pos.test
     point: "4%,6%"
 - tapOn:
     point: "97%,14%"
-
+- tapOn: "Add Customer"
+- inputText: "+60123456789"
 - tapOn:
     point: "4%,6%"
 - tapOn:

@@ -1,0 +1,53 @@
+appId: com.storehub.salonx.dev
+tags:
+  - smoke
+---
+- launchApp:
+    appId: "com.storehub.salonx.dev"
+    permissions:
+      all: "allow"
+- assertVisible: "Salon X Dev"
+- tapOn:
+    point: 97%,42%
+- assertVisible: "Sign In"
+- tapOn:
+    point: "50%,56%"
+- tapOn: "Salon X Owner"
+- tapOn: "Confirm"
+- tapOn:
+    point: "4%,4%"
+- tapOn:
+    point: "17%,33%"
+- tapOn:
+    point: "67%,20%"
+- tapOn: "日本語"
+- assertVisible: "レジ"
+- tapOn:
+    point: "17%,9%"
+- assertVisible: "カレンダー"
+- tapOn:
+    point: "17%,13%"
+- assertVisible: "予約"
+- tapOn:
+    point: "8%,16%"
+- assertVisible: "取引記録"
+- tapOn:
+    point: "17%,21%"
+- assertVisible: "在庫管理"
+- tapOn:
+    point: "17%,25%"
+- assertVisible: "顧客"
+- tapOn:
+    point: "17%,29%"
+- assertVisible: "一般"
+- tapOn:
+    point: "17%,33%"
+- tapOn:
+    point: "50%,16%"
+- tapOn: "言語 日本語"
+- assertVisible: "言語を選択"
+- tapOn: "English"
+- tapOn:
+    point: "4%,33%"
+- tapOn: "Sign Out"
+

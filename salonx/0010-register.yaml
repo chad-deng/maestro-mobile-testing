@@ -1,0 +1,23 @@
+appId: com.storehub.salonx.dev
+---
+- tapOn:
+    point: "50%,56%"
+- tapOn:
+    point: "4%,4%"
+- tapOn: "Salon X Owner"
+- tapOn: "Confirm"
+- tapOn:
+    point: "4%,9%"
+- tapOn:
+    point: "54%,9%"
+- assertVisible: "Cart"
+- tapOn: "渡部 健太 カット練習生"
+- tapOn:
+    point: "86%,11%"
+- tapOn:
+    point: "54%,15%"
+- tapOn: "長谷川 梨花 hasegawa@demo.com"
+- tapOn:
+    point: "86%,11%"
+- tapOn:
+    point: "54%,53%"

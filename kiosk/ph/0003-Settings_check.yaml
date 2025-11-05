@@ -1,4 +1,7 @@
 appId: com.storehub.kiosk.test
+tags:
+  - Settings
+  - smoke
 ---
 - tapOn: "Tap to begin your order!"
 - tapOn: "⚙️ Settings"
@@ -27,9 +30,16 @@ appId: com.storehub.kiosk.test
 - tapOn:
     id: "al_btn_110"
     index: 2
+- assertVisible: "Z-Readings"
+- assertVisible: "Close Z-Reading"
+- tapOn:
+    id: "al_btn_440"
+- assertVisible: "Print Z-Reading"
+- tapOn:
+    id: "al_btn_46"
+- assertVisible: "Print Z-Reading"
 - tapOn:
     id: "al_btn_180"
-- assertVisible: "Print Shift Report"
 - tapOn:
     id: "al_btn_110"
     index: 3

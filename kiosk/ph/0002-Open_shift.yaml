@@ -1,4 +1,7 @@
 appId: com.storehub.kiosk.test
+tags:
+  - Open_shift
+  - smoke
 ---
 - tapOn: "Tap to begin your order!"
 - assertVisible: "Dine-in"
@@ -10,6 +13,7 @@ appId: com.storehub.kiosk.test
 - tapOn: "al_btn_422"
 - tapOn: "Continue"
 - tapOn: "al_kiosk_open_shift"
+- assertVisible: "100"
 - tapOn:
     id: "al_btn_933"
 - tapOn:

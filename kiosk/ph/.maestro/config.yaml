@@ -1,0 +1,11 @@
+appId: com.storehub.kiosk.test
+tags:
+  - smoke
+executionOrder:
+  continueOnFailure: true
+  flowsOrder:
+    - 0001-Activation.yaml
+    - 0002-Open_shift.yaml
+    - 0003-Settings_check.yaml
+    - 0999-Deactivate.yaml
+

@@ -1,4 +1,7 @@
 appId: com.storehub.kiosk.test
+tags:
+  - Takeaway
+  - smoke
 ---
 - tapOn: Tap to begin your order!
 - tapOn: al_btn_252

@@ -1,0 +1,66 @@
+appId: com.storehub.salonx.dev
+tags:
+  - appointments
+  - P1
+---
+- assertVisible: "Sign In"
+- tapOn:
+    point: "50%,56%"
+- tapOn: "Salon X Owner"
+- tapOn: "Confirm"
+- tapOn:
+    point: "4%,13%"
+- runFlow:
+    when:
+      notVisible: 'Customer Booking'
+    commands:
+    - tapOn:
+        point: "94%,4%"
+    - tapOn:
+        point: "91%,9%"
+    - assertVisible: "Customer Booking"
+
+
+- tapOn:
+    point: "50%,17%"
+- assertVisible: "阿部 隼人 abe@demo.com"
+- tapOn:
+    point: "50%,41%"
+- assertVisible: "Unassigned"
+- runFlow:
+    when:
+      notVisible: 'Select Staff'
+    commands:
+        - tapOn: "Unassigned"
+- assertVisible: "Select Staff"
+- assertVisible: "木村 彩花 シャンプー練習生"
+- tapOn:
+    point: "50%,31%"
+- runFlow:
+    when:
+      notVisible: 'カラーリング 90min $8,000.00'
+    commands:
+        - tapOn:
+            point: "63%,27%"
+        - assertVisible: "カラーリング 90min $8,000.00"
+- tapOn: "カラーリング 90min $8,000.00"
+- tapOn: "Save"
+- assertVisible: "Confirm Appointment"
+- runFlow:
+    when:
+      notVisible: 'Confirm Appointment'
+    commands:
+        - tapOn:
+            point: "87%,11%"
+
+- assertVisible: 'Confirm Appointment'
+- tapOn:
+    point: 63%,26%
+- inputText: inputRandomDate
+- runFlow:
+    when:
+      visible: 'Confirm Appointment'
+    commands:
+        - tapOn:
+            point: "82%,11%"
+
