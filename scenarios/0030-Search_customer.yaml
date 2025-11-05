@@ -35,7 +35,11 @@ appId: com.storehub.pos.test
     point: "97%,14%"
 - tapOn: "Add Customer"
 - inputText: "+60123456789"
-- tapOn:
-    point: "4%,6%"
+- runFlow:
+    when:
+      notVisible: 'Sign Out'
+    commands:
+        - tapOn:
+            point: "4%,6%"
 - tapOn:
     id: "al_sign_out"
