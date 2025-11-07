@@ -7,12 +7,13 @@ tags:
 - assertVisible: "Dine-in"
 - assertVisible: "Takeaway"
 - tapOn: "al_btn_850"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
 - tapOn: "Continue"
 - tapOn: "al_kiosk_open_shift"
+- assertVisible: "100"
 - tapOn:
     id: "al_btn_933"
 - tapOn:

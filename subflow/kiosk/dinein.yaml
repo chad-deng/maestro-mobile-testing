@@ -25,18 +25,10 @@ appId: com.storehub.kiosk.test
 - tapOn:
     point: 87%,5%
 - assertVisible: "Enter Manager's PIN"
-- tapOn:
-    id: "al_btn_422"
-    index: 0
-- tapOn:
-    id: "al_btn_422"
-    index: 0
-- tapOn:
-    id: "al_btn_422"
-    index: 0
-- tapOn:
-    id: "al_btn_422"
-    index: 0
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
 - tapOn: "al_btn_260"
 - tapOn: "al_btn_56"
 - tapOn: "al_btn_40"

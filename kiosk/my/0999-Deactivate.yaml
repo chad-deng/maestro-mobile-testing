@@ -4,7 +4,7 @@ tags:
   - smoke
 ---
 - runScript: 
-    file: ../script/deactivate.js
+    file: ../../script/deactivate.js
     env:
        myAccount: 'mcm'
        myEmail: 'chad.deng@storehub.com'
@@ -14,10 +14,10 @@ tags:
 - assertVisible: "Dine-in"
 - assertVisible: "Takeaway"
 - tapOn: "⚙️ Settings"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
 - tapOn: "Continue"
 - tapOn:
     id: "al_btn_110"

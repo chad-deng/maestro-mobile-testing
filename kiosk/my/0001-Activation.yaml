@@ -29,6 +29,9 @@ tags:
     id: "al_continue"
 - tapOn: "Guoguo"
 - tapOn: "CONFIRM"
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: "Tap to begin your order!"
 # - tapOn:
 #     id: "al_pin_1"
 # - tapOn:

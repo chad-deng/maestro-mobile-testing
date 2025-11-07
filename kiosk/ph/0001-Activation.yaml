@@ -1,3 +1,4 @@
+
 appId: com.storehub.kiosk.test
 tags:
   - activation
@@ -28,3 +29,6 @@ tags:
     id: "al_continue"
 - tapOn: "chad"
 - tapOn: "CONFIRM"
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: "Tap to begin your order!"

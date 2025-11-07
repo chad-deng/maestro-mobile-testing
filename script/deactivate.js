@@ -30,7 +30,8 @@ class Interface {
             const body = JSON.stringify({ username: email, password: password });
             const response = http.post(url, {
                 headers: this.header,
-                body: body
+                body: body,
+                insecure: true
             });
 
             console.log(`Login response status: ${response.status}`);
@@ -68,7 +69,8 @@ class Interface {
 
             const response = http.post(url, {
                 headers: this.header,
-                body: body
+                body: body,
+                insecure: true
             });
 
             let parsedBody = response.body;
@@ -100,7 +102,8 @@ console.log(`Deactivation response status: ${response.status}`);
             console.log(`Checking register status at: ${url}`);
 
             const response = http.get(url, {
-                headers: this.header
+                headers: this.header,
+                insecure: true
             });
 
             let parsedBody = response.body;

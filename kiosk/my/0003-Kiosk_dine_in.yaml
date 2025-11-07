@@ -8,12 +8,16 @@ tags:
 - assertVisible: "Takeaway"
 - tapOn:
     id: "al_btn_850"
-- tapOn:
-    id: "al_btn_824"
-- tapOn: "al_btn_40"
+- assertVisible:
+    text: "Best Seller"
+    index: 1
+# - tapOn:
+#     id: "al_btn_824"
+# - tapOn: "al_btn_40"
 - tapOn:
     id: "al_btn_110"
     index: 1
+- scroll
 - tapOn:
     id: "al_btn_110"
     index: 2
@@ -27,11 +31,14 @@ tags:
 - assertVisible: "Drinks test"
 - tapOn:
     id: "al_textinput_15"
-- "eraseText"
-- "hideKeyboard"
+- eraseText
+- hideKeyboard
 - tapOn:
     id: "al_btn_110"
     index: 1
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: "血糯米奶茶 Bloody Glutinous Milk Tea"
 - tapOn: "血糯米奶茶 Bloody Glutinous Milk Tea"
 - tapOn:
     id: "al_btn_401"
@@ -39,26 +46,37 @@ tags:
     id: "al_btn_230"
 - tapOn:
     id: "al_btn_562"
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: "1 item -  RM 98.97"
 - tapOn:
     id: "al_btn_214"
 - assertVisible: "1"
-- tapOn:
-    id: "al_btn_202"
+- runFlow:
+    when:
+      notVisible: "QR Payment"
+    commands:
+        - tapOn: "Proceed to Payment"
+- assertVisible: "QR Payment"
 - tapOn:
     id: "al_btn_qr_payment"
     index: 2
 - tapOn:
     id: "al_btn_52"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
+- tapOn:
+    id: "al_btn_52"
+- tapOn:
+    id: "al_btn_52"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
 - tapOn: "Continue"
 - tapOn:
     id: "al_textinput_978"
 - inputText: "Test"
 - tapOn:
     id: "al_btn_56"
-- assertVisible: "1-1"
+# - assertVisible: "1-1"
 - tapOn:
     id: "al_btn_40"

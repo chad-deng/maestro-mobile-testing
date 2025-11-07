@@ -15,10 +15,14 @@ tags:
     id: "al_btn_qr_payment"
     index: 2
 - tapOn: "al_btn_52"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
-- tapOn: "al_btn_422"
+- tapOn:
+    id: "al_btn_52"
+- tapOn:
+    id: "al_btn_52"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
+- tapOn: "1"
 - tapOn: "Continue"
 - tapOn: al_textinput_978
 - inputText: Hello World
