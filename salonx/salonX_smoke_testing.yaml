@@ -1,0 +1,31 @@
+appId: om.storehub.salonx.staff
+---
+- tapOn: "Enter your email"
+- "eraseText"
+- tapOn: "Enter your email"
+- "eraseText"
+- inputText: "qa@storehub.com"
+- tapOn: "Enter your password"
+- "eraseText"
+- inputText: 12345678
+- tapOn:
+    text: "Sign In"
+    index: 1
+- assertVisible: "QA_store"
+- tapOn: "QA_store, Owner"
+- tapOn: "Confirm"
+- tapOn:
+    point: "88%,95%"
+- tapOn:
+    point: "50%,59%"
+- assertVisible: "日本語"
+- tapOn:
+    point: "50%,24%"
+- tapOn: "ダッシュボード"
+- tapOn: "予約"
+- assertVisible: "Today"
+- tapOn: "顧客"
+- assertVisible: "ししきすんすりつてりせきんしすをし"
+- tapOn: "プロフィール"
+- assertVisible: "取得したバッジ, 0/15"
+- tapOn: "ログアウト"

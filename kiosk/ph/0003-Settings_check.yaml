@@ -47,6 +47,9 @@ tags:
 - tapOn:
     id: "al_search_printer"
 - assertVisible: "Searching for Printers"
+- assertVisible: "Sorry, there are no printers found. Do you still want to connect to a printer?"
+- assertVisible: "al_modalinfo_cancel"
+- tapOn: "al_modalinfo_cancel"
 - tapOn:
     id: "al_btn_933"
 - tapOn:
