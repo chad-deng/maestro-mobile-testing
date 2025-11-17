@@ -1,0 +1,55 @@
+appId: com.storehub.salonx.staff
+---
+- tapOn:
+    point: "88%,8%"
+- tapOn:
+    point: "69%,13%"
+- tapOn:
+    point: "31%,15%"
+- tapOn: "ししきすんすりつてりせきんしすをし"
+- assertVisible: "スタッフを選択"
+- tapOn:
+    point: "50%,22%"
+- assertVisible: "スタッフを選択してください"
+- tapOn: "ちともにみ, もちもちと年は手"
+- assertVisible: "指名スタッフ"
+- tapOn:
+    point: "87%,27%"
+- assertVisible: "指名"
+- tapOn:
+    point: "65%,33%"
+- tapOn: "血は気いはふアウエ足うふぬぬ上やおえうや"
+- assertVisible: "Select Location"
+- tapOn: "Select Location"
+- tapOn: "main floor"
+- assertVisible: "顧客予約"
+- tapOn:
+    point: "91%,8%"
+- waitForAnimationToEnd:
+    timeout: 5000
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          point: "13%,95%"
+      - tapOn:
+          point: "38%,95%"
+      - waitForAnimationToEnd:
+          timeout: 5000
+- assertVisible: "Today"
+- tapOn:
+    point: "50%,24%"
+- assertVisible: "Appointment Details"
+- tapOn:
+    point: "93%,8%"
+- tapOn:
+    point: "70%,13%"
+- tapOn:
+    point: "73%,30%"
+- tapOn:
+    point: "93%,8%"
+- tapOn:
+    point: "76%,18%"
+- tapOn:
+    point: "83%,8%"
+- assertVisible: "The appointment has been successfully deleted."

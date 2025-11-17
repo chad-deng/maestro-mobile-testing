@@ -1,5 +1,16 @@
-appId: om.storehub.salonx.staff
+appId: com.storehub.salonx.staff
 ---
+- launchApp:
+    appId: "com.storehub.salonx.staff"
+    clearState: true
+    stopApp: true
+    permissions:
+      all: "allow"
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
 - tapOn: "Enter your email"
 - "eraseText"
 - tapOn: "Enter your email"
@@ -14,6 +25,7 @@ appId: om.storehub.salonx.staff
 - assertVisible: "QA_store"
 - tapOn: "QA_store, Owner"
 - tapOn: "Confirm"
+- assertVisible: "Profile"
 - tapOn:
     point: "88%,95%"
 - tapOn:
@@ -22,10 +34,17 @@ appId: om.storehub.salonx.staff
 - tapOn:
     point: "50%,24%"
 - tapOn: "ダッシュボード"
+- "scroll"
+- scrollUntilVisible:
+    element: "こんにちは、หวยยกสำนวน"
+    direction: "UP"
+- assertVisible: "こんにちは、หวยยกสำนวน"
 - tapOn: "予約"
-- assertVisible: "Today"
+- assertVisible: "スタッフ、顧客、メール、または電話番号で検索..."
+- runFlow: subflow/add_customer_booking.yaml
 - tapOn: "顧客"
 - assertVisible: "ししきすんすりつてりせきんしすをし"
 - tapOn: "プロフィール"
 - assertVisible: "取得したバッジ, 0/15"
 - tapOn: "ログアウト"
+- killApp: com.storehub.salonx.staff
