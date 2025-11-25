@@ -12,13 +12,13 @@ appId: com.storehub.salonx.staff
 - assertVisible: "スタッフを選択してください"
 - runFlow:
     when:
-      notVisible: '指名スタッフ'
+      notVisible: "指名スタッフ"
     commands:
-        - tapOn: "ちともにみ"
-        - assertVisible: "指名スタッフ"
-        - tapOn:
-            point: "85%,30%"
-        - assertVisible: "指名"
+      - tapOn: "ちともにみ"
+      - assertVisible: "指名スタッフ"
+      - tapOn:
+          point: "85%,30%"
+      - assertVisible: "指名"
 - assertVisible: "サービスを追加"
 - tapOn: "サービスを追加"
 - waitForAnimationToEnd:
@@ -56,4 +56,8 @@ appId: com.storehub.salonx.staff
 - tapOn:
     point: "85%,8%"
 - assertVisible: "予約が正常に削除されました。"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn:
+    point: 4%,7%
 - assertVisible: "No Appointments Found"
