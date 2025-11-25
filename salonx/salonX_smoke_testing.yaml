@@ -15,21 +15,22 @@ appId: com.storehub.salonx.staff
 - "eraseText"
 - tapOn: "Enter your email"
 - "eraseText"
-- inputText: "qa@storehub.com"
+- inputText: "auto_test@storehub.com"
 - tapOn: "Enter your password"
 - "eraseText"
 - inputText: 12345678
 - tapOn:
     text: "Sign In"
     index: 1
-- assertVisible: "QA_store"
-- tapOn: "QA_store, Owner"
+- assertVisible: "Auto_test, Owner"
+- tapOn: "Auto_test, Owner"
 - tapOn: "Confirm"
 - assertVisible: "Profile"
 - tapOn:
     point: "88%,95%"
+- assertVisible: "Language"
 - tapOn:
-    point: "50%,59%"
+    point: "92%,50%"
 - assertVisible: "日本語"
 - tapOn:
     point: "50%,24%"
