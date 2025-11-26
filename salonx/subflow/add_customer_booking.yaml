@@ -7,8 +7,12 @@ appId: com.storehub.salonx.staff
 - tapOn: "顧客を選択"
 - assertVisible: "ししきすんすりつてりせきんしすをし"
 - tapOn: "ししきすんすりつてりせきんしすをし"
+- waitForAnimationToEnd:
+    timeout: 5000
 - assertVisible: "スタッフを選択"
 - tapOn: "スタッフを選択"
+- waitForAnimationToEnd:
+    timeout: 2000
 - assertVisible: "スタッフを選択してください"
 - runFlow:
     when:
@@ -44,6 +48,8 @@ appId: com.storehub.salonx.staff
 
 - tapOn:
     point: "50%,24%"
+- tapOn:
+    point: 3%,22%
 - assertVisible: "予約詳細"
 - tapOn:
     point: "93%,8%"
@@ -52,12 +58,21 @@ appId: com.storehub.salonx.staff
 - assertVisible: "完了"
 - tapOn:
     point: "93%,8%"
+- assertVisible: 予約を削除
 - tapOn: "予約を削除"
 - tapOn:
-    point: "85%,8%"
+    point: "85%,8%" 
 - assertVisible: "予約が正常に削除されました。"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn:
     point: 4%,7%
-- assertVisible: "No Appointments Found"
+- repeat:
+    times: 3
+    commands:
+      - tapOn: ダッシュボード
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - tapOn: 予約
+- assertVisible: 予約が見つかりません
+
