@@ -8,9 +8,9 @@ appId: com.storehub.salonx.staff
       all: "allow"
 - runFlow:
     when:
-      visible: 'Install Now'
+      visible: "Install Now"
     commands:
-        - tapOn: "Install Now"
+      - tapOn: "Install Now"
 - tapOn: "Enter your email"
 - "eraseText"
 - tapOn: "Enter your email"
@@ -46,6 +46,6 @@ appId: com.storehub.salonx.staff
 - tapOn: "顧客"
 - assertVisible: "ししきすんすりつてりせきんしすをし"
 - tapOn: "プロフィール"
-- assertVisible: "取得したバッジ, 0/15"
+- assertVisible: "取得したバッジ, 0/13"
 - tapOn: "ログアウト"
 - killApp: com.storehub.salonx.staff
