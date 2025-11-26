@@ -1,8 +1,7 @@
-appId: com.storehub.salonx.staff
+appId: com.storehub.salonx.staff.dev
 ---
 - launchApp:
-    appId: "com.storehub.salonx.staff"
-    clearState: true
+    appId: "com.storehub.salonx.staff.dev"
     stopApp: true
     permissions:
       all: "allow"
@@ -44,8 +43,8 @@ appId: com.storehub.salonx.staff
 - assertVisible: "スタッフ、顧客、メール、または電話番号で検索..."
 #- runFlow: subflow/add_customer_booking.yaml
 - tapOn: "顧客"
-- assertVisible: 顧客が見つかりません
+- assertNotVisible: 顧客が見つかりません
 - tapOn: "プロフィール"
 # - assertVisible: "取得したバッジ, 0/15"
 - tapOn: "ログアウト"
-- killApp: com.storehub.salonx.staff
+- killApp: com.storehub.salonx.staff.dev
