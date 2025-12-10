@@ -32,19 +32,33 @@ appId: com.storehub.salonx.staff.dev
 - assertVisible: "日本語"
 - tapOn:
     point: "50%,24%"
-- tapOn: "ダッシュボード"
+- tapOn: ホーム
+#- tapOn: "ダッシュボード"
+- doubleTapOn:
+    point: 90%,74%
 - "scroll"
 - scrollUntilVisible:
     element:
       text: こんにちは、中村 健
     direction: "UP"
 - assertVisible: "こんにちは、中村 健"
-- tapOn: "予約"
-- assertVisible: "スタッフ、顧客、メール、または電話番号で検索..."
+- tapOn:
+    text: 予約
+    index: 1
+#- tapOn: "予約"
+- assertVisible: 予約を検索...
+#- assertVisible: "スタッフ、顧客、メール、または電話番号で検索..."
 #- runFlow: subflow/add_customer_booking.yaml
 - tapOn: "顧客"
 - assertNotVisible: 顧客が見つかりません
-- tapOn: "プロフィール"
+- tapOn: 個人
+#- tapOn: "プロフィール"
+- assertVisible: 言語, 日本語
+- tapOn: 言語, 日本語
+- tapOn: English
+- assertVisible: Sign Out
+- tapOn: Sign Out
+
 # - assertVisible: "取得したバッジ, 0/15"
-- tapOn: "ログアウト"
+#- tapOn: "ログアウト"
 - killApp: com.storehub.salonx.staff.dev
