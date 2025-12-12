@@ -34,8 +34,9 @@ appId: com.storehub.salonx.staff.dev
     point: "50%,24%"
 - tapOn: ホーム
 #- tapOn: "ダッシュボード"
-- doubleTapOn:
-    point: 90%,74%
+# - doubleTapOn:
+#     point: 90%,74%
+- tapOn: 完了.*
 - "scroll"
 - scrollUntilVisible:
     element:
@@ -44,7 +45,7 @@ appId: com.storehub.salonx.staff.dev
 - assertVisible: "こんにちは、中村 健"
 - tapOn:
     text: 予約
-    index: 1
+    index: -1
 #- tapOn: "予約"
 - assertVisible: 予約を検索...
 #- assertVisible: "スタッフ、顧客、メール、または電話番号で検索..."
