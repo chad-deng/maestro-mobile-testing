@@ -36,8 +36,15 @@ appId: com.storehub.salonx.staff.dev
 #- tapOn: "ダッシュボード"
 # - doubleTapOn:
 #     point: 90%,74%
+- runFlow:
+    when:
+      notVisible: 完了.*
+    commands:
+      - scrollUntilVisible:
+          element:
+            text: 完了.*
+          direction: "DOWN"
 - tapOn: 完了.*
-- "scroll"
 - scrollUntilVisible:
     element:
       text: こんにちは、中村 健
