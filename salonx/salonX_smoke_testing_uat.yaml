@@ -27,8 +27,8 @@ appId: com.storehub.salonx.staff.dev
 - assertVisible: "Profile"
 - tapOn:
     point: "88%,95%"
-- assertVisible: "Language"
-- tapOn: Language
+- assertVisible: "Language Settings"
+- tapOn: Language Settings
 - assertVisible: "日本語"
 - tapOn:
     point: "50%,24%"
