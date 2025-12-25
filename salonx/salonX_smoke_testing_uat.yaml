@@ -61,8 +61,8 @@ appId: com.storehub.salonx.staff.dev
 - assertNotVisible: 顧客が見つかりません
 - tapOn: 個人
 #- tapOn: "プロフィール"
-- assertVisible: 言語设置, 日本語
-- tapOn: 言語设置, 日本語
+- assertVisible: 言語設定, 日本語
+- tapOn: 言語設定, 日本語
 - tapOn: English
 - assertVisible: Sign Out
 - tapOn: Sign Out
