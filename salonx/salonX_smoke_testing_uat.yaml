@@ -36,20 +36,25 @@ appId: com.storehub.salonx.staff.dev
 #- tapOn: "ダッシュボード"
 # - doubleTapOn:
 #     point: 90%,74%
+# Only interact with "完了" (Completed) if there are completed appointments
 - runFlow:
     when:
-      notVisible: 完了.*
+      visible: 完了.*
     commands:
+      - runFlow:
+          when:
+            notVisible: 完了.*
+          commands:
+            - scrollUntilVisible:
+                element:
+                  text: 完了.*
+                direction: "DOWN"
+      - tapOn: 完了.*
       - scrollUntilVisible:
           element:
-            text: 完了.*
-          direction: "DOWN"
-- tapOn: 完了.*
-- scrollUntilVisible:
-    element:
-      text: こんにちは、中村 健
-    direction: "UP"
-- assertVisible: "こんにちは、中村 健"
+            text: こんにちは、中村 健
+          direction: "UP"
+      - assertVisible: "こんにちは、中村 健"
 - tapOn:
     text: 予約
     index: -1
