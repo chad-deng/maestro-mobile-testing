@@ -1,0 +1,76 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - registration
+  - logout
+  - security
+  - P0
+---
+# REG-005: Logout (Simplified - assumes already logged in)
+# Description: Click the "Sign Out" / "ログアウト" button in the Profile tab
+# Expected: User session ends and the app returns to the "Sign In" screen
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    permissions:
+      all: "allow"
+
+# Wait for app to load
+- waitForAnimationToEnd
+
+# Navigate to Profile tab (English)
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - tapOn: "Profile"
+
+# Navigate to Profile tab (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn: "個人"
+
+# Wait for profile screen to load
+- waitForAnimationToEnd
+
+# Look for and tap Sign Out button (English)
+- runFlow:
+    when:
+      visible: "Sign Out"
+    commands:
+      - tapOn: "Sign Out"
+
+# Look for and tap ログアウト button (Japanese)
+- runFlow:
+    when:
+      visible: "ログアウト"
+    commands:
+      - tapOn: "ログアウト"
+
+# Handle confirmation dialog if present
+- runFlow:
+    when:
+      visible: "Confirm"
+    commands:
+      - tapOn: "Confirm"
+
+- runFlow:
+    when:
+      visible: "Yes"
+    commands:
+      - tapOn: "Yes"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+# Wait for logout to complete
+- waitForAnimationToEnd
+
+# Verify we're back on the Sign In screen
+- assertVisible: "Enter your email"
+- assertVisible: "Enter your password"
+

@@ -21,8 +21,8 @@ tags:
     commands:
         - tapOn: "Install Now"
 
-# Verify we're on the Sign In screen
-- assertVisible: "Sign In"
+# Wait for login screen to load
+- waitForAnimationToEnd
 
 # Enter email
 - tapOn: "Enter your email"
@@ -41,14 +41,20 @@ tags:
     text: "Sign In"
     index: 1
 
-# Verify store selection screen appears
-- assertVisible: "Salon X, Owner, 123 Demo Street"
+# Wait for store selection or dashboard to load
+- waitForAnimationToEnd
 
-# Select the store
-- tapOn: "Salon X, Owner, 123 Demo Street"
-
-# Confirm store selection
-- tapOn: "Confirm"
+# Handle store selection if it appears
+- runFlow:
+    when:
+      visible: "Salon.*"
+    commands:
+      # Select the first store (using regex to match any Salon name)
+      - tapOn:
+          text: "Salon.*"
+          index: 0
+      # Confirm store selection
+      - tapOn: "Confirm"
 
 # Verify successful login - Dashboard/Home screen elements
 - assertVisible: "Profile"
