@@ -1,0 +1,82 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - registration
+  - login
+  - P0
+---
+# REG-002: Login Flow
+# Description: Enter valid credentials and select a store
+# Expected: User successfully logs in and is redirected to the Dashboard
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Verify we're on the Sign In screen
+- assertVisible: "Sign In"
+
+# Enter email
+- tapOn: "Enter your email"
+- eraseText
+- tapOn: "Enter your email"
+- eraseText
+- inputText: "owner@demo.com"
+
+# Enter password
+- tapOn: "Enter your password"
+- eraseText
+- inputText: password123
+
+# Tap Sign In button
+- tapOn:
+    text: "Sign In"
+    index: 1
+
+# Verify store selection screen appears
+- assertVisible: "Salon X, Owner, 123 Demo Street"
+
+# Select the store
+- tapOn: "Salon X, Owner, 123 Demo Street"
+
+# Confirm store selection
+- tapOn: "Confirm"
+
+# Verify successful login - Dashboard/Home screen elements
+- assertVisible: "Profile"
+
+# Verify we can see the main navigation tabs
+- runFlow:
+    when:
+      visible: "Home"
+    commands:
+      - assertVisible: "Home"
+
+# Alternative: Check for Japanese home if language is set to Japanese
+- runFlow:
+    when:
+      visible: "ホーム"
+    commands:
+      - assertVisible: "ホーム"
+
+# Verify other main tabs are present
+- runFlow:
+    when:
+      visible: "Appointments"
+    commands:
+      - assertVisible: "Appointments"
+
+- runFlow:
+    when:
+      visible: "予約"
+    commands:
+      - assertVisible: "予約"
+

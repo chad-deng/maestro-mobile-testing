@@ -1,0 +1,108 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - registration
+  - logout
+  - security
+  - P0
+---
+# REG-005: Logout
+# Description: Click the "Sign Out" / "ログアウト" button in the Profile tab
+# Expected: User session ends and the app returns to the "Sign In" screen
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Login
+- tapOn: "Enter your email"
+- eraseText
+- tapOn: "Enter your email"
+- eraseText
+- inputText: "owner@demo.com"
+- tapOn: "Enter your password"
+- eraseText
+- inputText: password123
+- tapOn:
+    text: "Sign In"
+    index: 1
+- assertVisible: "Salon X, Owner, 123 Demo Street"
+- tapOn: "Salon X, Owner, 123 Demo Street"
+- tapOn: "Confirm"
+
+# Verify successful login
+- assertVisible: "Profile"
+
+# Test 1: Logout in English
+- tapOn:
+    point: "88%,95%"
+
+# Look for Sign Out button (English)
+- runFlow:
+    when:
+      visible: "Sign Out"
+    commands:
+      - assertVisible: "Sign Out"
+      - tapOn: "Sign Out"
+
+# Look for ログアウト button (Japanese)
+- runFlow:
+    when:
+      visible: "ログアウト"
+    commands:
+      - assertVisible: "ログアウト"
+      - tapOn: "ログアウト"
+
+# Handle confirmation dialog if present
+- runFlow:
+    when:
+      visible: "Confirm"
+    commands:
+      - tapOn: "Confirm"
+
+- runFlow:
+    when:
+      visible: "Yes"
+    commands:
+      - tapOn: "Yes"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+# Verify we're back on the Sign In screen
+- assertVisible: "Sign In"
+- assertVisible: "Enter your email"
+- assertVisible: "Enter your password"
+
+# Verify user cannot access protected screens without logging in again
+- assertNotVisible: "Profile"
+- assertNotVisible: "個人"
+
+# Test 2: Verify we can log in again after logout
+- tapOn: "Enter your email"
+- eraseText
+- inputText: "owner@demo.com"
+- tapOn: "Enter your password"
+- eraseText
+- inputText: password123
+- tapOn:
+    text: "Sign In"
+    index: 1
+
+# Verify successful re-login
+- assertVisible: "Salon X, Owner, 123 Demo Street"
+- tapOn: "Salon X, Owner, 123 Demo Street"
+- tapOn: "Confirm"
+- assertVisible: "Profile"
+

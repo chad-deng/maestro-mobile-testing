@@ -1,0 +1,96 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - registration
+  - language
+  - settings
+  - P1
+---
+# REG-003: Language Switch
+# Description: Navigate to Profile > Language Settings and change language (e.g., English to Japanese)
+# Expected: UI text (menus, buttons) instantly updates to the selected language
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Login
+- tapOn: "Enter your email"
+- eraseText
+- tapOn: "Enter your email"
+- eraseText
+- inputText: "owner@demo.com"
+- tapOn: "Enter your password"
+- eraseText
+- inputText: password123
+- tapOn:
+    text: "Sign In"
+    index: 1
+- assertVisible: "Salon X, Owner, 123 Demo Street"
+- tapOn: "Salon X, Owner, 123 Demo Street"
+- tapOn: "Confirm"
+
+# Navigate to Profile tab
+- assertVisible: "Profile"
+- tapOn:
+    point: "88%,95%"
+
+# Verify we're on Profile screen
+- assertVisible: "Language Settings"
+
+# Test 1: Switch from English to Japanese
+- tapOn: "Language Settings"
+- assertVisible: "English"
+- assertVisible: "日本語"
+
+# Select Japanese
+- tapOn: "日本語"
+
+# Verify UI updates to Japanese immediately
+- tapOn:
+    point: "50%,24%"
+    
+# Verify main navigation is now in Japanese
+- assertVisible: "ホーム"
+- assertVisible: "予約"
+- assertVisible: "顧客"
+- assertVisible: "個人"
+
+# Navigate back to Profile/Settings
+- tapOn: "個人"
+
+# Verify Language Settings is now in Japanese
+- assertVisible: "言語設定"
+
+# Test 2: Switch back from Japanese to English
+- tapOn: "言語設定, 日本語"
+- assertVisible: "English"
+- assertVisible: "日本語"
+
+# Select English
+- tapOn: "English"
+
+# Verify UI updates back to English immediately
+- tapOn:
+    point: "50%,24%"
+
+# Verify main navigation is now in English
+- assertVisible: "Home"
+- assertVisible: "Appointments"
+- assertVisible: "Customers"
+- assertVisible: "Profile"
+
+# Navigate back to Profile
+- tapOn: "Profile"
+
+# Verify Language Settings is back in English
+- assertVisible: "Language Settings"
+
