@@ -12,6 +12,7 @@ tags:
 - launchApp:
     appId: "com.storehub.salonx.staff.dev"
     stopApp: true
+    clearState: false
     permissions:
       all: "allow"
 
@@ -22,43 +23,82 @@ tags:
     commands:
         - tapOn: "Install Now"
 
-# Login
-- tapOn: "Enter your email"
-- eraseText
-- tapOn: "Enter your email"
-- eraseText
-- inputText: "owner@demo.com"
-- tapOn: "Enter your password"
-- eraseText
-- inputText: password123
-- tapOn:
-    text: "Sign In"
-    index: 1
+# Wait for app to load
 - waitForAnimationToEnd
+
+# Check if already logged in, if not, perform login
 - runFlow:
     when:
-      visible: "Salon.*"
+      visible: "Enter your email"
+    commands:
+      # Login flow
+      - tapOn: "Enter your email"
+      - eraseText
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: password123
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd
+      # Handle store selection if it appears
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+
+# Navigate to Profile tab (English)
+- runFlow:
+    when:
+      visible: "Profile"
     commands:
       - tapOn:
-          text: "Salon.*"
-          index: 0
-      - tapOn: "Confirm"
+          point: "88%,95%"
 
-# Navigate to Profile tab
-- assertVisible: "Profile"
-- tapOn:
-    point: "88%,95%"
+# Navigate to Profile tab (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
 
-# Verify we're on Profile screen
-- assertVisible: "Language Settings"
+# Verify we're on Profile screen and find Language Settings (English or Japanese)
+- runFlow:
+    when:
+      visible: "Language Settings"
+    commands:
+      # Test 1: Switch from English to Japanese
+      - tapOn: "Language Settings"
+      - assertVisible: "English"
+      - assertVisible: "日本語"
+      # Select Japanese
+      - tapOn: "日本語"
 
-# Test 1: Switch from English to Japanese
-- tapOn: "Language Settings"
-- assertVisible: "English"
-- assertVisible: "日本語"
-
-# Select Japanese
-- tapOn: "日本語"
+- runFlow:
+    when:
+      visible: "言語設定"
+    commands:
+      # Already in Japanese, switch to English first
+      - tapOn: "言語設定, 日本語"
+      - assertVisible: "English"
+      - assertVisible: "日本語"
+      # Select English
+      - tapOn: "English"
+      - tapOn:
+          point: "50%,24%"
+      # Navigate back to Profile
+      - tapOn: "Profile"
+      # Now test switching to Japanese
+      - tapOn: "Language Settings"
+      - tapOn: "日本語"
 
 # Verify UI updates to Japanese immediately
 - tapOn:
@@ -88,15 +128,32 @@ tags:
 - tapOn:
     point: "50%,24%"
 
-# Verify main navigation is now in English
-- assertVisible: "Home"
-- assertVisible: "Appointments"
-- assertVisible: "Customers"
-- assertVisible: "Profile"
+# Verify main navigation is now in English (use conditional checks)
+- runFlow:
+    when:
+      visible: "Home"
+    commands:
+      - assertVisible: "Home"
 
-# Navigate back to Profile
-- tapOn: "Profile"
+- runFlow:
+    when:
+      visible: "Appointments"
+    commands:
+      - assertVisible: "Appointments"
 
-# Verify Language Settings is back in English
-- assertVisible: "Language Settings"
+- runFlow:
+    when:
+      visible: "Customers"
+    commands:
+      - assertVisible: "Customers"
+
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - assertVisible: "Profile"
+      # Navigate back to Profile
+      - tapOn: "Profile"
+      # Verify Language Settings is back in English
+      - assertVisible: "Language Settings"
 

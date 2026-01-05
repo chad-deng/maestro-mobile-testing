@@ -1,0 +1,12 @@
+# REG Test Suite - Run all registration and security tests
+# Tests should be run in this order for proper flow
+
+# Note: Run these tests individually or use maestro test salonx/REG-*.yaml
+# 
+# Test execution order:
+# 1. REG-002-login.yaml - Login test (starts from logged out state)
+# 2. REG-003-language-switch.yaml - Language switching (requires logged in state)
+# 3. REG-005-logout-simple.yaml - Logout test
+# 4. REG-001-forgot-password.yaml - Forgot password (requires logged out state)
+# 5. REG-004-change-password.yaml - Change password (requires logged in state)
+

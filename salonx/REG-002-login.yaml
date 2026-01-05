@@ -11,6 +11,7 @@ tags:
 - launchApp:
     appId: "com.storehub.salonx.staff.dev"
     stopApp: true
+    clearState: false
     permissions:
       all: "allow"
 
@@ -21,10 +22,7 @@ tags:
     commands:
         - tapOn: "Install Now"
 
-# Wait for login screen to load
-- waitForAnimationToEnd
-
-# Enter email
+# Enter email (using exact same approach as working UAT test)
 - tapOn: "Enter your email"
 - eraseText
 - tapOn: "Enter your email"

@@ -1,0 +1,20 @@
+appId: com.storehub.salonx.staff.dev
+---
+# Debug test to see what's on screen
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: true
+    permissions:
+      all: "allow"
+
+# Wait for screen to load
+- waitForAnimationToEnd
+
+# Take a screenshot by trying to assert something that might exist
+- runFlow:
+    when:
+      visible: ".*"
+    commands:
+      - assertVisible: ".*"
+
