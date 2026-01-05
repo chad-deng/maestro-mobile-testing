@@ -1,20 +1,53 @@
 appId: com.storehub.salonx.staff.dev
 ---
-# Debug test to see what's on screen
+# Debug test to capture login screen elements
 - launchApp:
     appId: "com.storehub.salonx.staff.dev"
     stopApp: true
-    clearState: true
+    clearState: false
     permissions:
       all: "allow"
 
 # Wait for screen to load
 - waitForAnimationToEnd
 
-# Take a screenshot by trying to assert something that might exist
+# Take screenshot to see what's on screen
+- takeScreenshot: login-screen-debug.png
+
+# Try to find various possible "Forgot Password" text variations
 - runFlow:
     when:
-      visible: ".*"
+      visible: "Forgot Password"
     commands:
-      - assertVisible: ".*"
+      - tapOn: "Forgot Password"
+      - takeScreenshot: found-forgot-password.png
+
+- runFlow:
+    when:
+      visible: "Forgot password"
+    commands:
+      - tapOn: "Forgot password"
+      - takeScreenshot: found-forgot-password-lowercase.png
+
+- runFlow:
+    when:
+      visible: "forgot password"
+    commands:
+      - tapOn: "forgot password"
+      - takeScreenshot: found-forgot-password-all-lowercase.png
+
+- runFlow:
+    when:
+      visible: "Forgot.*"
+    commands:
+      - tapOn:
+          text: "Forgot.*"
+      - takeScreenshot: found-forgot-regex.png
+
+# Check if there's a link or button near the bottom
+- runFlow:
+    when:
+      visible: ".*password.*"
+    commands:
+      - takeScreenshot: found-password-text.png
 
