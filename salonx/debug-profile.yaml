@@ -1,0 +1,86 @@
+appId: com.storehub.salonx.staff.dev
+---
+# Debug test to see what's in the Profile section
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Wait for app to load
+- waitForAnimationToEnd
+
+# Check if already logged in, if not, perform login
+- runFlow:
+    when:
+      visible: "Enter your email"
+    commands:
+      # Login flow
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: password123
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd
+      # Handle store selection if it appears
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+            - waitForAnimationToEnd
+
+# Navigate to Profile tab (English)
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Navigate to Profile tab (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Take screenshot of profile screen
+- takeScreenshot: profile-screen.png
+
+# Scroll down to see more options
+- scroll
+- takeScreenshot: profile-screen-scrolled.png
+
+# Look for any password-related options
+- runFlow:
+    when:
+      visible: ".*[Pp]assword.*"
+    commands:
+      - takeScreenshot: found-password-option.png
+
+# Look for settings options
+- runFlow:
+    when:
+      visible: ".*[Ss]etting.*"
+    commands:
+      - takeScreenshot: found-settings-option.png
+
+# Look for security options
+- runFlow:
+    when:
+      visible: ".*[Ss]ecurity.*"
+    commands:
+      - takeScreenshot: found-security-option.png
+
