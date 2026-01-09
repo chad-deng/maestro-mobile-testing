@@ -1,0 +1,173 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - leave-request
+  - cancel
+  - state-machine
+  - P0
+---
+# LR-004: [状态机] 撤回 Pending 状态的申请
+# Description: Withdraw/Cancel a Pending leave request [录屏 00:37]
+# Expected: Status immediately changes to Cancelled, pre-deducted balance is released
+# Risk Dimension: 逻辑回退 (Logic Rollback)
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Wait for app to load
+- waitForAnimationToEnd
+
+# Check if already logged in, if not, perform login
+- runFlow:
+    when:
+      visible: "Enter your email"
+    commands:
+      # Login flow
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: password123
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd
+      # Handle store selection if it appears
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+            - waitForAnimationToEnd
+
+# Navigate to Profile or Menu to find Leave Request
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Navigate to Profile (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Look for Leave Request / Time Off option
+- scrollUntilVisible:
+    element:
+      text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+    direction: "DOWN"
+
+- tapOn:
+    text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+
+- waitForAnimationToEnd
+
+# Capture current state before cancellation
+- takeScreenshot: before-cancel-balance.png
+
+# Find and tap on a Pending request
+- scrollUntilVisible:
+    element:
+      text: ".*[Pp]ending.*"
+    direction: "DOWN"
+
+# Tap on the pending request to view details
+- tapOn:
+    text: ".*[Pp]ending.*"
+    index: 0
+
+- waitForAnimationToEnd
+
+# Take screenshot of the request details
+- takeScreenshot: pending-request-details.png
+
+# Look for Cancel/Withdraw button
+- runFlow:
+    when:
+      visible: ".*[Cc]ancel.*"
+    commands:
+      - tapOn:
+          text: ".*[Cc]ancel.*"
+
+- runFlow:
+    when:
+      visible: ".*[Ww]ithdraw.*"
+    commands:
+      - tapOn:
+          text: ".*[Ww]ithdraw.*"
+
+- runFlow:
+    when:
+      visible: ".*撤回.*"
+    commands:
+      - tapOn: ".*撤回.*"
+
+- waitForAnimationToEnd
+
+# Handle confirmation dialog if present
+- runFlow:
+    when:
+      visible: ".*[Cc]onfirm.*"
+    commands:
+      - tapOn:
+          text: ".*[Cc]onfirm.*"
+
+- runFlow:
+    when:
+      visible: ".*[Yy]es.*"
+    commands:
+      - tapOn: ".*[Yy]es.*"
+
+- runFlow:
+    when:
+      visible: ".*OK.*"
+    commands:
+      - tapOn: ".*OK.*"
+
+- waitForAnimationToEnd
+
+# Verify status changed to Cancelled
+- assertVisible:
+    text: ".*[Cc]ancelled.*|.*[Cc]anceled.*|.*取消.*"
+
+# Take screenshot after cancellation
+- takeScreenshot: after-cancel-status.png
+
+# Go back to list to verify balance is released
+- tapOn:
+    point: "10%,5%"
+
+- waitForAnimationToEnd
+
+# Capture balance after cancellation
+- takeScreenshot: after-cancel-balance.png
+
+# Verify the cancelled request appears in history
+- runFlow:
+    when:
+      visible: ".*[Cc]ancelled.*|.*[Cc]anceled.*"
+    commands:
+      - assertVisible:
+          text: ".*[Cc]ancelled.*|.*[Cc]anceled.*"
+

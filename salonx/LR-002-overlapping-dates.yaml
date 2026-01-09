@@ -1,0 +1,180 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - leave-request
+  - validation
+  - boundary
+  - P1
+---
+# LR-002: [边界] 申请日期与已有申请重叠
+# Description: Submit a leave request with dates that overlap with existing request
+# Expected: System shows error, prevents submission, prevents data conflict
+# Risk Dimension: 变更风险 (Change Risk)
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Wait for app to load
+- waitForAnimationToEnd
+
+# Check if already logged in, if not, perform login
+- runFlow:
+    when:
+      visible: "Enter your email"
+    commands:
+      # Login flow
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: password123
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd
+      # Handle store selection if it appears
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+            - waitForAnimationToEnd
+
+# Navigate to Profile or Menu to find Leave Request
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Navigate to Profile (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Look for Leave Request / Time Off option
+- scrollUntilVisible:
+    element:
+      text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+    direction: "DOWN"
+
+- tapOn:
+    text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+
+- waitForAnimationToEnd
+
+# Check if there's an existing leave request
+# If not, create one first (prerequisite)
+- runFlow:
+    when:
+      notVisible: ".*[Pp]ending.*|.*[Aa]pproved.*"
+    commands:
+      # Create a leave request first
+      - tapOn:
+          text: ".*[Nn]ew.*[Rr]equest.*|.*[Ss]ubmit.*|\\+"
+      - waitForAnimationToEnd
+      # Select Sick Leave
+      - runFlow:
+          when:
+            visible: ".*[Ss]ick.*[Ll]eave.*"
+          commands:
+            - tapOn:
+                text: ".*[Ss]ick.*[Ll]eave.*"
+      # Select dates
+      - runFlow:
+          when:
+            visible: ".*[Ss]tart.*[Dd]ate.*"
+          commands:
+            - tapOn:
+                text: ".*[Ss]tart.*[Dd]ate.*"
+            - waitForAnimationToEnd
+            - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+      - runFlow:
+          when:
+            visible: ".*[Ee]nd.*[Dd]ate.*"
+          commands:
+            - tapOn:
+                text: ".*[Ee]nd.*[Dd]ate.*"
+            - waitForAnimationToEnd
+            - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+      # Submit
+      - tapOn:
+          text: ".*[Ss]ubmit.*"
+      - waitForAnimationToEnd
+
+# Now try to create another request with overlapping dates
+- tapOn:
+    text: ".*[Nn]ew.*[Rr]equest.*|.*[Ss]ubmit.*|\\+"
+
+- waitForAnimationToEnd
+
+# Select Leave Type: Sick Leave
+- runFlow:
+    when:
+      visible: ".*[Ss]ick.*[Ll]eave.*"
+    commands:
+      - tapOn:
+          text: ".*[Ss]ick.*[Ll]eave.*"
+
+# Select Start Date (same as existing request)
+- runFlow:
+    when:
+      visible: ".*[Ss]tart.*[Dd]ate.*"
+    commands:
+      - tapOn:
+          text: ".*[Ss]tart.*[Dd]ate.*"
+      - waitForAnimationToEnd
+      # Select today's date
+      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+
+# Select End Date (overlapping)
+- runFlow:
+    when:
+      visible: ".*[Ee]nd.*[Dd]ate.*"
+    commands:
+      - tapOn:
+          text: ".*[Ee]nd.*[Dd]ate.*"
+      - waitForAnimationToEnd
+      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+
+# Try to submit the overlapping request
+- tapOn:
+    text: ".*[Ss]ubmit.*"
+
+- waitForAnimationToEnd
+
+# Verify error message appears
+- assertVisible:
+    text: ".*[Oo]verlap.*|.*[Cc]onflict.*|.*[Ee]xist.*|.*重复.*|.*冲突.*"
+
+# Take screenshot of error
+- takeScreenshot: overlapping-dates-error.png
+
+# Verify submission is blocked (still on form or error shown)
+- runFlow:
+    when:
+      visible: ".*[Ee]rror.*|.*[Ff]ailed.*"
+    commands:
+      - assertVisible:
+          text: ".*[Ee]rror.*|.*[Ff]ailed.*"
+

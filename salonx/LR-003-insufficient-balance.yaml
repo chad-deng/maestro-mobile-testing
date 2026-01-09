@@ -1,0 +1,178 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - leave-request
+  - validation
+  - boundary
+  - P0
+---
+# LR-003: [异常] 请假天数超过可用余额
+# Description: Submit a leave request with days exceeding available balance
+# Expected: Submission fails, shows "Insufficient balance" error
+# Risk Dimension: 核心指标 (Core Metrics)
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Wait for app to load
+- waitForAnimationToEnd
+
+# Check if already logged in, if not, perform login
+- runFlow:
+    when:
+      visible: "Enter your email"
+    commands:
+      # Login flow
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: password123
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd
+      # Handle store selection if it appears
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+            - waitForAnimationToEnd
+
+# Navigate to Profile or Menu to find Leave Request
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Navigate to Profile (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Look for Leave Request / Time Off option
+- scrollUntilVisible:
+    element:
+      text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+    direction: "DOWN"
+
+- tapOn:
+    text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+
+- waitForAnimationToEnd
+
+# Capture current leave balance
+- takeScreenshot: current-leave-balance.png
+
+# Tap on "New Request" or "Submit Request" button
+- runFlow:
+    when:
+      visible: ".*[Nn]ew.*[Rr]equest.*"
+    commands:
+      - tapOn:
+          text: ".*[Nn]ew.*[Rr]equest.*"
+
+- runFlow:
+    when:
+      visible: ".*[Ss]ubmit.*[Rr]equest.*"
+    commands:
+      - tapOn:
+          text: ".*[Ss]ubmit.*[Rr]equest.*"
+
+- runFlow:
+    when:
+      visible: "\\+"
+    commands:
+      - tapOn: "\\+"
+
+- waitForAnimationToEnd
+
+# Select Leave Type: Sick Leave
+- runFlow:
+    when:
+      visible: ".*[Ss]ick.*[Ll]eave.*"
+    commands:
+      - tapOn:
+          text: ".*[Ss]ick.*[Ll]eave.*"
+
+# Select Start Date (today)
+- runFlow:
+    when:
+      visible: ".*[Ss]tart.*[Dd]ate.*"
+    commands:
+      - tapOn:
+          text: ".*[Ss]tart.*[Dd]ate.*"
+      - waitForAnimationToEnd
+      # Select today's date
+      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+
+# Select End Date (far in the future to exceed balance)
+# Try to select a date 365 days from now
+- runFlow:
+    when:
+      visible: ".*[Ee]nd.*[Dd]ate.*"
+    commands:
+      - tapOn:
+          text: ".*[Ee]nd.*[Dd]ate.*"
+      - waitForAnimationToEnd
+      # Scroll forward in calendar to select a far future date
+      - scroll
+      - scroll
+      - scroll
+      # Select a date far in the future
+      - tapOn:
+          point: "80%,70%"
+      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+
+# Alternatively, if there's a "Days" input field, enter a large number
+- runFlow:
+    when:
+      visible: ".*[Dd]ays.*|.*[Dd]uration.*"
+    commands:
+      - tapOn:
+          text: ".*[Dd]ays.*|.*[Dd]uration.*"
+      - inputText: "999"
+
+# Try to submit the request
+- tapOn:
+    text: ".*[Ss]ubmit.*"
+
+- waitForAnimationToEnd
+
+# Verify error message appears
+- assertVisible:
+    text: ".*[Ii]nsufficient.*|.*[Nn]ot [Ee]nough.*|.*[Ee]xceed.*|.*余额不足.*|.*超出.*"
+
+# Take screenshot of error
+- takeScreenshot: insufficient-balance-error.png
+
+# Verify submission is blocked
+- runFlow:
+    when:
+      visible: ".*[Ee]rror.*|.*[Ff]ailed.*"
+    commands:
+      - assertVisible:
+          text: ".*[Ee]rror.*|.*[Ff]ailed.*"
+

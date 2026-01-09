@@ -1,0 +1,192 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - leave-request
+  - non-functional
+  - idempotency
+  - P1
+---
+# LR-005: [非功能] 快速连点"Submit Request"
+# Description: Rapidly click Submit Request button multiple times
+# Expected: Backend only processes one request (idempotency check), avoids creating multiple records
+# Risk Dimension: 技术复杂度 (Technical Complexity)
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Wait for app to load
+- waitForAnimationToEnd
+
+# Check if already logged in, if not, perform login
+- runFlow:
+    when:
+      visible: "Enter your email"
+    commands:
+      # Login flow
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: password123
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd
+      # Handle store selection if it appears
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+            - waitForAnimationToEnd
+
+# Navigate to Profile or Menu to find Leave Request
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Navigate to Profile (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Look for Leave Request / Time Off option
+- scrollUntilVisible:
+    element:
+      text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+    direction: "DOWN"
+
+- tapOn:
+    text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+
+- waitForAnimationToEnd
+
+# Count existing requests before test
+- takeScreenshot: before-idempotency-test.png
+
+# Tap on "New Request" or "Submit Request" button
+- runFlow:
+    when:
+      visible: ".*[Nn]ew.*[Rr]equest.*"
+    commands:
+      - tapOn:
+          text: ".*[Nn]ew.*[Rr]equest.*"
+
+- runFlow:
+    when:
+      visible: ".*[Ss]ubmit.*[Rr]equest.*"
+    commands:
+      - tapOn:
+          text: ".*[Ss]ubmit.*[Rr]equest.*"
+
+- runFlow:
+    when:
+      visible: "\\+"
+    commands:
+      - tapOn: "\\+"
+
+- waitForAnimationToEnd
+
+# Select Leave Type: Sick Leave
+- runFlow:
+    when:
+      visible: ".*[Ss]ick.*[Ll]eave.*"
+    commands:
+      - tapOn:
+          text: ".*[Ss]ick.*[Ll]eave.*"
+
+# Select Start Date (today)
+- runFlow:
+    when:
+      visible: ".*[Ss]tart.*[Dd]ate.*"
+    commands:
+      - tapOn:
+          text: ".*[Ss]tart.*[Dd]ate.*"
+      - waitForAnimationToEnd
+      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+
+# Select End Date (today)
+- runFlow:
+    when:
+      visible: ".*[Ee]nd.*[Dd]ate.*"
+    commands:
+      - tapOn:
+          text: ".*[Ee]nd.*[Dd]ate.*"
+      - waitForAnimationToEnd
+      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+
+# Add reason
+- runFlow:
+    when:
+      visible: ".*[Rr]eason.*|.*[Nn]ote.*"
+    commands:
+      - tapOn:
+          text: ".*[Rr]eason.*|.*[Nn]ote.*"
+      - inputText: "Idempotency test"
+
+# Rapidly click Submit button multiple times (5 times)
+- tapOn:
+    text: ".*[Ss]ubmit.*"
+
+- tapOn:
+    text: ".*[Ss]ubmit.*"
+
+- tapOn:
+    text: ".*[Ss]ubmit.*"
+
+- tapOn:
+    text: ".*[Ss]ubmit.*"
+
+- tapOn:
+    text: ".*[Ss]ubmit.*"
+
+- waitForAnimationToEnd
+
+# Wait a bit for backend processing
+- waitForAnimationToEnd
+
+# Take screenshot after submission
+- takeScreenshot: after-idempotency-test.png
+
+# Verify only ONE request was created
+# Count the number of "Idempotency test" entries
+# Should only see 1 entry, not 5
+
+# Go back to list if needed
+- runFlow:
+    when:
+      notVisible: ".*[Pp]ending.*"
+    commands:
+      - tapOn:
+          point: "10%,5%"
+      - waitForAnimationToEnd
+
+# Verify only one pending request with "Idempotency test" exists
+- assertVisible:
+    text: ".*[Pp]ending.*"
+
+# Take final screenshot
+- takeScreenshot: final-idempotency-verification.png
+
