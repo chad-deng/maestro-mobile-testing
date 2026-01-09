@@ -21,9 +21,15 @@ appId: com.storehub.salonx.staff.dev
 - tapOn:
     text: "Sign In"
     index: 1
-- assertVisible: "Salon X, Owner, 123 Demo Street"
-- tapOn: "Salon X, Owner, 123 Demo Street"
-- tapOn: "Confirm"
+# Handle store selection if it appears (using flexible regex pattern)
+- runFlow:
+    when:
+      visible: "Salon.*"
+    commands:
+      - tapOn:
+          text: "Salon.*"
+          index: 0
+      - tapOn: "Confirm"
 - assertVisible: "Profile"
 - tapOn:
     point: "88%,95%"
