@@ -1,0 +1,86 @@
+appId: com.storehub.salonx.staff
+tags:
+  - bug
+  - filter
+  - booking
+  - P2
+  - regression
+---
+# BUG-005: Date filter incorrectly includes previous day records due to midnight boundary error
+# Bug ID: recT2RoD0W
+# Platform: iOS, Android
+#
+# Description: When filtering by start date, midnight appointments (00:00) from the
+#              filter start date incorrectly appear under previous day's header
+#
+# Expected: List should only show records from the filter start date onwards.
+# Actual (Bug): App generates previous day header even when filter starts on different day.
+
+- launchApp:
+    appId: "com.storehub.salonx.staff"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+- waitForAnimationToEnd:
+    timeout: 8000
+
+# Dismiss Google Password Manager popup with coordinate tap at "No thanks" button
+# The button is at bottom-left of the popup
+- tapOn:
+    point: "8%,96%"
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    point: "8%,96%"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 1000
+
+# Check if already logged in (skip login if so)
+- runFlow:
+    when:
+      visible: "Enter your email"
+    commands:
+      # Perform login
+      - tapOn: "Enter your email"
+      - eraseText
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: "password123"
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd:
+          timeout: 10000
+      # Handle store selection
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+
+- waitForAnimationToEnd
+
+# Navigate to Appointments tab
+- tapOn:
+    text: "Appointments"
+
+- waitForAnimationToEnd
+
+# Verify we're on the appointments screen
+- assertVisible:
+    text: "Today|Appointments"

@@ -1,0 +1,151 @@
+appId: com.storehub.salonx.staff
+tags:
+  - bug
+  - crash
+  - android
+  - P0
+  - regression
+---
+# BUG-006: App crashes with "IllegalStateException" when switching business entities
+# Bug ID: reccpDVQQI
+# Platform: Android
+#
+# Description: App crashes with UIFramework exception when switching between stores/businesses
+#
+# Error: "addViewAt: failed to insert view [2236] into parent [2318] at index 0.
+#         The specified child already has a parent. You must call removeView()
+#         on the child's parent first."
+#
+# Steps to Reproduce:
+# 1. Open Salon X Staff Dev App and login
+# 2. Go to settings or profile page, tap "Sign out" (or Switch Business)
+# 3. In the "事業切換" list, select a different store
+# 4. Tap the 確認 (Confirm) button in the top right
+# 5. Observe the crash
+#
+# Expected: App should smoothly switch to selected store and load home interface
+# Actual (Bug): System throws Exception and shows red screen with stack trace
+
+- launchApp:
+    appId: "com.storehub.salonx.staff"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+- waitForAnimationToEnd
+
+# Check if already logged in, if not, perform login
+- runFlow:
+    when:
+      visible: "Enter your email"
+    commands:
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: password123
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+
+- waitForAnimationToEnd
+
+# Step 2: Navigate to Profile/Settings to find Switch Business option
+# Navigate to Profile tab (English)
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+# Navigate to Profile tab (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+
+- waitForAnimationToEnd
+
+# Step 3: Find and tap Switch Business/Store option
+- scrollUntilVisible:
+    element:
+      text: ".*[Ss]witch.*[Bb]usiness.*|.*[Ss]witch.*[Ss]tore.*|.*事業.*切替.*|.*店舗.*切替.*"
+    direction: "DOWN"
+
+- tapOn:
+    text: ".*[Ss]witch.*[Bb]usiness.*|.*[Ss]witch.*[Ss]tore.*|.*事業.*切替.*|.*店舗.*切替.*"
+
+- waitForAnimationToEnd
+
+# Step 4: Select a different store from the list
+# Look for any store option that is NOT currently selected
+- runFlow:
+    when:
+      visible: "Salon.*|.*店舗.*"
+    commands:
+      # Try to tap a different store (index 1 or other available option)
+      - tapOn:
+          text: "Salon.*|.*店舗.*"
+          index: 1
+      - waitForAnimationToEnd
+
+# Step 5: Tap Confirm button
+- runFlow:
+    when:
+      visible: "Confirm|確認"
+    commands:
+      - tapOn:
+          text: "Confirm|確認"
+
+- waitForAnimationToEnd:
+    timeout: 10000
+
+# Bug verification: App should NOT crash
+# Check that we're still in the app and not on error screen
+- assertNotVisible:
+    text: ".*Exception.*"
+- assertNotVisible:
+    text: ".*IllegalStateException.*"
+- assertNotVisible:
+    text: ".*UIFramework.*"
+- assertNotVisible:
+    text: ".*addViewAt.*failed.*"
+- assertNotVisible:
+    text: ".*removeView.*"
+
+# Verify app is functional - home screen elements should be visible
+- runFlow:
+    when:
+      visible: "Home|ホーム|Profile|個人"
+    commands:
+      - assertVisible: "Home|ホーム|Profile|個人"
+
+# Additional check: Verify we can navigate (app is not frozen)
+- tapOn:
+    text: "Home|ホーム"
+    optional: true
+
+- waitForAnimationToEnd

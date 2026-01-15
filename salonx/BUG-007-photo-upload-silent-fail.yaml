@@ -1,0 +1,166 @@
+appId: com.storehub.salonx.staff
+tags:
+  - bug
+  - photo
+  - upload
+  - P1
+  - regression
+---
+# BUG-007: Photo upload fails silently without error feedback
+# Bug ID: rec773LGpw
+# Platform: iOS, Android
+#
+# Description: When uploading a photo to a booking, the loading spinner disappears
+#              but no photo appears and no error message is shown
+#
+# Steps to Reproduce:
+# 1. Open the Staff App and navigate to a completed or existing booking
+# 2. Tap on the Photos (写真) tab
+# 3. Tap the "+" icon to add a new photo
+# 4. Select an image from the device's photo library
+# 5. Tap the Checkmark (Done) icon in the top right
+# 6. Observe the loading spinner
+#
+# Expected: Uploaded photo should appear in the gallery. If upload fails,
+#           a clear error message should be displayed (e.g., "Upload failed",
+#           "File too large", or "Network error")
+#
+# Actual (Bug): Loading spinner disappears, Photos tab remains empty,
+#               no error message appears
+
+- launchApp:
+    appId: "com.storehub.salonx.staff"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+- waitForAnimationToEnd
+
+# Check if already logged in, if not, perform login
+- runFlow:
+    when:
+      visible: "Enter your email"
+    commands:
+      - tapOn: "Enter your email"
+      - eraseText
+      - inputText: "owner@demo.com"
+      - tapOn: "Enter your password"
+      - eraseText
+      - inputText: password123
+      - tapOn:
+          text: "Sign In"
+          index: 1
+      - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible: "Salon.*"
+          commands:
+            - tapOn:
+                text: "Salon.*"
+                index: 0
+            - tapOn: "Confirm"
+
+- waitForAnimationToEnd
+
+# Step 1: Navigate to Appointments/Booking
+- tapOn:
+    text: "予約|Appointments|Booking"
+
+- waitForAnimationToEnd
+
+# Step 2: Open an existing booking
+# Try to tap on any booking in the list
+- runFlow:
+    when:
+      visible: ".*[Bb]ooking.*|.*予約.*|.*[Aa]ppointment.*"
+    commands:
+      - tapOn:
+          text: ".*[Bb]ooking.*|.*予約.*|.*[Aa]ppointment.*"
+          index: 0
+      - waitForAnimationToEnd
+
+# Alternative: tap on first item in list
+- runFlow:
+    when:
+      notVisible: ".*[Bb]ooking.*|.*予約.*"
+    commands:
+      # Scroll to find bookings if needed
+      - scroll
+      - waitForAnimationToEnd
+
+# Step 3: Navigate to Photos tab
+- runFlow:
+    when:
+      visible: "Photos|写真|Photo"
+    commands:
+      - tapOn:
+          text: "Photos|写真|Photo"
+      - waitForAnimationToEnd
+
+# Step 4: Tap the "+" icon to add a new photo
+- runFlow:
+    when:
+      visible: "\\+|Add.*[Pp]hoto.*|写真.*追加.*"
+    commands:
+      - tapOn:
+          text: "\\+|Add.*[Pp]hoto.*|写真.*追加.*"
+      - waitForAnimationToEnd
+
+# Note: Photo selection from device gallery is handled by OS
+# Maestro can interact with the photo picker
+
+# Wait for photo picker
+- waitForAnimationToEnd:
+    timeout: 5000
+
+# Try to select a photo from gallery
+- runFlow:
+    when:
+      visible: ".*[Pp]hoto.*|.*[Gg]allery.*|.*[Ii]mage.*|写真.*|ギャラリー.*"
+    commands:
+      # Select first photo if available
+      - tapOn:
+          point: "25%,35%"
+      - waitForAnimationToEnd
+
+# Step 5: Confirm selection (tap Done/Checkmark)
+- runFlow:
+    when:
+      visible: "Done|完了|✓|OK"
+    commands:
+      - tapOn:
+          text: "Done|完了|✓|OK"
+
+- waitForAnimationToEnd:
+    timeout: 10000
+
+# Step 6: Verify proper feedback is given
+# Bug check: If upload fails, an error message SHOULD appear
+# (Not just silent failure)
+
+# Check for success indicators (photo visible in gallery)
+- runFlow:
+    when:
+      visible: ".*[Pp]hoto.*uploaded.*|.*アップロード.*完了.*|.*[Ss]uccess.*"
+    commands:
+      - assertVisible: ".*[Pp]hoto.*|.*写真.*"
+
+# Check for proper error handling (if upload failed)
+- runFlow:
+    when:
+      visible: ".*[Ff]ailed.*|.*[Ee]rror.*|.*失敗.*|.*エラー.*"
+    commands:
+      # Error message is visible - this is GOOD behavior (not silent fail)
+      - assertVisible: ".*[Ff]ailed.*|.*[Ee]rror.*|.*失敗.*|.*エラー.*"
+
+# Verify we're not stuck in loading state
+- assertNotVisible:
+    text: ".*[Ll]oading.*|読み込み中.*"

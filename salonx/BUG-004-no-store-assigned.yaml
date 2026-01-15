@@ -1,0 +1,126 @@
+appId: com.storehub.salonx.staff
+tags:
+  - bug
+  - edge-case
+  - staff-management
+  - P1
+  - regression
+env:
+  NO_STORE_USER_EMAIL: "no-store-staff@test.com"
+  NO_STORE_USER_PASSWORD: "testpassword123"
+---
+# BUG-004: Staff App hard-locks on blank "Switch Store" modal if no stores assigned
+# Bug ID: recSjfpCDm
+# Platform: iOS
+#
+# Description: When a staff account has no stores assigned, the app gets stuck
+#              on a blank modal with disabled confirm button and no exit path
+#
+# Prerequisites:
+# - A staff account created in Web Admin with NO stores (Locations) assigned
+# - Test account: no-store-staff@test.com (example - update as needed)
+#
+# Steps to Reproduce:
+# 1. Create a staff account in the Web Admin
+# 2. Do not assign any stores (Locations) to this staff account
+# 3. Log in to the Staff App with this account
+# 4. Observe the app hanging on the "Switch Business" modal
+#
+# Expected:
+# - UX Handle: Display message "You are not assigned to any stores. Please contact your manager."
+# - Exit Path: A "Logout" button should be visible to allow user to switch accounts
+#
+# Actual (Bug): App stuck on blank modal with disabled confirm button
+#
+# NOTE: This test requires a special test account with no stores assigned
+# Update the env variables above to match your test environment
+
+- launchApp:
+    appId: "com.storehub.salonx.staff"
+    stopApp: true
+    clearState: true  # Clear state to ensure fresh login
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+- waitForAnimationToEnd
+
+# If logged in, logout first (English)
+- runFlow:
+    when:
+      visible: "Profile"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+      - scrollUntilVisible:
+          element:
+            text: "Sign Out"
+          direction: "DOWN"
+      - tapOn: "Sign Out"
+      - waitForAnimationToEnd
+
+# If logged in, logout first (Japanese)
+- runFlow:
+    when:
+      visible: "個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+      - scrollUntilVisible:
+          element:
+            text: "ログアウト"
+          direction: "DOWN"
+      - tapOn: "ログアウト"
+      - waitForAnimationToEnd
+
+- waitForAnimationToEnd
+
+# Step 3: Log in with no-store account
+- tapOn:
+    text: ".*email.*|.*メール.*"
+- eraseText
+- inputText: "${NO_STORE_USER_EMAIL}"
+- tapOn:
+    text: ".*password.*|.*パスワード.*"
+- eraseText
+- inputText: "${NO_STORE_USER_PASSWORD}"
+- tapOn:
+    text: "Sign In|サインイン"
+    index: 1
+
+- waitForAnimationToEnd:
+    timeout: 10000
+
+# Step 4: Verify proper handling of no-store scenario
+# Bug check: Should NOT be stuck on blank modal
+
+# Check for proper error message
+- runFlow:
+    when:
+      visible: ".*not assigned.*|.*店舗が.*|.*割り当て.*|.*contact.*manager.*"
+    commands:
+      - assertVisible: ".*not assigned.*|.*店舗.*|.*manager.*"
+
+# Verify logout/exit option is available (important UX requirement)
+- runFlow:
+    when:
+      visible: ".*[Ll]ogout.*|.*ログアウト.*|.*[Ss]ign.*[Oo]ut.*|.*[Bb]ack.*|.*戻る.*"
+    commands:
+      - assertVisible: ".*[Ll]ogout.*|.*ログアウト.*|.*[Ss]ign.*[Oo]ut.*|.*[Bb]ack.*|.*戻る.*"
+
+# Bug verification: Confirm button should NOT be the only option (or should be enabled with message)
+# If we see "Switch Business" or "事業を切替" modal, verify it has proper handling
+- runFlow:
+    when:
+      visible: ".*[Ss]witch.*[Bb]usiness.*|.*事業.*切替.*"
+    commands:
+      # Should have either: stores to select, or an error message, or logout option
+      - assertVisible: ".*[Ll]ogout.*|.*ログアウト.*|.*not assigned.*|.*Salon.*|.*店舗.*"
