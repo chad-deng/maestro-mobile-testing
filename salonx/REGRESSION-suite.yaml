@@ -1,0 +1,55 @@
+# SalonX Regression Test Suite
+# Combines all REG (Registration/Auth) and BUG (Bug Regression) tests
+#
+# Usage: maestro test salonx/REGRESSION-suite.yaml
+#
+# Total: 12 tests
+# - REG: 5 tests (authentication, settings)
+# - BUG: 7 tests (bug regression)
+
+appId: com.storehub.salonx.staff.dev
+---
+
+# ============================================
+# REG - Registration/Authentication Tests
+# ============================================
+
+# REG-001: Forgot Password Flow
+- runFlow: REG-001-forgot-password.yaml
+
+# REG-002: Login Flow
+- runFlow: REG-002-login.yaml
+
+# REG-003: Language Switch
+- runFlow: REG-003-language-switch.yaml
+
+# REG-004: Change Password
+- runFlow: REG-004-change-password.yaml
+
+# REG-005: Logout Flow
+- runFlow: REG-005-logout.yaml
+
+# ============================================
+# BUG - Bug Regression Tests
+# ============================================
+
+# BUG-001: Forgot Password Error
+- runFlow: BUG-001-forgot-password-error.yaml
+
+# BUG-002: Calendar Date Localization
+- runFlow: BUG-002-calendar-date-localization.yaml
+
+# BUG-003: Password Validation Keys
+- runFlow: BUG-003-password-validation-keys.yaml
+
+# BUG-004: No Store Assigned
+- runFlow: BUG-004-no-store-assigned.yaml
+
+# BUG-005: Date Filter Boundary
+- runFlow: BUG-005-date-filter-boundary.yaml
+
+# BUG-006: Business Switch Crash
+- runFlow: BUG-006-business-switch-crash.yaml
+
+# BUG-007: Photo Upload Silent Fail
+- runFlow: BUG-007-photo-upload-silent-fail.yaml
