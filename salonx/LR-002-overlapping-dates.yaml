@@ -35,10 +35,10 @@ tags:
       # Login flow
       - tapOn: "Enter your email"
       - eraseText
-      - inputText: "owner@demo.com"
+      - inputText: "chad.deng+123@storehub.com"
       - tapOn: "Enter your password"
       - eraseText
-      - inputText: password123
+      - inputText: 12345678
       - tapOn:
           text: "Sign In"
           index: 1
@@ -89,77 +89,35 @@ tags:
     when:
       notVisible: ".*[Pp]ending.*|.*[Aa]pproved.*"
     commands:
-      # Create a leave request first
+      # Create a leave request first - tap + button (SVG icon)
       - tapOn:
-          text: ".*[Nn]ew.*[Rr]equest.*|.*[Ss]ubmit.*|\\+"
+          point: "92%,8%"
       - waitForAnimationToEnd
-      # Select Sick Leave
-      - runFlow:
-          when:
-            visible: ".*[Ss]ick.*[Ll]eave.*"
-          commands:
-            - tapOn:
-                text: ".*[Ss]ick.*[Ll]eave.*"
-      # Select dates
-      - runFlow:
-          when:
-            visible: ".*[Ss]tart.*[Dd]ate.*"
-          commands:
-            - tapOn:
-                text: ".*[Ss]tart.*[Dd]ate.*"
-            - waitForAnimationToEnd
-            - tapOn: ".*[Cc]onfirm.*|.*OK.*"
-      - runFlow:
-          when:
-            visible: ".*[Ee]nd.*[Dd]ate.*"
-          commands:
-            - tapOn:
-                text: ".*[Ee]nd.*[Dd]ate.*"
-            - waitForAnimationToEnd
-            - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+      # Enter reason
+      - tapOn: "Enter reason for leave (optional)"
+      - inputText: "First request"
+      - waitForAnimationToEnd
       # Submit
-      - tapOn:
-          text: ".*[Ss]ubmit.*"
+      - tapOn: "Submit"
       - waitForAnimationToEnd
 
 # Now try to create another request with overlapping dates
+# Tap + button (SVG icon in top-right)
 - tapOn:
-    text: ".*[Nn]ew.*[Rr]equest.*|.*[Ss]ubmit.*|\\+"
+    point: "92%,8%"
 
 - waitForAnimationToEnd
 
-# Select Leave Type: Sick Leave
-- runFlow:
-    when:
-      visible: ".*[Ss]ick.*[Ll]eave.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]ick.*[Ll]eave.*"
+# Form is pre-filled with today's date (same as existing request)
+# This should create an overlapping request
+# Add a reason
+- tapOn: "Enter reason for leave (optional)"
+- inputText: "Overlapping request test"
 
-# Select Start Date (same as existing request)
-- runFlow:
-    when:
-      visible: ".*[Ss]tart.*[Dd]ate.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]tart.*[Dd]ate.*"
-      - waitForAnimationToEnd
-      # Select today's date
-      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
-
-# Select End Date (overlapping)
-- runFlow:
-    when:
-      visible: ".*[Ee]nd.*[Dd]ate.*"
-    commands:
-      - tapOn:
-          text: ".*[Ee]nd.*[Dd]ate.*"
-      - waitForAnimationToEnd
-      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+- waitForAnimationToEnd
 
 # Try to submit the overlapping request
-- tapOn:
-    text: ".*[Ss]ubmit.*"
+- tapOn: "Submit"
 
 - waitForAnimationToEnd
 

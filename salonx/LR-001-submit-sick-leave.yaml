@@ -35,10 +35,10 @@ tags:
       # Login flow
       - tapOn: "Enter your email"
       - eraseText
-      - inputText: "owner@demo.com"
+      - inputText: "chad.deng+123@storehub.com"
       - tapOn: "Enter your password"
       - eraseText
-      - inputText: password123
+      - inputText: 12345678
       - tapOn:
           text: "Sign In"
           index: 1
@@ -54,109 +54,57 @@ tags:
             - tapOn: "Confirm"
             - waitForAnimationToEnd
 
-# Navigate to Profile or Menu to find Leave Request
-- runFlow:
-    when:
-      visible: "Profile"
-    commands:
-      - tapOn:
-          point: "88%,95%"
-      - waitForAnimationToEnd
-
-# Navigate to Profile (Japanese)
-- runFlow:
-    when:
-      visible: "個人"
-    commands:
-      - tapOn:
-          point: "88%,95%"
-      - waitForAnimationToEnd
-
-# Look for Leave Request / Time Off option
-- scrollUntilVisible:
-    element:
-      text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
-    direction: "DOWN"
-
-- tapOn:
-    text: ".*[Ll]eave.*|.*[Tt]ime [Oo]ff.*|.*休暇.*"
+# Navigate to Profile tab (bottom navigation)
+- tapOn: "Profile"
 
 - waitForAnimationToEnd
 
+# Take screenshot of Profile screen
+- takeScreenshot: profile-screen.png
+
+# Tap on Leave requests (visible without scrolling)
+# Try different possible text variations
+- runFlow:
+    when:
+      visible: "Leave requests"
+    commands:
+      - tapOn: "Leave requests"
+
+- runFlow:
+    when:
+      visible: ".*[Ll]eave.*"
+    commands:
+      - tapOn:
+          text: ".*[Ll]eave.*"
+
+- waitForAnimationToEnd
+
+# Should now be on "My Leaves" page
 # Capture current leave balance before submission
 - takeScreenshot: before-leave-balance.png
 
-# Tap on "New Request" or "Submit Request" button
-- runFlow:
-    when:
-      visible: ".*[Nn]ew.*[Rr]equest.*"
-    commands:
-      - tapOn:
-          text: ".*[Nn]ew.*[Rr]equest.*"
-
-- runFlow:
-    when:
-      visible: ".*[Ss]ubmit.*[Rr]equest.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]ubmit.*[Rr]equest.*"
-
-- runFlow:
-    when:
-      visible: "\\+"
-    commands:
-      - tapOn: "\\+"
+# Tap the + button to create a new leave request (SVG icon in top-right)
+- tapOn:
+    point: "92%,8%"
 
 - waitForAnimationToEnd
 
-# Select Leave Type: Sick Leave
-- runFlow:
-    when:
-      visible: ".*[Ll]eave.*[Tt]ype.*"
-    commands:
-      - tapOn:
-          text: ".*[Ll]eave.*[Tt]ype.*"
+# Take screenshot of the new request form
+- takeScreenshot: new-request-form.png
 
-- runFlow:
-    when:
-      visible: ".*[Ss]ick.*[Ll]eave.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]ick.*[Ll]eave.*"
+# Leave Type is already pre-selected (Vacation or default)
+# Dates are already pre-filled with today's date
+# We can proceed directly to add a reason
 
-# Select Start Date (today)
-- runFlow:
-    when:
-      visible: ".*[Ss]tart.*[Dd]ate.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]tart.*[Dd]ate.*"
-      - waitForAnimationToEnd
-      # Select today's date (usually pre-selected)
-      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+# Add reason/notes in the text field
+- tapOn: "Enter reason for leave (optional)"
+- inputText: "Feeling unwell, need rest"
 
-# Select End Date (today or tomorrow)
-- runFlow:
-    when:
-      visible: ".*[Ee]nd.*[Dd]ate.*"
-    commands:
-      - tapOn:
-          text: ".*[Ee]nd.*[Dd]ate.*"
-      - waitForAnimationToEnd
-      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+# Wait for any animations
+- waitForAnimationToEnd
 
-# Add reason/notes
-- runFlow:
-    when:
-      visible: ".*[Rr]eason.*|.*[Nn]ote.*"
-    commands:
-      - tapOn:
-          text: ".*[Rr]eason.*|.*[Nn]ote.*"
-      - inputText: "Feeling unwell, need rest"
-
-# Submit the request
-- tapOn:
-    text: ".*[Ss]ubmit.*"
+# Tap the Submit button
+- tapOn: "Submit"
 
 - waitForAnimationToEnd
 

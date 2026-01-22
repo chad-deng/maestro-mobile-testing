@@ -35,10 +35,10 @@ tags:
       # Login flow
       - tapOn: "Enter your email"
       - eraseText
-      - inputText: "owner@demo.com"
+      - inputText: "chad.deng+123@storehub.com"
       - tapOn: "Enter your password"
       - eraseText
-      - inputText: password123
+      - inputText: 12345678
       - tapOn:
           text: "Sign In"
           index: 1
@@ -86,81 +86,47 @@ tags:
 # Count existing requests before test
 - takeScreenshot: before-idempotency-test.png
 
-# Tap on "New Request" or "Submit Request" button
-- runFlow:
-    when:
-      visible: ".*[Nn]ew.*[Rr]equest.*"
-    commands:
-      - tapOn:
-          text: ".*[Nn]ew.*[Rr]equest.*"
-
-- runFlow:
-    when:
-      visible: ".*[Ss]ubmit.*[Rr]equest.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]ubmit.*[Rr]equest.*"
-
-- runFlow:
-    when:
-      visible: "\\+"
-    commands:
-      - tapOn: "\\+"
+# Tap + button to create new request (SVG icon in top-right)
+- tapOn:
+    point: "92%,8%"
 
 - waitForAnimationToEnd
 
-# Select Leave Type: Sick Leave
-- runFlow:
-    when:
-      visible: ".*[Ss]ick.*[Ll]eave.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]ick.*[Ll]eave.*"
-
-# Select Start Date (today)
-- runFlow:
-    when:
-      visible: ".*[Ss]tart.*[Dd]ate.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]tart.*[Dd]ate.*"
-      - waitForAnimationToEnd
-      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
-
-# Select End Date (today)
-- runFlow:
-    when:
-      visible: ".*[Ee]nd.*[Dd]ate.*"
-    commands:
-      - tapOn:
-          text: ".*[Ee]nd.*[Dd]ate.*"
-      - waitForAnimationToEnd
-      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
-
+# Form is pre-filled with dates
 # Add reason
-- runFlow:
-    when:
-      visible: ".*[Rr]eason.*|.*[Nn]ote.*"
-    commands:
-      - tapOn:
-          text: ".*[Rr]eason.*|.*[Nn]ote.*"
-      - inputText: "Idempotency test"
+- tapOn: "Enter reason for leave (optional)"
+- inputText: "Idempotency test"
+
+- waitForAnimationToEnd
 
 # Rapidly click Submit button multiple times (5 times)
-- tapOn:
-    text: ".*[Ss]ubmit.*"
+# The first click should work, subsequent clicks should be ignored/prevented
+- tapOn: "Submit"
 
-- tapOn:
-    text: ".*[Ss]ubmit.*"
+# Try to click again (should fail gracefully if form already submitted)
+- runFlow:
+    when:
+      visible: "Submit"
+    commands:
+      - tapOn: "Submit"
 
-- tapOn:
-    text: ".*[Ss]ubmit.*"
+- runFlow:
+    when:
+      visible: "Submit"
+    commands:
+      - tapOn: "Submit"
 
-- tapOn:
-    text: ".*[Ss]ubmit.*"
+- runFlow:
+    when:
+      visible: "Submit"
+    commands:
+      - tapOn: "Submit"
 
-- tapOn:
-    text: ".*[Ss]ubmit.*"
+- runFlow:
+    when:
+      visible: "Submit"
+    commands:
+      - tapOn: "Submit"
 
 - waitForAnimationToEnd
 

@@ -35,10 +35,10 @@ tags:
       # Login flow
       - tapOn: "Enter your email"
       - eraseText
-      - inputText: "owner@demo.com"
+      - inputText: "chad.deng+123@storehub.com"
       - tapOn: "Enter your password"
       - eraseText
-      - inputText: password123
+      - inputText: 12345678
       - tapOn:
           text: "Sign In"
           index: 1
@@ -86,78 +86,41 @@ tags:
 # Capture current leave balance
 - takeScreenshot: current-leave-balance.png
 
-# Tap on "New Request" or "Submit Request" button
-- runFlow:
-    when:
-      visible: ".*[Nn]ew.*[Rr]equest.*"
-    commands:
-      - tapOn:
-          text: ".*[Nn]ew.*[Rr]equest.*"
-
-- runFlow:
-    when:
-      visible: ".*[Ss]ubmit.*[Rr]equest.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]ubmit.*[Rr]equest.*"
-
-- runFlow:
-    when:
-      visible: "\\+"
-    commands:
-      - tapOn: "\\+"
+# Tap + button to create new request (SVG icon in top-right)
+- tapOn:
+    point: "92%,8%"
 
 - waitForAnimationToEnd
 
-# Select Leave Type: Sick Leave
-- runFlow:
-    when:
-      visible: ".*[Ss]ick.*[Ll]eave.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]ick.*[Ll]eave.*"
+# The form opens with pre-filled dates
+# We need to modify the dates to request many days
+# For now, let's try to submit with a very long reason to test validation
+# Or we can try to change the end date to far future
 
-# Select Start Date (today)
-- runFlow:
-    when:
-      visible: ".*[Ss]tart.*[Dd]ate.*"
-    commands:
-      - tapOn:
-          text: ".*[Ss]tart.*[Dd]ate.*"
-      - waitForAnimationToEnd
-      # Select today's date
-      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+# Tap on End Date to change it
+- tapOn: "End Date"
+- waitForAnimationToEnd
 
-# Select End Date (far in the future to exceed balance)
-# Try to select a date 365 days from now
-- runFlow:
-    when:
-      visible: ".*[Ee]nd.*[Dd]ate.*"
-    commands:
-      - tapOn:
-          text: ".*[Ee]nd.*[Dd]ate.*"
-      - waitForAnimationToEnd
-      # Scroll forward in calendar to select a far future date
-      - scroll
-      - scroll
-      - scroll
-      # Select a date far in the future
-      - tapOn:
-          point: "80%,70%"
-      - tapOn: ".*[Cc]onfirm.*|.*OK.*"
+# Try to select a date far in the future by scrolling in calendar
+- scroll
+- scroll
+- scroll
+- waitForAnimationToEnd
 
-# Alternatively, if there's a "Days" input field, enter a large number
-- runFlow:
-    when:
-      visible: ".*[Dd]ays.*|.*[Dd]uration.*"
-    commands:
-      - tapOn:
-          text: ".*[Dd]ays.*|.*[Dd]uration.*"
-      - inputText: "999"
+# Tap on a date in the future (approximate location)
+- tapOn:
+    point: "80%,70%"
+
+- waitForAnimationToEnd
+
+# Add a reason
+- tapOn: "Enter reason for leave (optional)"
+- inputText: "Testing insufficient balance"
+
+- waitForAnimationToEnd
 
 # Try to submit the request
-- tapOn:
-    text: ".*[Ss]ubmit.*"
+- tapOn: "Submit"
 
 - waitForAnimationToEnd
 

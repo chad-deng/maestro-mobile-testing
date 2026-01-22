@@ -49,10 +49,10 @@ tags:
     commands:
       - tapOn: "Enter your email"
       - eraseText
-      - inputText: "owner@demo.com"
+      - inputText: "chad.deng+123@storehub.com"
       - tapOn: "Enter your password"
       - eraseText
-      - inputText: password123
+      - inputText: 12345678
       - tapOn:
           text: "Sign In"
           index: 1
