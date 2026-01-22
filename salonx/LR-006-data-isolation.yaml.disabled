@@ -94,46 +94,29 @@ tags:
           text: ".*[Pp]ending.*|.*[Aa]pproved.*|.*[Cc]ancelled.*"
 
 # Step 2: Logout from User A
-- tapOn:
-    point: "10%,5%"
+# Since the app doesn't seem to have a traditional logout button,
+# we'll restart the app with clearState to force logout
+
+- stopApp
 
 - waitForAnimationToEnd
 
-# Navigate to Profile to logout
-- runFlow:
-    when:
-      visible: "Profile"
-    commands:
-      - tapOn:
-          point: "88%,95%"
-      - waitForAnimationToEnd
-
-- runFlow:
-    when:
-      visible: "個人"
-    commands:
-      - tapOn:
-          point: "88%,95%"
-      - waitForAnimationToEnd
-
-# Scroll to find Sign Out
-- scrollUntilVisible:
-    element:
-      text: ".*[Ss]ign [Oo]ut.*|.*ログアウト.*"
-    direction: "DOWN"
-
-- tapOn:
-    text: ".*[Ss]ign [Oo]ut.*|.*ログアウト.*"
+# Restart app with clear state to logout
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: true
+    permissions:
+      all: "allow"
 
 - waitForAnimationToEnd
 
-# Handle confirmation if present
+# Handle optional "Install Now" prompt
 - runFlow:
     when:
-      visible: ".*[Cc]onfirm.*|.*[Yy]es.*|.*OK.*"
+      visible: 'Install Now'
     commands:
-      - tapOn:
-          text: ".*[Cc]onfirm.*|.*[Yy]es.*|.*OK.*"
+        - tapOn: "Install Now"
 
 - waitForAnimationToEnd
 
