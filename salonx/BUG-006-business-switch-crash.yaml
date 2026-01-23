@@ -27,7 +27,7 @@ tags:
 # Actual (Bug): System throws Exception and shows red screen with stack trace
 
 - launchApp:
-    appId: "com.storehub.salonx.staff"
+    appId: "com.storehub.salonx.staff.dev"
     stopApp: true
     clearState: false
     permissions:

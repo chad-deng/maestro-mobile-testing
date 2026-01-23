@@ -29,7 +29,7 @@ tags:
 #               no error message appears
 
 - launchApp:
-    appId: "com.storehub.salonx.staff"
+    appId: "com.storehub.salonx.staff.dev"
     stopApp: true
     clearState: false
     permissions:

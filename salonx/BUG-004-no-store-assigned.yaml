@@ -36,7 +36,7 @@ env:
 # Update the env variables above to match your test environment
 
 - launchApp:
-    appId: "com.storehub.salonx.staff"
+    appId: "com.storehub.salonx.staff.dev"
     stopApp: true
     clearState: true  # Clear state to ensure fresh login
     permissions:

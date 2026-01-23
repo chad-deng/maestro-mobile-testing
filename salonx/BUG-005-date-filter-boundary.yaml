@@ -17,7 +17,7 @@ tags:
 # Actual (Bug): App generates previous day header even when filter starts on different day.
 
 - launchApp:
-    appId: "com.storehub.salonx.staff"
+    appId: "com.storehub.salonx.staff.dev"
     stopApp: true
     clearState: false
     permissions:

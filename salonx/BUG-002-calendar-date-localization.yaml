@@ -22,7 +22,7 @@ tags:
 # Actual (Bug): Date headers in English
 
 - launchApp:
-    appId: "com.storehub.salonx.staff"
+    appId: "com.storehub.salonx.staff.dev"
     stopApp: true
     clearState: false
     permissions:
