@@ -46,10 +46,10 @@ tags:
       # Handle store selection - select Store A
       - runFlow:
           when:
-            visible: "Salon.*"
+            visible: "auto_test"
           commands:
             - tapOn:
-                text: "Salon.*"
+                text: "auto_test"
                 index: 0
             - tapOn: "Confirm"
             - waitForAnimationToEnd
@@ -138,11 +138,11 @@ tags:
 # Handle store selection - select a DIFFERENT store (Store B)
 - runFlow:
     when:
-      visible: "Salon.*"
+      visible: "auto_test"
     commands:
       # Select a different store (index 1 instead of 0)
       - tapOn:
-          text: "Salon.*"
+          text: "auto_test"
           index: 1
       - tapOn: "Confirm"
       - waitForAnimationToEnd

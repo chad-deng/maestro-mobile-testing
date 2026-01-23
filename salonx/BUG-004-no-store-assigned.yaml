@@ -123,4 +123,4 @@ env:
       visible: ".*[Ss]witch.*[Bb]usiness.*|.*事業.*切替.*"
     commands:
       # Should have either: stores to select, or an error message, or logout option
-      - assertVisible: ".*[Ll]ogout.*|.*ログアウト.*|.*not assigned.*|.*Salon.*|.*店舗.*"
+      - assertVisible: ".*[Ll]ogout.*|.*ログアウト.*|.*not assigned.*|.*auto_test|.*店舗.*"

@@ -61,10 +61,10 @@ tags:
       - waitForAnimationToEnd
       - runFlow:
           when:
-            visible: "Salon.*"
+            visible: "auto_test"
           commands:
             - tapOn:
-                text: "Salon.*"
+                text: "auto_test"
                 index: 0
             - tapOn: "Confirm"
 

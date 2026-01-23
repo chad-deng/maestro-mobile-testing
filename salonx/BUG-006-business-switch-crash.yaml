@@ -59,10 +59,10 @@ tags:
       - waitForAnimationToEnd
       - runFlow:
           when:
-            visible: "Salon.*"
+            visible: "auto_test"
           commands:
             - tapOn:
-                text: "Salon.*"
+                text: "auto_test"
                 index: 0
             - tapOn: "Confirm"
 
@@ -104,11 +104,11 @@ tags:
 # Look for any store option that is NOT currently selected
 - runFlow:
     when:
-      visible: "Salon.*|.*店舗.*"
+      visible: "auto_test|.*店舗.*"
     commands:
       # Try to tap a different store (index 1 or other available option)
       - tapOn:
-          text: "Salon.*|.*店舗.*"
+          text: "auto_test|.*店舗.*"
           index: 1
       - waitForAnimationToEnd
 
