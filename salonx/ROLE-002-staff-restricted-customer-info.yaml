@@ -1,0 +1,97 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - role-permission
+  - staff
+  - customer-info
+  - P0
+---
+# ROLE-002: Staff Cannot View Basic Customer Info
+# Description: Login as Staff and verify basic customer info is hidden
+# Expected: Staff cannot see basic info (address, phone number) on customer details
+# Role: Staff (chad.deng+112@storehub.com)
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: true
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Wait for app to load
+- waitForAnimationToEnd
+
+# Login as Staff
+- tapOn: "Enter your email"
+- eraseText
+- tapOn: "Enter your email"
+- eraseText
+- inputText: "chad.deng+112@storehub.com"
+
+- tapOn: "Enter your password"
+- eraseText
+- inputText: 12345678
+
+- tapOn:
+    text: "Sign In"
+    index: 1
+
+- waitForAnimationToEnd
+
+# Handle store selection if it appears
+- runFlow:
+    when:
+      visible: "auto_test"
+    commands:
+      - tapOn:
+          text: "auto_test"
+          index: 0
+      - tapOn: "Confirm"
+      - waitForAnimationToEnd
+
+# Verify successful login
+- assertVisible: "Profile"
+
+# Navigate to Customer tab
+- tapOn: "Customer"
+
+- waitForAnimationToEnd
+
+# Take screenshot of customer list
+- takeScreenshot: staff-customer-list.png
+
+# Tap on first customer to view details
+- runFlow:
+    when:
+      visible: ".*@.*"
+    commands:
+      - tapOn:
+          text: ".*@.*"
+          index: 0
+
+- waitForAnimationToEnd
+
+# Take screenshot of customer details
+- takeScreenshot: staff-customer-details.png
+
+# Verify Staff CANNOT see basic customer info (should be hidden)
+# Address should NOT be visible
+- assertNotVisible:
+    text: ".*[Aa]ddress.*"
+
+# Phone number should NOT be visible
+- assertNotVisible:
+    text: ".*[Pp]hone.*"
+
+# Mobile should NOT be visible
+- assertNotVisible:
+    text: ".*[Mm]obile.*"
+
+# Take final screenshot for verification
+- takeScreenshot: staff-basic-info-hidden.png

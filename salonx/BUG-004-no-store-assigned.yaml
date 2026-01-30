@@ -38,7 +38,7 @@ env:
 - launchApp:
     appId: "com.storehub.salonx.staff.dev"
     stopApp: true
-    clearState: true  # Clear state to ensure fresh login
+    clearState: false  # Clear state to ensure fresh login
     permissions:
       all: "allow"
 

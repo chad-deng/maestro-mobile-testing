@@ -1,0 +1,167 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - bug
+  - online-booking
+  - staff-name
+  - P1
+  - regression
+---
+# BUG-008: Staff Name Inconsistency in Online Booking Flow
+# Platform: Android, iOS, Web
+#
+# Description: Staff name changes across different pages in online booking flow
+# due to different database fields being used (Display Name vs Local Name)
+#
+# Steps to Reproduce:
+# 1. Open online booking link and proceed to Step 1: Menu Selection
+# 2. Proceed to Step 2: Date & Staff Selection and choose a staff member
+# 3. Note the staff's name in the selection list (e.g., "西瓜太郎")
+# 4. Select an available time slot and click "Continue"
+# 5. On Step 3: Information Input, check the name under "Staff" field
+# 6. Observe that the name has changed (e.g., to "企鹅万人")
+#
+# Expected: All steps should consistently use Display Name field
+# Actual (Bug): Different database fields are used causing name inconsistency
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+- waitForAnimationToEnd
+
+# Navigate to online booking (assuming we start from main screen)
+# This may need adjustment based on how to access online booking
+- tapOn:
+    text: ".*[Bb]ooking.*|.*予約.*"
+
+- waitForAnimationToEnd
+
+# Step 1: Menu Selection
+- assertVisible:
+    text: ".*[Mm]enu.*|.*[Ss]ervice.*|.*メニュー.*|.*サービス.*"
+
+# Select a service/menu item
+- tapOn:
+    index: 0
+    childOf:
+      text: ".*[Ss]elect.*|.*選択.*"
+
+- waitForAnimationToEnd
+
+# Continue to next step
+- tapOn:
+    text: ".*[Cc]ontinue.*|.*[Nn]ext.*|.*次へ.*|.*続ける.*"
+
+- waitForAnimationToEnd
+
+# Step 2: Date & Staff Selection
+- assertVisible:
+    text: ".*[Ss]taff.*|.*スタッフ.*"
+
+# Store the staff name for later comparison
+# Look for staff selection list
+- runFlow:
+    when:
+      visible: ".*[Ss]elect.*[Ss]taff.*|.*スタッフ.*選択.*"
+    commands:
+      # Capture the first staff member's name
+      - copyTextFrom:
+          id: ".*staff.*name.*"
+          index: 0
+      - evalScript: ${output.staffNameStep2 = maestro.copiedText}
+
+# Alternative: Look for specific staff names mentioned in the bug
+- runFlow:
+    when:
+      visible: "西瓜太郎"
+    commands:
+      - copyTextFrom: "西瓜太郎"
+      - evalScript: ${output.staffNameStep2 = maestro.copiedText}
+      - tapOn: "西瓜太郎"
+
+# If no specific staff found, select first available staff
+- runFlow:
+    when:
+      notVisible: "西瓜太郎"
+    commands:
+      - tapOn:
+          index: 0
+          childOf:
+            text: ".*[Ss]taff.*|.*スタッフ.*"
+
+- waitForAnimationToEnd
+
+# Select an available time slot
+- tapOn:
+    text: ".*[0-9]+:[0-9]+.*"
+    index: 0
+
+- waitForAnimationToEnd
+
+# Continue to next step
+- tapOn:
+    text: ".*[Cc]ontinue.*|.*[Nn]ext.*|.*次へ.*|.*続ける.*"
+
+- waitForAnimationToEnd
+
+# Step 3: Information Input / Booking Summary
+- assertVisible:
+    text: ".*[Ii]nformation.*|.*[Ss]ummary.*|.*情報.*|.*概要.*"
+
+# Verify staff name consistency
+# Look for the staff field and capture the displayed name
+- runFlow:
+    when:
+      visible: ".*[Ss]taff.*|.*スタッフ.*"
+    commands:
+      # Try to find the staff name near the Staff label
+      - copyTextFrom:
+          below:
+            text: ".*[Ss]taff.*|.*スタッフ.*"
+          index: 0
+      - evalScript: ${output.staffNameStep3 = maestro.copiedText}
+
+# Bug verification: The staff name should be consistent
+# If we see "企鹅万人" instead of "西瓜太郎", the bug is present
+- runFlow:
+    when:
+      visible: "企鹅万人"
+    commands:
+      # If we see the wrong name, the bug is NOT fixed
+      - assertNotVisible: "企鹅万人"
+
+# Expected: The same staff name should be displayed
+- runFlow:
+    when:
+      true: ${output.staffNameStep2 != null && output.staffNameStep3 != null}
+    commands:
+      - assertTrue: ${output.staffNameStep2 == output.staffNameStep3}
+
+# Additional verification: Check booking confirmation
+- tapOn:
+    text: ".*[Cc]onfirm.*|.*確認.*"
+    optional: true
+
+- waitForAnimationToEnd
+
+# Final check on confirmation screen
+- runFlow:
+    when:
+      visible: ".*[Cc]onfirmation.*|.*確認画面.*"
+    commands:
+      # Verify staff name is still consistent
+      - assertVisible: ${output.staffNameStep2}
+      - assertNotVisible: "企鹅万人"
+
+# Success message
+- evalScript: ${console.log("Staff name consistency test passed: " + output.staffNameStep2 + " displayed consistently")}

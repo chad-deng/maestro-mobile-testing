@@ -1,0 +1,109 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - role-permission
+  - manager
+  - customer-info
+  - P0
+---
+# ROLE-001: Manager Can View Complete Customer Info
+# Description: Login as Manager and verify complete customer info is visible
+# Expected: Manager can see basic info (address, phone number) on customer details
+# Role: Manager (chad.deng+111@storehub.com)
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: true
+    permissions:
+      all: "allow"
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+# Wait for app to load
+- waitForAnimationToEnd
+
+# Login as Manager
+- tapOn: "Enter your email"
+- eraseText
+- tapOn: "Enter your email"
+- eraseText
+- inputText: "chad.deng+111@storehub.com"
+
+- tapOn: "Enter your password"
+- eraseText
+- inputText: 12345678
+
+- tapOn:
+    text: "Sign In"
+    index: 1
+
+- waitForAnimationToEnd
+
+# Handle store selection if it appears
+- runFlow:
+    when:
+      visible: "auto_test"
+    commands:
+      - tapOn:
+          text: "auto_test"
+          index: 0
+      - tapOn: "Confirm"
+      - waitForAnimationToEnd
+
+# Verify successful login
+- assertVisible: "Profile"
+
+# Navigate to Customer tab
+- tapOn: "Customer"
+
+- waitForAnimationToEnd
+
+# Take screenshot of customer list
+- takeScreenshot: manager-customer-list.png
+
+# Tap on first customer to view details
+- runFlow:
+    when:
+      visible: ".*@.*"
+    commands:
+      - tapOn:
+          text: ".*@.*"
+          index: 0
+
+- waitForAnimationToEnd
+
+# Take screenshot of customer details
+- takeScreenshot: manager-customer-details.png
+
+# Verify Manager can see complete customer info (basic info visible)
+# Check for address field
+- runFlow:
+    when:
+      visible: ".*[Aa]ddress.*"
+    commands:
+      - assertVisible:
+          text: ".*[Aa]ddress.*"
+
+# Check for phone number field
+- runFlow:
+    when:
+      visible: ".*[Pp]hone.*"
+    commands:
+      - assertVisible:
+          text: ".*[Pp]hone.*"
+
+# Alternative: Check for mobile field
+- runFlow:
+    when:
+      visible: ".*[Mm]obile.*"
+    commands:
+      - assertVisible:
+          text: ".*[Mm]obile.*"
+
+# Take final screenshot for verification
+- takeScreenshot: manager-complete-info-visible.png

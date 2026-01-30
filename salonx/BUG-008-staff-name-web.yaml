@@ -1,0 +1,114 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - bug
+  - online-booking
+  - staff-name
+  - web
+  - P1
+---
+# BUG-008: Staff Name Inconsistency - Web Version
+# Platform: Web/Mobile Browser
+#
+# Bug: Staff display name changes between booking steps
+# Root Cause: Different DB fields used (Display Name vs Local Name)
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+- waitForAnimationToEnd
+
+# Open online booking URL (adjust based on actual URL)
+- openLink: "https://booking.salonx.dev/store/auto_test"
+
+- waitForAnimationToEnd
+
+# Step 1: Menu/Service Selection
+- assertVisible: "Select a service"
+
+# Select first available service
+- tapOn:
+    text: "Select"
+    index: 0
+
+- waitForAnimationToEnd
+
+- tapOn: "Continue"
+
+- waitForAnimationToEnd
+
+# Step 2: Staff Selection - Capture the displayed name
+- assertVisible: "Select Staff"
+
+# Store the visible staff name (example: 西瓜太郎)
+- evalScript: |
+    const staffElements = document.querySelectorAll('[data-testid*="staff"], .staff-name, [class*="staff"]');
+    const staffName = staffElements[0]?.textContent || "Unknown Staff";
+    output.selectedStaffName = staffName;
+    console.log("Selected staff:", staffName);
+
+# Select the staff member
+- tapOn:
+    text: "西瓜太郎|Select"
+    index: 0
+
+- waitForAnimationToEnd
+
+# Select time slot
+- tapOn:
+    text: "[0-9]+:[0-9]+"
+    index: 0
+
+- waitForAnimationToEnd
+
+- tapOn: "Continue"
+
+- waitForAnimationToEnd
+
+# Step 3: Information Input - Verify staff name consistency
+- assertVisible: "Customer Information"
+
+# Check if the staff name has changed (bug scenario)
+- assertNotVisible: "企鹅万人"
+
+# Verify the original staff name is still displayed
+- evalScript: |
+    const summaryStaff = document.querySelector('.staff-summary, [data-field="staff"]')?.textContent;
+    if (summaryStaff && summaryStaff !== output.selectedStaffName) {
+      throw new Error(`Staff name inconsistency: Expected "${output.selectedStaffName}", but got "${summaryStaff}"`);
+    }
+    console.log("Staff name consistent:", output.selectedStaffName);
+
+# Fill in customer information
+- tapOn: "Name"
+- inputText: "Test Customer"
+
+- tapOn: "Email"
+- inputText: "test@example.com"
+
+- tapOn: "Phone"
+- inputText: "1234567890"
+
+- waitForAnimationToEnd
+
+# Proceed to confirmation
+- tapOn: "Confirm Booking"
+
+- waitForAnimationToEnd
+
+# Final verification on confirmation screen
+- assertVisible: "Booking Confirmation"
+
+# Verify staff name is still consistent
+- evalScript: |
+    const confirmStaff = document.querySelector('.confirm-staff, [data-confirm="staff"]')?.textContent;
+    if (confirmStaff && !confirmStaff.includes(output.selectedStaffName)) {
+      throw new Error(`Staff name changed on confirmation: Expected "${output.selectedStaffName}", but showing "${confirmStaff}"`);
+    }
+    console.log("Test passed: Staff name consistent throughout booking flow");
+
+# Success: Staff name remains consistent
+- takeScreenshot: "staff-name-consistency-success"

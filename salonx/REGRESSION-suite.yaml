@@ -3,9 +3,11 @@
 #
 # Usage: maestro test salonx/REGRESSION-suite.yaml
 #
-# Total: 12 tests
+# Total: 15 tests
 # - REG: 5 tests (authentication, settings)
 # - BUG: 7 tests (bug regression)
+# - LR: 1 test (leave request)
+# - ROLE: 2 tests (role-based permissions)
 
 appId: com.storehub.salonx.staff.dev
 ---
@@ -53,3 +55,20 @@ appId: com.storehub.salonx.staff.dev
 
 # BUG-007: Photo Upload Silent Fail
 - runFlow: BUG-007-photo-upload-silent-fail.yaml
+
+# ============================================
+# LR - Leave Request Tests
+# ============================================
+
+# LR-001: Submit Sick Leave
+- runFlow: LR-001-submit-sick-leave.yaml
+
+# ============================================
+# ROLE - Role-Based Permission Tests
+# ============================================
+
+# ROLE-001: Manager Can View Complete Customer Info
+- runFlow: ROLE-001-manager-view-customer-info.yaml
+
+# ROLE-002: Staff Cannot View Basic Customer Info
+- runFlow: ROLE-002-staff-restricted-customer-info.yaml
