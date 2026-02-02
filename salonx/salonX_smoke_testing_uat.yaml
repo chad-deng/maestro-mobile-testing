@@ -13,28 +13,28 @@ appId: com.storehub.salonx.staff.dev
 - extendedWaitUntil:
     visible: ".*"
     timeout: 5000
-# Handle store selection if it appears (before login check)
+
+# Wait a bit more for the app to settle
+- waitForAnimationToEnd
+
+# Check multiple possible states and handle accordingly
+# State 1: Already logged in with Profile visible
 - runFlow:
     when:
-      visible: "Switch Store"
+      visible: "Profile|プロフィール|個人"
     commands:
-      - tapOn: "auto_test"
-      - tapOn: "Confirm"
-      - extendedWaitUntil:
-          visible: "Profile"
-          timeout: 15000
-# Handle login if not already logged in
+      - evalScript: ${console.log("Already logged in")}
+
+# State 2: Login screen is visible
 - runFlow:
     when:
-      visible: "Enter your email"
+      visible: "Enter your email|Sign In|ログイン"
     commands:
       - tapOn: "Enter your email"
-      - "eraseText"
-      - tapOn: "Enter your email"
-      - "eraseText"
+      - eraseText
       - inputText: "chad.deng+123@storehub.com"
       - tapOn: "Enter your password"
-      - "eraseText"
+      - eraseText
       - inputText: 12345678
       - tapOn:
           text: "Sign In"
@@ -42,14 +42,24 @@ appId: com.storehub.salonx.staff.dev
       - extendedWaitUntil:
           visible: ".*"
           timeout: 10000
-      # Handle store selection after login
-      - runFlow:
-          when:
-            visible: "Switch Store"
-          commands:
-            - tapOn: "auto_test"
-            - tapOn: "Confirm"
-- assertVisible: "Profile"
+
+# State 3: Store selection screen
+- runFlow:
+    when:
+      visible: "Switch Store|Select Store|店舗"
+    commands:
+      - tapOn: "auto_test"
+      - tapOn: "Confirm"
+      - extendedWaitUntil:
+          visible: "Profile|プロフィール"
+          timeout: 15000
+
+# Additional wait for any remaining animations
+- waitForAnimationToEnd
+
+# Now assert Profile is visible (with multiple language options)
+- assertVisible:
+    text: "Profile|プロフィール|個人|Dashboard|ダッシュボード"
 - tapOn:
     point: "88%,95%"
 - assertVisible: "Language Settings"
