@@ -62,13 +62,13 @@ appId: com.storehub.salonx.staff.dev
     text: "Profile|プロフィール|個人|Dashboard|ダッシュボード"
 - tapOn:
     point: "88%,95%"
-- assertVisible: "Language Settings"
-- tapOn: Language Settings
+- assertVisible: "Language Settings|言語設定"
+- tapOn: "Language Settings|言語設定"
 - assertVisible: "日本語"
 - tapOn:
     point: "50%,24%"
-- tapOn: ホーム
-#- tapOn: "ダッシュボード"
+- waitForAnimationToEnd
+- tapOn: "ホーム|ダッシュボード"
 # - doubleTapOn:
 #     point: 90%,74%
 # Only interact with "完了" (Completed) if there are completed appointments
@@ -95,11 +95,12 @@ appId: com.storehub.salonx.staff.dev
     index: -1
 #- tapOn: "予約"
 - assertVisible: 予約を検索...
+- waitForAnimationToEnd
 #- assertVisible: "スタッフ、顧客、メール、または電話番号で検索..."
 #- runFlow: subflow/add_customer_booking.yaml
-- tapOn: "顧客"
+- tapOn: "顧客|顧客管理"
 - assertNotVisible: 顧客が見つかりません
-- tapOn: 個人
+- tapOn: "個人|プロフィール"
 #- tapOn: "プロフィール"
 - assertVisible: 言語設定, 日本語
 - tapOn: 言語設定, 日本語
