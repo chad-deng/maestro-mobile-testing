@@ -5,34 +5,62 @@ appId: com.storehub.salonx.staff.dev
     stopApp: true
     permissions:
       all: "allow"
-- runFlow:
-    when:
-      visible: 'Install Now'
-    commands:
-        - tapOn: "Install Now"
-- extendedWaitUntil:
-    visible: ".*"
-    timeout: 5000
 
-# Wait a bit more for the app to settle
+# ─── Entry point ────────────────────────────────────────────────────────────
+# Wait until a meaningful, recognizable screen state appears (up to 30 s).
+# This covers every possible launch path:
+#   • Expo Dev Client OTA screen  → "Open Latest"
+#   • Legacy in-app update prompt → "Install Now"
+#   • SalonX login screen         → "Enter your email"
+#   • SalonX home (already in)    → "Profile / プロフィール / 個人 / Dashboard / ダッシュボード"
+- extendedWaitUntil:
+    visible: "Open Latest|Install Now|Enter your email|Profile|プロフィール|個人|Dashboard|ダッシュボード"
+    timeout: 30000
 - waitForAnimationToEnd
 
-# Check multiple possible states and handle accordingly
-# State 1: Already logged in with Profile visible
+# State 0a: Expo Dev Client — OTA update screen
+- runFlow:
+    when:
+      visible: "Open Latest"
+    commands:
+      - tapOn: "Open Latest"
+      - extendedWaitUntil:
+          visible: "Enter your email|Profile|プロフィール|個人|Dashboard|ダッシュボード"
+          timeout: 20000
+      - waitForAnimationToEnd
+
+# State 0b: Legacy "Install Now" in-app update prompt
+- runFlow:
+    when:
+      visible: "Install Now"
+    commands:
+      - tapOn: "Install Now"
+      - waitForAnimationToEnd
+
+# ─── SalonX app states ──────────────────────────────────────────────────────
+# State 1: Already logged in
 - runFlow:
     when:
       visible: "Profile|プロフィール|個人"
     commands:
       - evalScript: ${console.log("Already logged in")}
 
-# State 2: Login screen is visible
+# State 2: Login screen
 - runFlow:
     when:
       visible: "Enter your email|Sign In|ログイン"
     commands:
+      # Double-tap + double-erase resets IME state, preventing .com from
+      # being swallowed by keyboard autocorrect or a mid-switch animation.
+      - tapOn: "Enter your email"
+      - eraseText
       - tapOn: "Enter your email"
       - eraseText
       - inputText: "chad.deng+123@storehub.com"
+      # Guard: confirm the full email (including .com) was actually typed
+      - assertVisible: "chad.deng+123@storehub.com"
+      - tapOn: "Enter your password"
+      - eraseText
       - tapOn: "Enter your password"
       - eraseText
       - inputText: 12345678
@@ -54,12 +82,14 @@ appId: com.storehub.salonx.staff.dev
           visible: "Profile|プロフィール"
           timeout: 15000
 
-# Additional wait for any remaining animations
 - waitForAnimationToEnd
 
-# Now assert Profile is visible (with multiple language options)
+# ─── Main smoke flow ─────────────────────────────────────────────────────────
+# Verify home screen reached
 - assertVisible:
     text: "Profile|プロフィール|個人|Dashboard|ダッシュボード"
+
+# Open profile/settings and switch language to Japanese
 - tapOn:
     point: "88%,95%"
 - assertVisible: "Language Settings|言語設定"
@@ -69,9 +99,8 @@ appId: com.storehub.salonx.staff.dev
     point: "50%,24%"
 - waitForAnimationToEnd
 - tapOn: "ホーム|ダッシュボード"
-# - doubleTapOn:
-#     point: 90%,74%
-# Only interact with "完了" (Completed) if there are completed appointments
+
+# Check for completed appointments (optional — skipped if none exist)
 - runFlow:
     when:
       visible: 完了.*
@@ -90,24 +119,23 @@ appId: com.storehub.salonx.staff.dev
             text: こんにちは、中村 健
           direction: "UP"
       - assertVisible: "こんにちは、中村 健"
+
+# Appointments tab
 - tapOn:
     text: 予約
     index: -1
-#- tapOn: "予約"
 - assertVisible: 予約を検索...
 - waitForAnimationToEnd
-#- assertVisible: "スタッフ、顧客、メール、または電話番号で検索..."
-#- runFlow: subflow/add_customer_booking.yaml
+
+# Customers tab
 - tapOn: "顧客|顧客管理"
 - assertNotVisible: 顧客が見つかりません
+
+# Profile tab — switch language back to English and sign out
 - tapOn: "個人|プロフィール"
-#- tapOn: "プロフィール"
 - assertVisible: 言語設定, 日本語
 - tapOn: 言語設定, 日本語
 - tapOn: English
 - assertVisible: Sign Out
 - tapOn: Sign Out
-
-# - assertVisible: "取得したバッジ, 0/15"
-#- tapOn: "ログアウト"
 - killApp: com.storehub.salonx.staff.dev
