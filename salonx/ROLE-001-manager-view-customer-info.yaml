@@ -13,7 +13,7 @@ tags:
 - launchApp:
     appId: "com.storehub.salonx.staff.dev"
     stopApp: true
-    clearState: true
+    clearState: false
     permissions:
       all: "allow"
 

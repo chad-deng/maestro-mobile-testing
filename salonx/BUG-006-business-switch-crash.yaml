@@ -42,83 +42,70 @@ tags:
 
 - waitForAnimationToEnd
 
-# Check if already logged in, if not, perform login
-- runFlow:
-    when:
-      visible: "Enter your email"
-    commands:
-      - tapOn: "Enter your email"
-      - eraseText
-      - inputText: "chad.deng+123@storehub.com"
-      - tapOn: "Enter your password"
-      - eraseText
-      - inputText: 12345678
-      - tapOn:
-          text: "Sign In"
-          index: 1
-      - waitForAnimationToEnd
-      - runFlow:
-          when:
-            visible: "auto_test"
-          commands:
-            - tapOn:
-                text: "auto_test"
-                index: 0
-            - tapOn: "Confirm"
-
+# Wait for app state to stabilize before handling login/logout below
 - waitForAnimationToEnd
 
-# Step 2: Navigate to Profile/Settings to find Switch Business option
-# Navigate to Profile tab (English)
+# Step 2: Reset to login screen if we're already logged in
+# Current builds no longer expose a dedicated in-profile Switch Business row,
+# so we exercise the same business-selection modal via the sign-in flow.
 - runFlow:
     when:
-      visible: "Profile"
+      visible: "Profile|プロフィール|個人"
     commands:
       - tapOn:
           point: "88%,95%"
       - waitForAnimationToEnd
+      - tapOn: "Sign Out|ログアウト"
 
-# Navigate to Profile tab (Japanese)
-- runFlow:
-    when:
-      visible: "個人"
-    commands:
-      - tapOn:
-          point: "88%,95%"
-      - waitForAnimationToEnd
-
-- waitForAnimationToEnd
-
-# Step 3: Find and tap Switch Business/Store option
-- scrollUntilVisible:
-    element:
-      text: ".*[Ss]witch.*[Bb]usiness.*|.*[Ss]witch.*[Ss]tore.*|.*事業.*切替.*|.*店舗.*切替.*"
-    direction: "DOWN"
-
-- tapOn:
-    text: ".*[Ss]witch.*[Bb]usiness.*|.*[Ss]witch.*[Ss]tore.*|.*事業.*切替.*|.*店舗.*切替.*"
-
-- waitForAnimationToEnd
-
-# Step 4: Select a different store from the list
-# Look for any store option that is NOT currently selected
-- runFlow:
-    when:
-      visible: "auto_test|.*店舗.*"
-    commands:
-      # Try to tap a different store (index 1 or other available option)
-      - tapOn:
-          text: "auto_test|.*店舗.*"
-          index: 1
-      - waitForAnimationToEnd
-
-# Step 5: Tap Confirm button
 - runFlow:
     when:
       visible: "Confirm|確認"
     commands:
-      - tapOn:
-          text: "Confirm|確認"
+      - tapOn: "Confirm|確認"
+
+- runFlow:
+    when:
+      visible: "Yes|はい"
+    commands:
+      - tapOn: "Yes|はい"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+- waitForAnimationToEnd
+
+# Step 3: Login and open the business/store selection modal
+- assertVisible: "Sign In|サインイン"
+- tapOn:
+    point: "50%,44%"
+- eraseText
+- tapOn:
+    point: "50%,44%"
+- eraseText
+- inputText: "chad.deng+123@storehub.com"
+
+- tapOn:
+    point: "50%,50%"
+- eraseText
+- inputText: 12345678
+
+- tapOn:
+    text: "Sign In|サインイン"
+    index: 1
+
+- waitForAnimationToEnd
+
+# Step 4: Select a different store from the business list
+- assertVisible: "auto_test|.*店舗.*|.*Store.*"
+- tapOn:
+    text: "auto_test|.*店舗.*|.*Store.*"
+    index: 1
+
+# Step 5: Tap Confirm button
+- tapOn: "Confirm|確認"
 
 - waitForAnimationToEnd:
     timeout: 10000
@@ -139,13 +126,13 @@ tags:
 # Verify app is functional - home screen elements should be visible
 - runFlow:
     when:
-      visible: "Home|ホーム|Profile|個人"
+      visible: "Home|ホーム|Dashboard|ダッシュボード|Profile|プロフィール|個人"
     commands:
-      - assertVisible: "Home|ホーム|Profile|個人"
+      - assertVisible: "Home|ホーム|Dashboard|ダッシュボード|Profile|プロフィール|個人"
 
 # Additional check: Verify we can navigate (app is not frozen)
 - tapOn:
-    text: "Home|ホーム"
+    text: "Home|ホーム|Dashboard|ダッシュボード"
     optional: true
 
 - waitForAnimationToEnd

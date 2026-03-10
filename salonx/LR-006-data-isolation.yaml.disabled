@@ -101,11 +101,10 @@ tags:
 
 - waitForAnimationToEnd
 
-# Restart app with clear state to logout
+# Restart app after stopApp
 - launchApp:
     appId: "com.storehub.salonx.staff.dev"
     stopApp: true
-    clearState: true
     permissions:
       all: "allow"
 

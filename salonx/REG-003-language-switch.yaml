@@ -54,18 +54,10 @@ tags:
                 index: 0
             - tapOn: "Confirm"
 
-# Navigate to Profile tab (English)
+# Navigate to Profile tab (English/Japanese)
 - runFlow:
     when:
-      visible: "Profile"
-    commands:
-      - tapOn:
-          point: "88%,95%"
-
-# Navigate to Profile tab (Japanese)
-- runFlow:
-    when:
-      visible: "個人"
+      visible: "Profile|プロフィール|個人"
     commands:
       - tapOn:
           point: "88%,95%"
@@ -103,15 +95,19 @@ tags:
 # Verify UI updates to Japanese immediately
 - tapOn:
     point: "50%,24%"
+- waitForAnimationToEnd
     
 # Verify main navigation is now in Japanese
-- assertVisible: "ホーム"
+- assertVisible:
+    text: "ホーム|ダッシュボード"
 - assertVisible: "予約"
-- assertVisible: "顧客"
-- assertVisible: "個人"
+- assertVisible:
+    text: "顧客|顧客管理"
+- assertVisible:
+    text: "個人|プロフィール"
 
 # Navigate back to Profile/Settings
-- tapOn: "個人"
+- tapOn: "個人|プロフィール"
 
 # Verify Language Settings is now in Japanese
 - assertVisible: "言語設定"
@@ -127,33 +123,18 @@ tags:
 # Verify UI updates back to English immediately
 - tapOn:
     point: "50%,24%"
+- waitForAnimationToEnd
 
-# Verify main navigation is now in English (use conditional checks)
-- runFlow:
-    when:
-      visible: "Home"
-    commands:
-      - assertVisible: "Home"
+# Verify main navigation is now in English
+- assertVisible:
+    text: "Home|Dashboard"
+- assertVisible: "Appointments"
+- assertVisible: "Customers"
+- assertVisible: "Profile"
 
-- runFlow:
-    when:
-      visible: "Appointments"
-    commands:
-      - assertVisible: "Appointments"
+# Navigate back to Profile
+- tapOn: "Profile"
 
-- runFlow:
-    when:
-      visible: "Customers"
-    commands:
-      - assertVisible: "Customers"
-
-- runFlow:
-    when:
-      visible: "Profile"
-    commands:
-      - assertVisible: "Profile"
-      # Navigate back to Profile
-      - tapOn: "Profile"
-      # Verify Language Settings is back in English
-      - assertVisible: "Language Settings"
+# Verify Language Settings is back in English
+- assertVisible: "Language Settings"
 

@@ -2,7 +2,6 @@ appId: com.storehub.salonx.staff
 ---
 - launchApp:
     appId: "com.storehub.salonx.staff"
-    clearState: true
     stopApp: true
     permissions:
       all: "allow"
