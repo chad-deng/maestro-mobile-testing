@@ -49,6 +49,24 @@ tags:
 - waitForAnimationToEnd:
     timeout: 1000
 
+# If previous flow left us on verification-code screen, back out to login first
+- runFlow:
+    when:
+      visible: ".*[Vv]erification.*[Cc]ode.*|.*認証コード.*|.*確認.*|.*[Rr]esend.*|.*再送.*"
+    commands:
+      - tapOn: "Back|戻る"
+      - waitForAnimationToEnd:
+          timeout: 2000
+
+# If we're still on forgot-password form, back out to login
+- runFlow:
+    when:
+      visible: "Send.*|認証コードを送信"
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 2000
+
 # Check if already logged in (skip login if so)
 - runFlow:
     when:
@@ -82,7 +100,7 @@ tags:
 
 # Navigate to Booking/Appointments tab
 - tapOn:
-    text: "Appointments"
+    text: "予約|Appointments|Booking"
 
 - waitForAnimationToEnd
 
@@ -109,4 +127,4 @@ tags:
 
 # Verify we're on the Appointments screen
 - assertVisible:
-    text: "Today|今日|Appointments"
+    text: "Today|今日|Appointments|予約"

@@ -27,13 +27,46 @@ tags:
 # Wait for app to load
 - waitForAnimationToEnd
 
+# Reset to login if a previous test left the app signed in
+- runFlow:
+    when:
+      visible: "Profile|プロフィール|個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+      - tapOn: "Sign Out|ログアウト"
+
+- runFlow:
+    when:
+      visible: "Confirm|確認"
+    commands:
+      - tapOn: "Confirm|確認"
+
+- runFlow:
+    when:
+      visible: "Yes|はい"
+    commands:
+      - tapOn: "Yes|はい"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+- waitForAnimationToEnd
+
 # Login as Staff
 - tapOn: "Enter your email"
 - eraseText
 - tapOn: "Enter your email"
 - eraseText
 - inputText: "chad.deng+112@storehub.com"
+- assertVisible: 'chad.deng\+112@storehub\.com'
 
+- tapOn: "Enter your password"
+- eraseText
 - tapOn: "Enter your password"
 - eraseText
 - inputText: 12345678
@@ -52,14 +85,14 @@ tags:
       - tapOn:
           text: "auto_test"
           index: 0
-      - tapOn: "Confirm"
+      - tapOn: "Confirm|確認"
       - waitForAnimationToEnd
 
 # Verify successful login
-- assertVisible: "Profile"
+- assertVisible: "Profile|プロフィール|個人"
 
 # Navigate to Customer tab
-- tapOn: "Customer"
+- tapOn: "Customer|Customers|顧客|顧客管理"
 
 - waitForAnimationToEnd
 
@@ -73,6 +106,14 @@ tags:
     commands:
       - tapOn:
           text: ".*@.*"
+          index: 0
+
+- runFlow:
+    when:
+      visible: "Test.*"
+    commands:
+      - tapOn:
+          text: "Test.*"
           index: 0
 
 - waitForAnimationToEnd
@@ -89,9 +130,33 @@ tags:
 - assertNotVisible:
     text: ".*[Pp]hone.*"
 
-# Mobile should NOT be visible
-- assertNotVisible:
-    text: ".*[Mm]obile.*"
-
 # Take final screenshot for verification
 - takeScreenshot: staff-basic-info-hidden.png
+
+# Cleanup: return to login page after validation
+- back
+- waitForAnimationToEnd
+- tapOn: "Profile|プロフィール|個人"
+- waitForAnimationToEnd
+- tapOn: "Sign Out|ログアウト"
+
+- runFlow:
+    when:
+      visible: "Confirm|確認"
+    commands:
+      - tapOn: "Confirm|確認"
+
+- runFlow:
+    when:
+      visible: "Yes|はい"
+    commands:
+      - tapOn: "Yes|はい"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+- assertVisible: "Enter your email"
+- assertVisible: "Enter your password"

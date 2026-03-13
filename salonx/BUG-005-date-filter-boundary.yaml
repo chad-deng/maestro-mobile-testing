@@ -77,10 +77,10 @@ tags:
 
 # Navigate to Appointments tab
 - tapOn:
-    text: "Appointments"
+    text: "予約|Appointments|Booking"
 
 - waitForAnimationToEnd
 
 # Verify we're on the appointments screen
 - assertVisible:
-    text: "Today|Appointments"
+    text: "Today|今日|Appointments|予約"

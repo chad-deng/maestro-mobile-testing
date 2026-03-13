@@ -14,7 +14,7 @@ appId: com.storehub.salonx.staff.dev
 #   • SalonX login screen         → "Enter your email"
 #   • SalonX home (already in)    → "Profile / プロフィール / 個人 / Dashboard / ダッシュボード"
 - extendedWaitUntil:
-    visible: "Open Latest|Install Now|Enter your email|Profile|プロフィール|個人|Dashboard|ダッシュボード"
+    visible: 'Open Latest|Install Now|Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|店舗|Profile|プロフィール|個人|Dashboard|ダッシュボード'
     timeout: 30000
 - waitForAnimationToEnd
 
@@ -25,7 +25,7 @@ appId: com.storehub.salonx.staff.dev
     commands:
       - tapOn: "Open Latest"
       - extendedWaitUntil:
-          visible: "Enter your email|Profile|プロフィール|個人|Dashboard|ダッシュボード"
+          visible: 'Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|店舗|Profile|プロフィール|個人|Dashboard|ダッシュボード'
           timeout: 20000
       - waitForAnimationToEnd
 
@@ -41,35 +41,35 @@ appId: com.storehub.salonx.staff.dev
 # State 1: Already logged in
 - runFlow:
     when:
-      visible: "Profile|プロフィール|個人"
+      visible: "Profile|プロフィール|個人|Dashboard|ダッシュボード"
     commands:
       - evalScript: ${console.log("Already logged in")}
 
 # State 2: Login screen
 - runFlow:
     when:
-      visible: "Enter your email|Sign In|ログイン"
+      visible: 'Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*'
     commands:
       # Double-tap + double-erase resets IME state, preventing .com from
       # being swallowed by keyboard autocorrect or a mid-switch animation.
-      - tapOn: "Enter your email"
+      - tapOn: ".*@.*|Enter your email|.*メール.*"
       - eraseText
-      - tapOn: "Enter your email"
+      - tapOn: ".*@.*|Enter your email|.*メール.*"
       - eraseText
       - inputText: "chad.deng+123@storehub.com"
       # Guard: confirm the full email (including .com) was actually typed
-      - assertVisible: "chad.deng+123@storehub.com"
-      - tapOn: "Enter your password"
+      - assertVisible: 'chad.deng\+123@storehub\.com'
+      - tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
       - eraseText
-      - tapOn: "Enter your password"
+      - tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
       - eraseText
       - inputText: 12345678
       - tapOn:
-          text: "Sign In"
+          text: "Sign In|サインイン"
           index: 1
       - extendedWaitUntil:
-          visible: ".*"
-          timeout: 10000
+          visible: "Switch Store|Select Store|店舗|Profile|プロフィール|個人|Dashboard|ダッシュボード"
+          timeout: 15000
 
 # State 3: Store selection screen
 - runFlow:
@@ -77,12 +77,16 @@ appId: com.storehub.salonx.staff.dev
       visible: "Switch Store|Select Store|店舗"
     commands:
       - tapOn: "auto_test"
-      - tapOn: "Confirm"
+      - tapOn: "Confirm|確認"
       - extendedWaitUntil:
-          visible: "Profile|プロフィール"
+          visible: "Profile|プロフィール|個人|Dashboard|ダッシュボード"
           timeout: 15000
 
 - waitForAnimationToEnd
+
+- extendedWaitUntil:
+    visible: "Profile|プロフィール|個人|Dashboard|ダッシュボード"
+    timeout: 20000
 
 # ─── Main smoke flow ─────────────────────────────────────────────────────────
 # Verify home screen reached

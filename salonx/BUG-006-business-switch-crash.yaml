@@ -79,16 +79,16 @@ tags:
 
 # Step 3: Login and open the business/store selection modal
 - assertVisible: "Sign In|サインイン"
-- tapOn:
-    point: "50%,44%"
+- tapOn: "Enter your email"
 - eraseText
-- tapOn:
-    point: "50%,44%"
+- tapOn: "Enter your email"
 - eraseText
 - inputText: "chad.deng+123@storehub.com"
+- assertVisible: 'chad.deng\+123@storehub\.com'
 
-- tapOn:
-    point: "50%,50%"
+- tapOn: "Enter your password"
+- eraseText
+- tapOn: "Enter your password"
 - eraseText
 - inputText: 12345678
 
@@ -99,10 +99,10 @@ tags:
 - waitForAnimationToEnd
 
 # Step 4: Select a different store from the business list
-- assertVisible: "auto_test|.*店舗.*|.*Store.*"
+- assertVisible: "auto_test"
 - tapOn:
-    text: "auto_test|.*店舗.*|.*Store.*"
-    index: 1
+    text: "auto_test"
+    index: 0
 
 # Step 5: Tap Confirm button
 - tapOn: "Confirm|確認"
