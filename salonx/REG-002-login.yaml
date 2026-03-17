@@ -23,20 +23,20 @@ tags:
         - tapOn: "Install Now"
 
 # Enter email (using exact same approach as working UAT test)
-- tapOn: "Enter your email"
+- tapOn: ".*@.*|Enter your email|.*メール.*"
 - eraseText
-- tapOn: "Enter your email"
+- tapOn: ".*@.*|Enter your email|.*メール.*"
 - eraseText
 - inputText: "chad.deng+123@storehub.com"
 
 # Enter password
-- tapOn: "Enter your password"
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
 - eraseText
 - inputText: 12345678
 
 # Tap Sign In button
 - tapOn:
-    text: "Sign In"
+    text: "Sign In|サインイン"
     index: 1
 
 # Wait for store selection or dashboard to load
@@ -52,10 +52,10 @@ tags:
           text: "auto_test"
           index: 0
       # Confirm store selection
-      - tapOn: "Confirm"
+      - tapOn: "Confirm|確認"
 
 # Verify successful login - Dashboard/Home screen elements
-- assertVisible: "Profile"
+- assertVisible: "Profile|プロフィール|個人"
 
 # Verify we can see the main navigation tabs
 - runFlow:

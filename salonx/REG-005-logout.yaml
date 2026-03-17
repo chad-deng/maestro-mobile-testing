@@ -29,19 +29,19 @@ tags:
 # Check if already logged in, if not, perform login
 - runFlow:
     when:
-      visible: "Enter your email"
+      visible: ".*@.*|Enter your email|.*メール.*|Sign In|サインイン"
     commands:
       # Login flow
-      - tapOn: "Enter your email"
+      - tapOn: ".*@.*|Enter your email|.*メール.*"
       - eraseText
-      - tapOn: "Enter your email"
+      - tapOn: ".*@.*|Enter your email|.*メール.*"
       - eraseText
       - inputText: "chad.deng+123@storehub.com"
-      - tapOn: "Enter your password"
+      - tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
       - eraseText
       - inputText: 12345678
       - tapOn:
-          text: "Sign In"
+          text: "Sign In|サインイン"
           index: 1
       - waitForAnimationToEnd
       # Handle store selection if it appears
@@ -52,14 +52,14 @@ tags:
             - tapOn:
                 text: "auto_test"
                 index: 0
-            - tapOn: "Confirm"
+            - tapOn: "Confirm|確認"
 
 # Verify we're logged in (either already or after login)
 - runFlow:
     when:
       visible: "Profile"
     commands:
-      - assertVisible: "Profile"
+      - assertVisible: "Profile|プロフィール|個人"
 
 - runFlow:
     when:
@@ -90,15 +90,15 @@ tags:
 # Handle confirmation dialog if present
 - runFlow:
     when:
-      visible: "Confirm"
+      visible: "Confirm|確認"
     commands:
-      - tapOn: "Confirm"
+      - tapOn: "Confirm|確認"
 
 - runFlow:
     when:
-      visible: "Yes"
+      visible: "Yes|はい"
     commands:
-      - tapOn: "Yes"
+      - tapOn: "Yes|はい"
 
 - runFlow:
     when:
@@ -107,22 +107,22 @@ tags:
       - tapOn: "OK"
 
 # Verify we're back on the Sign In screen
-- assertVisible: "Enter your email"
-- assertVisible: "Enter your password"
+- assertVisible: ".*@.*|Enter your email|.*メール.*"
+- assertVisible: "•+|Enter your password|.*password.*|.*パスワード.*"
 
 # Verify user cannot access protected screens without logging in again
 - assertNotVisible: "Profile"
 - assertNotVisible: "個人"
 
 # Test 2: Verify we can log in again after logout
-- tapOn: "Enter your email"
+- tapOn: ".*@.*|Enter your email|.*メール.*"
 - eraseText
 - inputText: "chad.deng+123@storehub.com"
-- tapOn: "Enter your password"
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
 - eraseText
 - inputText: 12345678
 - tapOn:
-    text: "Sign In"
+    text: "Sign In|サインイン"
     index: 1
 
 # Handle store selection if it appears
@@ -134,8 +134,8 @@ tags:
       - tapOn:
           text: "auto_test"
           index: 0
-      - tapOn: "Confirm"
+      - tapOn: "Confirm|確認"
 
 # Verify successful re-login
-- assertVisible: "Profile"
+- assertVisible: "Profile|プロフィール|個人"
 

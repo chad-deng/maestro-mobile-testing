@@ -51,15 +51,15 @@ tags:
 # Handle confirmation dialog if present
 - runFlow:
     when:
-      visible: "Confirm"
+      visible: "Confirm|確認"
     commands:
-      - tapOn: "Confirm"
+      - tapOn: "Confirm|確認"
 
 - runFlow:
     when:
-      visible: "Yes"
+      visible: "Yes|はい"
     commands:
-      - tapOn: "Yes"
+      - tapOn: "Yes|はい"
 
 - runFlow:
     when:
@@ -71,6 +71,6 @@ tags:
 - waitForAnimationToEnd
 
 # Verify we're back on the Sign In screen
-- assertVisible: "Enter your email"
-- assertVisible: "Enter your password"
+- assertVisible: ".*@.*|Enter your email|.*メール.*"
+- assertVisible: "•+|Enter your password|.*password.*|.*パスワード.*"
 

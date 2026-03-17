@@ -30,17 +30,17 @@ tags:
 # Step 1: Login as User A (owner@demo.com) and create a leave request
 - runFlow:
     when:
-      visible: "Enter your email"
+      visible: ".*@.*|Enter your email|.*メール.*|Sign In|サインイン"
     commands:
       # Login flow
-      - tapOn: "Enter your email"
+      - tapOn: ".*@.*|Enter your email|.*メール.*"
       - eraseText
       - inputText: "owner@demo.com"
-      - tapOn: "Enter your password"
+      - tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
       - eraseText
       - inputText: password123
       - tapOn:
-          text: "Sign In"
+          text: "Sign In|サインイン"
           index: 1
       - waitForAnimationToEnd
       # Handle store selection - select Store A
@@ -51,7 +51,7 @@ tags:
             - tapOn:
                 text: "auto_test"
                 index: 0
-            - tapOn: "Confirm"
+            - tapOn: "Confirm|確認"
             - waitForAnimationToEnd
 
 # Navigate to Leave Request section
@@ -120,16 +120,16 @@ tags:
 - waitForAnimationToEnd
 
 # Step 3: Login as User B (different tenant/store)
-- tapOn: "Enter your email"
+- tapOn: ".*@.*|Enter your email|.*メール.*"
 - eraseText
 - inputText: "staff@demo.com"
 
-- tapOn: "Enter your password"
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
 - eraseText
 - inputText: password123
 
 - tapOn:
-    text: "Sign In"
+    text: "Sign In|サインイン"
     index: 1
 
 - waitForAnimationToEnd
@@ -143,7 +143,7 @@ tags:
       - tapOn:
           text: "auto_test"
           index: 1
-      - tapOn: "Confirm"
+      - tapOn: "Confirm|確認"
       - waitForAnimationToEnd
 
 # Navigate to Leave Request section as User B

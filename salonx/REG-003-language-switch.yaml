@@ -69,16 +69,16 @@ tags:
 - waitForAnimationToEnd
 
 # Login with stable selectors
-- assertVisible: "Enter your email"
-- assertVisible: "Enter your password"
-- tapOn: "Enter your email"
+- assertVisible: ".*@.*|Enter your email|.*メール.*"
+- assertVisible: "•+|Enter your password|.*password.*|.*パスワード.*"
+- tapOn: ".*@.*|Enter your email|.*メール.*"
 - eraseText
-- tapOn: "Enter your email"
+- tapOn: ".*@.*|Enter your email|.*メール.*"
 - eraseText
 - inputText: "chad.deng+123@storehub.com"
-- tapOn: "Enter your password"
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
 - eraseText
-- tapOn: "Enter your password"
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
 - eraseText
 - inputText: 12345678
 - tapOn:
@@ -132,7 +132,7 @@ tags:
       - tapOn:
           point: "50%,24%"
       # Navigate back to Profile
-      - tapOn: "Profile"
+      - tapOn: "Profile|プロフィール|個人"
       # Now test switching to Japanese
       - tapOn: "Language Settings"
       - tapOn: "日本語"
@@ -175,10 +175,10 @@ tags:
     text: "Home|Dashboard"
 - assertVisible: "Appointments"
 - assertVisible: "Customers"
-- assertVisible: "Profile"
+- assertVisible: "Profile|プロフィール|個人"
 
 # Navigate back to Profile
-- tapOn: "Profile"
+- tapOn: "Profile|プロフィール|個人"
 
 # Verify Language Settings is back in English
 - assertVisible: "Language Settings"

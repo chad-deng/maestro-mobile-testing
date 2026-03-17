@@ -47,16 +47,16 @@ tags:
 # Check if already logged in, if not, perform login
 - runFlow:
     when:
-      visible: "Enter your email"
+      visible: ".*@.*|Enter your email|.*メール.*|Sign In|サインイン"
     commands:
-      - tapOn: "Enter your email"
+      - tapOn: ".*@.*|Enter your email|.*メール.*"
       - eraseText
       - inputText: "chad.deng+123@storehub.com"
-      - tapOn: "Enter your password"
+      - tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
       - eraseText
       - inputText: 12345678
       - tapOn:
-          text: "Sign In"
+          text: "Sign In|サインイン"
           index: 1
       - waitForAnimationToEnd
       - runFlow:
@@ -66,7 +66,7 @@ tags:
             - tapOn:
                 text: "auto_test"
                 index: 0
-            - tapOn: "Confirm"
+            - tapOn: "Confirm|確認"
 
 - waitForAnimationToEnd
 

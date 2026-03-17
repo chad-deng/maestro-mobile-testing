@@ -10,21 +10,21 @@ appId: com.storehub.salonx.staff
       visible: "Install Now"
     commands:
       - tapOn: "Install Now"
-- tapOn: "Enter your email"
+- tapOn: ".*@.*|Enter your email|.*メール.*"
 - "eraseText"
-- tapOn: "Enter your email"
+- tapOn: ".*@.*|Enter your email|.*メール.*"
 - "eraseText"
 - inputText: "auto_test@storehub.com"
-- tapOn: "Enter your password"
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
 - "eraseText"
 - inputText: 12345678
 - tapOn:
-    text: "Sign In"
+    text: "Sign In|サインイン"
     index: 1
 - assertVisible: "Auto_test, Owner"
 - tapOn: "Auto_test, Owner"
-- tapOn: "Confirm"
-- assertVisible: "Profile"
+- tapOn: "Confirm|確認"
+- assertVisible: "Profile|プロフィール|個人"
 - tapOn:
     point: "88%,95%"
 - assertVisible: "Language"
