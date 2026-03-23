@@ -36,9 +36,9 @@ appId: com.storehub.salonx.staff
 - tapOn: "ダッシュボード"
 - "scroll"
 - scrollUntilVisible:
-    element: "こんにちは、หวยยกสำนวน"
+    element: "こんにちは、auto_test"
     direction: "UP"
-- assertVisible: "こんにちは、หวยยกสำนวน"
+- assertVisible: "こんにちは、auto_test"
 - tapOn: "予約"
 - assertVisible: "スタッフ、顧客、メール、または電話番号で検索..."
 - runFlow: subflow/add_customer_booking.yaml

@@ -120,9 +120,9 @@ appId: com.storehub.salonx.staff.dev
       - tapOn: 完了.*
       - scrollUntilVisible:
           element:
-            text: こんにちは、中村 健
+            text: こんにちは、auto_test
           direction: "UP"
-      - assertVisible: "こんにちは、中村 健"
+      - assertVisible: "こんにちは、auto_test"
 
 # Appointments tab
 - tapOn:
