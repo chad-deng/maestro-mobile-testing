@@ -51,7 +51,7 @@ tags:
             - tapOn:
                 text: "auto_test"
                 index: 0
-            - tapOn: "Confirm|確認"
+            - tapOn: "Confirm|確認|确认|確定|确定"
             - waitForAnimationToEnd
 
 # Navigate to Leave Request section
@@ -143,7 +143,7 @@ tags:
       - tapOn:
           text: "auto_test"
           index: 1
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
       - waitForAnimationToEnd
 
 # Navigate to Leave Request section as User B

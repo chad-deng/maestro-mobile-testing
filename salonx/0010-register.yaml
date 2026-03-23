@@ -5,7 +5,7 @@ appId: com.storehub.salonx.dev
 - tapOn:
     point: "4%,4%"
 - tapOn: "Salon X Owner"
-- tapOn: "Confirm|確認"
+- tapOn: "Confirm|確認|确认|確定|确定"
 - tapOn:
     point: "4%,9%"
 - tapOn:

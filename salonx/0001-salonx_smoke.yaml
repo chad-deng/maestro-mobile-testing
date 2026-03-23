@@ -13,7 +13,7 @@ tags:
 - tapOn:
     point: "50%,56%"
 - tapOn: "Salon X Owner"
-- tapOn: "Confirm|確認"
+- tapOn: "Confirm|確認|确认|確定|确定"
 - tapOn:
     point: "4%,4%"
 - tapOn:

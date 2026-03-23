@@ -52,7 +52,7 @@ tags:
             - tapOn:
                 text: "auto_test"
                 index: 0
-            - tapOn: "Confirm|確認"
+            - tapOn: "Confirm|確認|确认|確定|确定"
 
 # Verify we're logged in (either already or after login)
 - runFlow:
@@ -90,9 +90,9 @@ tags:
 # Handle confirmation dialog if present
 - runFlow:
     when:
-      visible: "Confirm|確認"
+      visible: "Confirm|確認|确认|確定|确定"
     commands:
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
 
 - runFlow:
     when:
@@ -134,7 +134,7 @@ tags:
       - tapOn:
           text: "auto_test"
           index: 0
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
 
 # Verify successful re-login
 - assertVisible: "Profile|プロフィール|個人"

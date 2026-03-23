@@ -52,7 +52,7 @@ tags:
           text: "auto_test"
           index: 0
       # Confirm store selection
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
 
 # Verify successful login - Dashboard/Home screen elements
 - assertVisible: "Profile|プロフィール|個人"

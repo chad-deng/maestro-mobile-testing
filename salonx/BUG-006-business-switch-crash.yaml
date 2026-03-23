@@ -59,9 +59,9 @@ tags:
 
 - runFlow:
     when:
-      visible: "Confirm|確認"
+      visible: "Confirm|確認|确认|確定|确定"
     commands:
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
 
 - runFlow:
     when:
@@ -105,7 +105,7 @@ tags:
     index: 0
 
 # Step 5: Tap Confirm button
-- tapOn: "Confirm|確認"
+- tapOn: "Confirm|確認|确认|確定|确定"
 
 - waitForAnimationToEnd:
     timeout: 10000

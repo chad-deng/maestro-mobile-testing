@@ -14,7 +14,7 @@ appId: com.storehub.salonx.staff.dev
 #   • SalonX login screen         → "Enter your email"
 #   • SalonX home (already in)    → "Profile / プロフィール / 個人 / Dashboard / ダッシュボード"
 - extendedWaitUntil:
-    visible: 'Open Latest|Install Now|Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|店舗|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+    visible: 'Open Latest|Install Now|Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
     timeout: 30000
 - waitForAnimationToEnd
 
@@ -25,7 +25,7 @@ appId: com.storehub.salonx.staff.dev
     commands:
       - tapOn: "Open Latest"
       - extendedWaitUntil:
-          visible: 'Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|店舗|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+          visible: 'Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
           timeout: 20000
       - waitForAnimationToEnd
 
@@ -68,16 +68,16 @@ appId: com.storehub.salonx.staff.dev
           text: "Sign In|サインイン"
           index: 1
       - extendedWaitUntil:
-          visible: "Switch Store|Select Store|店舗|Profile|プロフィール|個人|Dashboard|ダッシュボード"
+          visible: "Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード"
           timeout: 15000
 
 # State 3: Store selection screen
 - runFlow:
     when:
-      visible: "Switch Store|Select Store|店舗"
+      visible: "Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*"
     commands:
       - tapOn: "auto_test"
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
       - extendedWaitUntil:
           visible: "Profile|プロフィール|個人|Dashboard|ダッシュボード"
           timeout: 15000
@@ -137,8 +137,8 @@ appId: com.storehub.salonx.staff.dev
 
 # Profile tab — switch language back to English and sign out
 - tapOn: "個人|プロフィール"
-- assertVisible: 言語設定, 日本語
-- tapOn: 言語設定, 日本語
+- assertVisible: "言語設定.*日本語"
+- tapOn: "言語設定.*日本語"
 - tapOn: English
 - assertVisible: Sign Out
 - tapOn: Sign Out

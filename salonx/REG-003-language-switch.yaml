@@ -29,12 +29,12 @@ tags:
 # Finish any leftover store picker before resetting to a known state
 - runFlow:
     when:
-      visible: "Switch Store|店舗.*|auto_test"
+      visible: "Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|auto_test"
     commands:
       - tapOn:
           text: "auto_test"
           index: 0
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
       - waitForAnimationToEnd
 
 # Reset to login if a previous test left the app signed in
@@ -50,9 +50,9 @@ tags:
 
 - runFlow:
     when:
-      visible: "Confirm|確認"
+      visible: "Confirm|確認|确认|確定|确定"
     commands:
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
 
 - runFlow:
     when:
@@ -89,12 +89,12 @@ tags:
 
 - runFlow:
     when:
-      visible: "Switch Store|店舗.*|auto_test|Confirm|確認"
+      visible: "Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|auto_test|Confirm|確認|确认|確定|确定"
     commands:
       - tapOn:
           text: "auto_test"
           index: 0
-      - tapOn: "Confirm|確認"
+      - tapOn: "Confirm|確認|确认|確定|确定"
       - waitForAnimationToEnd
 
 - assertVisible: "Dashboard|Appointments|Customers|Profile|ダッシュボード|予約|顧客|個人"

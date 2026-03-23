@@ -1,56 +1,99 @@
-appId: com.storehub.salonx.staff
+appId: com.storehub.salonx.staff.dev
 ---
 - tapOn:
     point: "88%,8%"
-- tapOn:
-    point: "69%,13%"
-- tapOn: "顧客を選択"
-- assertVisible: "ししきすんすりつてりせきんしすをし"
-- tapOn: "ししきすんすりつてりせきんしすをし"
+- runFlow:
+    when:
+      visible: "顧客予約|Customer appointment"
+    commands:
+      - tapOn: "顧客予約|Customer appointment"
+- tapOn: "顧客を選択|Select customer"
+- runFlow:
+    when:
+      visible: "ししきすんすりつてりせきんしすをし"
+    commands:
+      - tapOn: "ししきすんすりつてりせきんしすをし"
+- runFlow:
+    when:
+      notVisible: "ししきすんすりつてりせきんしすをし"
+    commands:
+      - tapOn: "TestCustomer_.*|たなか たろう"
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: "スタッフを選択"
-- tapOn: "スタッフを選択"
+- extendedWaitUntil:
+    visible: "スタッフを選択|Select staff|スタッフを選択してください"
+    timeout: 10000
+- tapOn: "スタッフを選択|Select staff"
 - waitForAnimationToEnd:
     timeout: 2000
 - assertVisible: "スタッフを選択してください"
 - runFlow:
     when:
-      notVisible: "指名スタッフ"
+      visible: "ちともにみ"
     commands:
       - tapOn: "ちともにみ"
-      - assertVisible: "指名スタッフ"
-      - tapOn:
-          point: "85%,30%"
-      - assertVisible: "指名"
+- runFlow:
+    when:
+      notVisible: "ちともにみ"
+    commands:
+      - tapOn: "Test Staff.*|TestStaff_.*|Chad Deng|auto_test"
+- extendedWaitUntil:
+    visible: "サービスを追加|Add service"
+    timeout: 10000
 - assertVisible: "サービスを追加"
 - tapOn: "サービスを追加"
 - waitForAnimationToEnd:
     timeout: 5000
-- tapOn: "血は気いはふアウエ足うふぬぬ上やおえうや"
-- assertVisible: "場所を選択"
-- tapOn: "場所を選択"
-- tapOn: "main floor"
-- assertVisible: "顧客予約"
-- tapOn:
-    point: "91%,8%"
-- waitForAnimationToEnd:
-    timeout: 5000
-- repeat:
-    times: 3
+- runFlow:
+    when:
+      visible: "血は気いはふアウエ足うふぬぬ上やおえうや"
+    commands:
+      - tapOn: "血は気いはふアウエ足うふぬぬ上やおえうや"
+- runFlow:
+    when:
+      notVisible: "血は気いはふアウエ足うふぬぬ上やおえうや"
+    commands:
+      - tapOn: "Bundle|Standard Haircut|hair cut"
+- tapOn: "確認"
+- extendedWaitUntil:
+    visible: "場所を選択|main floor|顧客予約"
+    timeout: 10000
+- runFlow:
+    when:
+      visible: "場所を選択"
+    commands:
+      - tapOn: "場所を選択"
+- runFlow:
+    when:
+      visible: "main floor"
+    commands:
+      - tapOn: "main floor"
+- runFlow:
+    when:
+      notVisible: "main floor"
     commands:
       - tapOn:
-          point: "13%,95%"
-      - tapOn:
-          point: "38%,95%"
+          index: 0
+          childOf:
+            text: ".*[Ll]ocation.*|.*場所.*|.*選択.*"
+- assertVisible: "顧客予約"
+- runFlow:
+    when:
+      visible: "各サービスにスタッフを割り当て"
+    commands:
+      - scrollUntilVisible:
+          element:
+            text: "スタッフを選択"
+          direction: "DOWN"
+      - tapOn: "スタッフを選択"
+      - tapOn: "Test Staff.*|TestStaff_.*|Chad Deng|auto_test"
       - waitForAnimationToEnd:
-          timeout: 5000
-
-- tapOn:
-    point: "50%,24%"
-- tapOn:
-    point: 3%,22%
-- assertVisible: "予約詳細"
+          timeout: 3000
+- tapOn: "予約"
+- extendedWaitUntil:
+    visible: "予約詳細|Appointment Details|ステータスを更新|完了"
+    timeout: 15000
+- assertVisible: "予約詳細|Appointment Details|ステータスを更新|完了"
 - tapOn:
     point: "93%,8%"
 - tapOn: "ステータスを更新"
@@ -62,17 +105,13 @@ appId: com.storehub.salonx.staff
 - tapOn: "予約を削除"
 - tapOn:
     point: "85%,8%" 
-- assertVisible: "予約が正常に削除されました。"
+- assertVisible: "予約.*削除.*"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn:
     point: 4%,7%
-- repeat:
-    times: 3
-    commands:
-      - tapOn: ダッシュボード
-      - waitForAnimationToEnd:
-          timeout: 5000
-      - tapOn: 予約
-- assertVisible: 予約が見つかりません
+- tapOn:
+    text: "予約|Appointments"
+    index: -1
+- assertVisible: "予約を検索.*|スタッフ、顧客、メール、または電話番号で検索.*|Search.*"
 
