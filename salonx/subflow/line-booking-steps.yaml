@@ -1,0 +1,89 @@
+appId: jp.naver.line.android
+tags:
+  - line
+  - subflow
+---
+# Step 1: Store selection
+- runFlow:
+    when:
+      visible: ".*[Ss]tore.*|.*店舗.*|.*[Ll]ocation.*|.*場所.*"
+    commands:
+      - tapOn:
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 3000
+
+# Step 2: Service selection
+- runFlow:
+    when:
+      visible: ".*[Ss]ervice.*|.*サービス.*|.*[Cc]ategory.*"
+    commands:
+      - tapOn:
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 3000
+
+# Step 3: Stylist selection
+- runFlow:
+    when:
+      visible: ".*[Ss]taff.*|.*スタッフ.*|.*[Ss]tylist.*|.*Any.*|.*指定なし.*"
+    commands:
+      - tapOn:
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 3000
+
+# Step 4: Date selection — tap first available date
+- runFlow:
+    when:
+      visible: ".*[Dd]ate.*|.*日付.*|.*[Cc]alendar.*|.*カレンダー.*"
+    commands:
+      - tapOn:
+          index: 1
+      - waitForAnimationToEnd:
+          timeout: 2000
+
+# Step 4b: Time slot selection — tap first available time
+- runFlow:
+    when:
+      visible: ".*[Tt]ime.*|.*時間.*|.*[0-9]+:[0-9]+.*"
+    commands:
+      - tapOn:
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 2000
+
+# Step 5: Customer info — name
+- runFlow:
+    when:
+      visible: ".*[Nn]ame.*|.*名前.*|.*お名前.*"
+    commands:
+      - tapOn: ".*[Nn]ame.*|.*名前.*|.*お名前.*"
+      - inputText: "Test Customer"
+      - waitForAnimationToEnd:
+          timeout: 1000
+
+# Step 5b: Customer info — phone
+- runFlow:
+    when:
+      visible: ".*[Pp]hone.*|.*電話.*|.*TEL.*|.*携帯.*"
+    commands:
+      - tapOn: ".*[Pp]hone.*|.*電話.*|.*TEL.*|.*携帯.*"
+      - inputText: "09012345678"
+      - waitForAnimationToEnd:
+          timeout: 1000
+
+# Step 5c: Customer info — email
+- runFlow:
+    when:
+      visible: ".*[Ee]mail.*|.*メール.*|.*@.*"
+    commands:
+      - tapOn: ".*[Ee]mail.*|.*メール.*|.*@.*"
+      - inputText: "test.customer@example.com"
+      - waitForAnimationToEnd:
+          timeout: 1000
+
+# Step 6: Confirm/Submit booking
+- tapOn: "Book|予約|Confirm|確認|Submit|送信|Next|次へ"
+- waitForAnimationToEnd:
+    timeout: 5000
