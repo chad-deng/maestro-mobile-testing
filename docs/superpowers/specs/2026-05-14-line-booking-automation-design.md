@@ -17,7 +17,7 @@ Automate the end-to-end salon booking flow through a LINE Mini App (LIFF) using 
 
 Launch the LIFF app directly via deep link URL instead of navigating through LINE chat UI. This avoids fragile chat UI selectors (message timestamps, notification badges, chat ordering).
 
-**Deep link format:** `line://app/{liff-id}` or `https://liff.line.me/{liff-id}` — exact URL TBD during implementation.
+**Deep link format:** `https://liff.line.me/{liff-id}` — user will provide the exact LIFF URL during implementation. Deep link confirmed viable (user has the URL). Fallback to chat navigation if LINE blocks external URL launches.
 
 ## File Structure
 
@@ -101,6 +101,6 @@ tags:
 
 ## Open Items (Resolved During Implementation)
 
-1. **LIFF deep link URL** — exact URL format to be provided by user
+1. **LIFF deep link URL** — user confirmed they can provide the URL; exact value TBD
 2. **Selector calibration** — all selectors need validation against real LIFF UI
 3. **Test data** — specific store name, service type, stylist name for happy path
