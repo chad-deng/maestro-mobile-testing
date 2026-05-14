@@ -1,0 +1,20 @@
+appId: jp.naver.line.android
+tags:
+  - line
+  - subflow
+---
+- launchApp:
+    appId: "jp.naver.line.android"
+    clearState: false
+    stopApp: true
+    permissions:
+      all: "allow"
+- extendedWaitUntil:
+    visible: "LINE"
+    timeout: 15000
+- openLink: "https://liff.line.me/REPLACE_WITH_LIFF_ID"
+- extendedWaitUntil:
+    visible: ".*[Bb]ook.*|.*予約.*|.*[Ss]tore.*|.*店舗.*|.*[Ss]ervice.*|.*サービス.*"
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 5000
