@@ -12,7 +12,7 @@ tags:
 - extendedWaitUntil:
     visible: "LINE"
     timeout: 15000
-- openLink: "https://liff.line.me/REPLACE_WITH_LIFF_ID"
+- openLink: "https://liff.line.me/2007999586-3BRrPMpQ/booking/01KB546VWPFMKTT7VZJ5HC98DG/services?source=line"
 - extendedWaitUntil:
     visible: ".*[Bb]ook.*|.*予約.*|.*[Ss]tore.*|.*店舗.*|.*[Ss]ervice.*|.*サービス.*"
     timeout: 30000
