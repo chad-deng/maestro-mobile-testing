@@ -3,77 +3,79 @@ tags:
   - line
   - subflow
 ---
-# Step 1: Store selection
-- runFlow:
-    when:
-      visible: ".*[Ss]tore.*|.*店舗.*|.*[Ll]ocation.*|.*場所.*"
-    commands:
-      - tapOn:
-          index: 0
-      - waitForAnimationToEnd:
-          timeout: 3000
+# Step 1: メニュー選択 — tap a service item
+- tapOn:
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 2000
 
-# Step 2: Service selection
-- runFlow:
-    when:
-      visible: ".*[Ss]ervice.*|.*サービス.*|.*[Cc]ategory.*"
-    commands:
-      - tapOn:
-          index: 0
-      - waitForAnimationToEnd:
-          timeout: 3000
+# Step 1b: tap 続ける (Continue) to proceed
+- tapOn: "続ける|Continue|次へ"
+- waitForAnimationToEnd:
+    timeout: 3000
 
-# Step 3: Stylist selection
+# Step 2: 日時指名 — date/time/staff selection
+# Select first available staff or "any"
 - runFlow:
     when:
-      visible: ".*[Ss]taff.*|.*スタッフ.*|.*[Ss]tylist.*|.*Any.*|.*指定なし.*"
-    commands:
-      - tapOn:
-          index: 0
-      - waitForAnimationToEnd:
-          timeout: 3000
-
-# Step 4: Date selection — tap first available date
-- runFlow:
-    when:
-      visible: ".*[Dd]ate.*|.*日付.*|.*[Cc]alendar.*|.*カレンダー.*"
-    commands:
-      - tapOn:
-          index: 1
-      - waitForAnimationToEnd:
-          timeout: 2000
-
-# Step 4b: Time slot selection — tap first available time
-- runFlow:
-    when:
-      visible: ".*[Tt]ime.*|.*時間.*|.*[0-9]+:[0-9]+.*"
+      visible: ".*[Ss]taff.*|.*スタッフ.*|.*[Ss]tylist.*|.*指名.*|.*指定なし.*"
     commands:
       - tapOn:
           index: 0
       - waitForAnimationToEnd:
           timeout: 2000
 
-# Step 5: Customer info — name
+# Select first available date
 - runFlow:
     when:
-      visible: ".*[Nn]ame.*|.*名前.*|.*お名前.*"
+      visible: ".*[0-9]+月.*|.*[Jj]an.*|.*[Ff]eb.*|.*[Mm]ar.*|.*[Aa]pr.*|.*[Mm]ay.*|.*[Jj]un.*|.*[Jj]ul.*|.*[Aa]ug.*|.*[Ss]ep.*|.*[Oo]ct.*|.*[Nn]ov.*|.*[Dd]ec.*"
     commands:
-      - tapOn: ".*[Nn]ame.*|.*名前.*|.*お名前.*"
+      - tapOn:
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 2000
+
+# Select first available time slot
+- runFlow:
+    when:
+      visible: ".*[0-9]+:[0-9]+.*"
+    commands:
+      - tapOn:
+          index: 0
+      - waitForAnimationToEnd:
+          timeout: 2000
+
+# Proceed to next step after date/time
+- runFlow:
+    when:
+      visible: "続ける|Continue|次へ"
+    commands:
+      - tapOn: "続ける|Continue|次へ"
+      - waitForAnimationToEnd:
+          timeout: 3000
+
+# Step 3: 情報入力 — customer info
+# Name
+- runFlow:
+    when:
+      visible: ".*[Nn]ame.*|.*名前.*|.*お名前.*|.*氏名.*"
+    commands:
+      - tapOn: ".*[Nn]ame.*|.*名前.*|.*お名前.*|.*氏名.*"
       - inputText: "Test Customer"
       - waitForAnimationToEnd:
           timeout: 1000
 
-# Step 5b: Customer info — phone
+# Phone
 - runFlow:
     when:
-      visible: ".*[Pp]hone.*|.*電話.*|.*TEL.*|.*携帯.*"
+      visible: ".*[Pp]hone.*|.*電話.*|.*TEL.*|.*携帯.*|.*番号.*"
     commands:
-      - tapOn: ".*[Pp]hone.*|.*電話.*|.*TEL.*|.*携帯.*"
+      - tapOn: ".*[Pp]hone.*|.*電話.*|.*TEL.*|.*携帯.*|.*番号.*"
       - inputText: "09012345678"
       - waitForAnimationToEnd:
           timeout: 1000
 
-# Step 5c: Customer info — email
+# Email
 - runFlow:
     when:
       visible: ".*[Ee]mail.*|.*メール.*|.*@.*"
@@ -83,7 +85,16 @@ tags:
       - waitForAnimationToEnd:
           timeout: 1000
 
-# Step 6: Confirm/Submit booking
-- tapOn: "Book|予約|Confirm|確認|Submit|送信|Next|次へ"
+# Proceed to confirmation
+- runFlow:
+    when:
+      visible: "続ける|Continue|次へ|予約確認|確認"
+    commands:
+      - tapOn: "続ける|Continue|次へ|予約確認|確認"
+      - waitForAnimationToEnd:
+          timeout: 3000
+
+# Step 4: 予約確認 — final booking confirmation
+- tapOn: "予約する|Book|Confirm|確認|Submit|送信"
 - waitForAnimationToEnd:
     timeout: 5000
