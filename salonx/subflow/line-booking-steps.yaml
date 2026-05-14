@@ -3,38 +3,35 @@ tags:
   - line
   - subflow
 ---
-# Step 1: メニュー選択 — tap a service item
+# Step 1: メニュー選択 — select a service
 - takeScreenshot: "step1-menu"
 - tapOn:
     index: 0
 - waitForAnimationToEnd:
     timeout: 2000
-
-# Step 1b: tap 続ける (Continue) — use point to avoid matching step indicators
-- tapOn:
-    point: "50%,95%"
+- tapOn: "続ける"
 - waitForAnimationToEnd:
     timeout: 3000
 
-# Step 2: 日時指名 — date/time/staff selection
+# Step 2: 日時指名 — select date, time, and staff
 - takeScreenshot: "step2-datetime"
-# Select first available staff or "any"
+# Select first available staff or "no preference"
 - runFlow:
     when:
-      visible: ".*[Ss]taff.*|.*スタッフ.*|.*[Ss]tylist.*|.*指名.*|.*指定なし.*"
+      visible: ".*指名.*|.*[Ss]taff.*|.*スタッフ.*|.*[Ss]tylist.*"
     commands:
       - tapOn:
           index: 0
       - waitForAnimationToEnd:
           timeout: 2000
 
-# Select first available date
+# Select a date — look for day numbers with weekday labels like "14 (木)"
 - runFlow:
     when:
-      visible: ".*[0-9]+月.*|.*[Jj]an.*|.*[Ff]eb.*|.*[Mm]ar.*|.*[Aa]pr.*|.*[Mm]ay.*|.*[Jj]un.*|.*[Jj]ul.*|.*[Aa]ug.*|.*[Ss]ep.*|.*[Oo]ct.*|.*[Nn]ov.*|.*[Dd]ec.*"
+      visible: ".*\\([月火水木金土日]\\)"
     commands:
       - tapOn:
-          index: 0
+          index: 1
       - waitForAnimationToEnd:
           timeout: 2000
 
@@ -48,59 +45,40 @@ tags:
       - waitForAnimationToEnd:
           timeout: 2000
 
-# Proceed to step 3 — use point to avoid matching step indicators
-- tapOn:
-    point: "50%,95%"
+# Continue to step 3
+- tapOn: "続ける"
 - waitForAnimationToEnd:
-    timeout: 3000
+    timeout: 5000
 
-# Step 3: 情報入力 — customer info
+# Step 3: 情報入力 — fill customer info
 - takeScreenshot: "step3-info"
-# Name — broad match including placeholder text in input fields
-- runFlow:
-    when:
-      visible: ".*名.*|.*[Nn]ame.*"
-    commands:
-      - tapOn:
-          index: 0
-      - eraseText
-      - inputText: "Test Customer"
-      - waitForAnimationToEnd:
-          timeout: 1000
-
-# Phone
-- runFlow:
-    when:
-      visible: ".*電話.*|.*[Pp]hone.*|.*TEL.*|.*番号.*"
-    commands:
-      - tapOn:
-          index: 0
-      - eraseText
-      - inputText: "09012345678"
-      - waitForAnimationToEnd:
-          timeout: 1000
-
-# Email
-- runFlow:
-    when:
-      visible: ".*メール.*|.*[Ee]mail.*|.*@.*"
-    commands:
-      - tapOn:
-          index: 0
-      - eraseText
-      - inputText: "test.customer@example.com"
-      - waitForAnimationToEnd:
-          timeout: 1000
-
-# Proceed to step 4 — use point to avoid matching step indicators
+# Fill all input fields by index (they're form fields in order)
 - tapOn:
-    point: "50%,95%"
+    index: 0
+- eraseText
+- inputText: "Test Customer"
 - waitForAnimationToEnd:
-    timeout: 3000
-
-# Step 4: 予約確認 — final booking confirmation
-- takeScreenshot: "step4-confirm"
+    timeout: 1000
 - tapOn:
-    point: "50%,95%"
+    index: 1
+- eraseText
+- inputText: "09012345678"
+- waitForAnimationToEnd:
+    timeout: 1000
+- tapOn:
+    index: 2
+- eraseText
+- inputText: "test.customer@example.com"
+- waitForAnimationToEnd:
+    timeout: 1000
+
+# Continue to step 4
+- tapOn: "続ける"
+- waitForAnimationToEnd:
+    timeout: 5000
+
+# Step 4: 予約確認 — review and confirm
+- takeScreenshot: "step4-confirm"
+- tapOn: "予約する|確定する|予約を確定|Book|Confirm"
 - waitForAnimationToEnd:
     timeout: 5000
