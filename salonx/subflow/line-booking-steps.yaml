@@ -3,29 +3,27 @@ tags:
   - line
   - subflow
 ---
-# Step 1: メニュー選択 — select a service
-- takeScreenshot: "step1-menu"
+# Step 1: メニュー選択 — select first service
 - tapOn:
     index: 0
 - waitForAnimationToEnd:
     timeout: 2000
 - tapOn: "続ける"
 - waitForAnimationToEnd:
-    timeout: 3000
+    timeout: 5000
 
-# Step 2: 日時指名 — select date, time, and staff
-- takeScreenshot: "step2-datetime"
-# Select first available staff or "no preference"
+# Step 2: 日時指名 — select staff, date, and time
+# Select first available staff
 - runFlow:
     when:
-      visible: ".*指名.*|.*[Ss]taff.*|.*スタッフ.*|.*[Ss]tylist.*"
+      visible: ".*指名.*|.*[Ss]taff.*|.*スタッフ.*"
     commands:
       - tapOn:
           index: 0
       - waitForAnimationToEnd:
           timeout: 2000
 
-# Select a date — look for day numbers with weekday labels like "14 (木)"
+# Select tomorrow's date (index 1 of weekday pattern like "15 (金)")
 - runFlow:
     when:
       visible: ".*\\([月火水木金土日]\\)"
@@ -33,38 +31,48 @@ tags:
       - tapOn:
           index: 1
       - waitForAnimationToEnd:
-          timeout: 2000
+          timeout: 3000
+
+# Scroll down to find available time slots (off-screen early morning slots)
+- scrollUntilVisible:
+    element:
+      text: "05:00"
+    direction: "DOWN"
+- waitForAnimationToEnd:
+    timeout: 2000
 
 # Select first available time slot
-- runFlow:
-    when:
-      visible: ".*[0-9]+:[0-9]+.*"
-    commands:
-      - tapOn:
-          index: 0
-      - waitForAnimationToEnd:
-          timeout: 2000
+- tapOn: "05:00"
+- waitForAnimationToEnd:
+    timeout: 3000
 
-# Continue to step 3
+# Scroll down to find the 続ける button
+- scrollUntilVisible:
+    element:
+      text: "続ける"
+    direction: "DOWN"
 - tapOn: "続ける"
 - waitForAnimationToEnd:
     timeout: 5000
 
-# Step 3: 情報入力 — fill customer info
-- takeScreenshot: "step3-info"
-# Fill all input fields by index (they're form fields in order)
+# Step 3: 情報入力 — customer info
+# Fill name field (first input)
 - tapOn:
     index: 0
 - eraseText
 - inputText: "Test Customer"
 - waitForAnimationToEnd:
     timeout: 1000
+
+# Fill phone field (second input)
 - tapOn:
     index: 1
 - eraseText
 - inputText: "09012345678"
 - waitForAnimationToEnd:
     timeout: 1000
+
+# Fill email field (third input)
 - tapOn:
     index: 2
 - eraseText
@@ -72,13 +80,21 @@ tags:
 - waitForAnimationToEnd:
     timeout: 1000
 
-# Continue to step 4
+# Scroll to bottom and tap continue
+- scrollUntilVisible:
+    element:
+      text: "続ける"
+    direction: "DOWN"
 - tapOn: "続ける"
 - waitForAnimationToEnd:
     timeout: 5000
 
-# Step 4: 予約確認 — review and confirm
+# Step 4: 予約確認 — final booking confirmation
 - takeScreenshot: "step4-confirm"
-- tapOn: "予約する|確定する|予約を確定|Book|Confirm"
+- scrollUntilVisible:
+    element:
+      text: "予約する|確定する|予約を確定"
+    direction: "DOWN"
+- tapOn: "予約する|確定する|予約を確定"
 - waitForAnimationToEnd:
     timeout: 5000
