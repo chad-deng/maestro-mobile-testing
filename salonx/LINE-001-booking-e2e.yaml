@@ -1,0 +1,23 @@
+appId: jp.naver.line.android
+tags:
+  - line
+  - booking
+  - e2e
+  - P0
+---
+# Launch LINE and open LIFF app via deep link
+- runFlow: subflow/line-open-liff.yaml
+
+# Complete booking steps
+- runFlow: subflow/line-booking-steps.yaml
+
+# Verify booking success
+- extendedWaitUntil:
+    visible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*[Bb]ooking.*[Dd]etail.*|.*予約詳細.*|.*[Tt]hank.*"
+    timeout: 20000
+
+# Capture evidence
+- takeScreenshot: "LINE-booking-success"
+
+# Final assertion — at least one success indicator must be visible
+- assertVisible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*[Bb]ooking.*[Dd]etail.*|.*予約詳細.*|.*[Tt]hank.*"
