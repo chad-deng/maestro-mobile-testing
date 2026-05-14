@@ -9,8 +9,13 @@ tags:
     stopApp: true
     permissions:
       all: "allow"
+- runFlow:
+    when:
+      visible: "許可|Allow"
+    commands:
+      - tapOn: "許可|Allow"
 - extendedWaitUntil:
-    visible: "LINE"
+    visible: ".*ホーム.*|.*Home.*|.*トーク.*|.*Talk.*|LINE"
     timeout: 15000
 - openLink: "https://liff.line.me/2007999586-3BRrPMpQ/booking/01KB546VWPFMKTT7VZJ5HC98DG/services?source=line"
 - extendedWaitUntil:
