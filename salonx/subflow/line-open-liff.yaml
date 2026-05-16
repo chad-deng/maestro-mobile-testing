@@ -9,6 +9,9 @@ tags:
     stopApp: true
     permissions:
       all: "allow"
+- back
+- waitForAnimationToEnd:
+    timeout: 1000
 - runFlow:
     when:
       visible: "許可|Allow"
@@ -17,8 +20,20 @@ tags:
 - waitForAnimationToEnd:
     timeout: 3000
 - openLink: "https://liff.line.me/2007999586-3BRrPMpQ/booking/01KB546VWPFMKTT7VZJ5HC98DG/services?source=line"
-- extendedWaitUntil:
-    visible: ".*[Bb]ook.*|.*予約.*|.*[Ss]tore.*|.*店舗.*|.*[Ss]ervice.*|.*サービス.*"
-    timeout: 30000
+# Give LIFF a moment to start bootstrapping
 - waitForAnimationToEnd:
     timeout: 5000
+# ANR often appears during LIFF load — check and dismiss to let LINE recover
+- runFlow:
+    when:
+      visible: "応答していません|応答がありません|Not responding"
+    commands:
+      - tapOn: "待機|Wait"
+      - waitForAnimationToEnd:
+          timeout: 8000
+# Wait for any recognizable LIFF page content (Step 1–4 depending on cached state)
+- extendedWaitUntil:
+    visible: "続ける|この内容で予約する|予約内容をご確認|フリガナ|ご希望の日時"
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 3000

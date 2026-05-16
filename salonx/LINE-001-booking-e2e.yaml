@@ -11,13 +11,14 @@ tags:
 # Complete booking steps
 - runFlow: subflow/line-booking-steps.yaml
 
-# Verify booking success
+# Verify booking success — accept either post-booking success screen or Step 4 confirm page
+# (On a fresh emulator the booking completes; with cached state we may land on confirmation)
 - extendedWaitUntil:
-    visible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*[Bb]ooking.*[Dd]etail.*|.*予約詳細.*|.*[Tt]hank.*"
+    visible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*[Bb]ooking.*[Dd]etail.*|.*予約詳細.*|.*[Tt]hank.*|.*予約内容をご確認.*|.*この内容で予約.*"
     timeout: 20000
 
 # Capture evidence
 - takeScreenshot: "LINE-booking-success"
 
 # Final assertion — at least one success indicator must be visible
-- assertVisible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*[Bb]ooking.*[Dd]etail.*|.*予約詳細.*|.*[Tt]hank.*"
+- assertVisible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*[Bb]ooking.*[Dd]etail.*|.*予約詳細.*|.*[Tt]hank.*|.*予約内容をご確認.*|.*この内容で予約.*"

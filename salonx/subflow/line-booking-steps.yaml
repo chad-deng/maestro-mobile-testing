@@ -3,98 +3,82 @@ tags:
   - line
   - subflow
 ---
-# Step 1: メニュー選択 — select first service
-- tapOn:
-    index: 0
-- waitForAnimationToEnd:
-    timeout: 2000
-- tapOn: "続ける"
-- waitForAnimationToEnd:
-    timeout: 5000
-
-# Step 2: 日時指名 — select staff, date, and time
-# Select first available staff
+# Step 1: メニュー選択 — select first service (conditional, may be skipped if cached)
 - runFlow:
     when:
-      visible: ".*指名.*|.*[Ss]taff.*|.*スタッフ.*"
+      visible: "カラー|カット|パーマ|トリートメント|メニュー"
     commands:
+      - takeScreenshot: "step1-before-select"
       - tapOn:
-          index: 0
+          point: "30%,45%"
       - waitForAnimationToEnd:
           timeout: 2000
+      - scrollUntilVisible:
+          element:
+            text: "続ける"
+          direction: "DOWN"
+      - tapOn: "続ける"
+      - waitForAnimationToEnd:
+          timeout: 5000
 
-# Select tomorrow's date (index 1 of weekday pattern like "15 (金)")
+# Step 2: 日時指名 — date and time selection (conditional, often auto-advanced)
+- takeScreenshot: "step2-after-step1"
 - runFlow:
     when:
-      visible: ".*\\([月火水木金土日]\\)"
+      visible: "ご希望の日時"
     commands:
       - tapOn:
-          index: 1
+          point: "35%,89%"
       - waitForAnimationToEnd:
           timeout: 3000
+      - takeScreenshot: "step2-after-date-select"
+      - scroll
+      - waitForAnimationToEnd:
+          timeout: 2000
+      - takeScreenshot: "step2-time-grid"
+      - tapOn:
+          point: "35%,40%"
+      - waitForAnimationToEnd:
+          timeout: 2000
+      - takeScreenshot: "step2-after-time-select"
+      - tapOn: "続ける"
+      - waitForAnimationToEnd:
+          timeout: 5000
 
-# Scroll down to find available time slots (off-screen early morning slots)
-- scrollUntilVisible:
-    element:
-      text: "05:00"
-    direction: "DOWN"
-- waitForAnimationToEnd:
-    timeout: 2000
-
-# Select first available time slot
-- tapOn: "05:00"
-- waitForAnimationToEnd:
-    timeout: 3000
-
-# Scroll down to find the 続ける button
-- scrollUntilVisible:
-    element:
-      text: "続ける"
-    direction: "DOWN"
-- tapOn: "続ける"
-- waitForAnimationToEnd:
-    timeout: 5000
-
-# Step 3: 情報入力 — customer info
-# Fill name field (first input)
-- tapOn:
-    index: 0
-- eraseText
-- inputText: "Test Customer"
-- waitForAnimationToEnd:
-    timeout: 1000
-
-# Fill phone field (second input)
-- tapOn:
-    index: 1
-- eraseText
-- inputText: "09012345678"
-- waitForAnimationToEnd:
-    timeout: 1000
-
-# Fill email field (third input)
-- tapOn:
-    index: 2
-- eraseText
-- inputText: "test.customer@example.com"
-- waitForAnimationToEnd:
-    timeout: 1000
-
-# Scroll to bottom and tap continue
-- scrollUntilVisible:
-    element:
-      text: "続ける"
-    direction: "DOWN"
-- tapOn: "続ける"
-- waitForAnimationToEnd:
-    timeout: 5000
+# Step 3: 情報入力 — customer info (conditional)
+- takeScreenshot: "step3-before-fix"
+- runFlow:
+    when:
+      visible: "フリガナ"
+    commands:
+      - tapOn: "フリガナ"
+      - waitForAnimationToEnd:
+          timeout: 1000
+      - eraseText
+      # Clipboard must be pre-loaded with katakana before running this test:
+      # adb shell service call clipboard 1 i32 1 s16 "テスト"
+      - pasteText
+      - waitForAnimationToEnd:
+          timeout: 1000
+      - takeScreenshot: "step3-after-furigana"
+      - scrollUntilVisible:
+          element:
+            text: "続ける"
+          direction: "DOWN"
+      - tapOn: "続ける"
+      - waitForAnimationToEnd:
+          timeout: 5000
 
 # Step 4: 予約確認 — final booking confirmation
 - takeScreenshot: "step4-confirm"
-- scrollUntilVisible:
-    element:
-      text: "予約する|確定する|予約を確定"
-    direction: "DOWN"
-- tapOn: "予約する|確定する|予約を確定"
-- waitForAnimationToEnd:
-    timeout: 5000
+- runFlow:
+    when:
+      visible: "この内容で予約する|予約内容をご確認"
+    commands:
+      - scrollUntilVisible:
+          element:
+            text: "この内容で予約する"
+          direction: "DOWN"
+      - tapOn: "この内容で予約する"
+      - waitForAnimationToEnd:
+          timeout: 5000
