@@ -19,7 +19,7 @@ tags:
       - tapOn: "許可|Allow"
 - waitForAnimationToEnd:
     timeout: 3000
-- openLink: "https://liff.line.me/2007999586-3BRrPMpQ/booking/01KB546VWPFMKTT7VZJ5HC98DG/services?source=line"
+- openLink: "https://liff.line.me/2007999586-3BRrPMpQ/booking/01KB546VWPFMKTT7VZJ5HC98DG?source=line"
 # Give LIFF a moment to start bootstrapping
 - waitForAnimationToEnd:
     timeout: 5000
@@ -33,7 +33,7 @@ tags:
           timeout: 8000
 # Wait for any recognizable LIFF page content (Step 1–4 depending on cached state)
 - extendedWaitUntil:
-    visible: "続ける|この内容で予約する|予約内容をご確認|フリガナ|ご希望の日時"
+    visible: "続ける|この内容で予約する|予約内容をご確認|フリガナ|ご希望の日時|メニューを選択|選択してください|お客様情報"
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 3000

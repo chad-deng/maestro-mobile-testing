@@ -3,14 +3,28 @@ tags:
   - line
   - subflow
 ---
-# Step 1: メニュー選択 — select first service (conditional, may be skipped if cached)
+# Step 0: 店舗情報 — store info page (conditional, appears on fresh LIFF load)
 - runFlow:
     when:
-      visible: "カラー|カット|パーマ|トリートメント|メニュー"
+      visible: "店舗情報|カレンダー"
+    commands:
+      - scrollUntilVisible:
+          element:
+            text: "続ける"
+          direction: "DOWN"
+      - tapOn: "続ける"
+      - waitForAnimationToEnd:
+          timeout: 5000
+
+# Step 1: メニュー選択 — select service (conditional, may be skipped if cached)
+- runFlow:
+    when:
+      visible: "メニューを選択してください|選択してください"
     commands:
       - takeScreenshot: "step1-before-select"
+      # Tap on the service text label area — WebView checkboxes only respond to text taps, not checkbox icon taps
       - tapOn:
-          point: "30%,45%"
+          point: "54%,74%"
       - waitForAnimationToEnd:
           timeout: 2000
       - scrollUntilVisible:
@@ -21,25 +35,36 @@ tags:
       - waitForAnimationToEnd:
           timeout: 5000
 
-# Step 2: 日時指名 — date and time selection (conditional, often auto-advanced)
-- takeScreenshot: "step2-after-step1"
+# Step 2a: スタッフ選択 — staff selection (conditional, select default 指名なし)
 - runFlow:
     when:
-      visible: "ご希望の日時"
+      visible: "スタッフを選択|スタッフを割り当て"
     commands:
-      - tapOn:
-          point: "35%,89%"
+      - scrollUntilVisible:
+          element:
+            text: "続ける"
+          direction: "DOWN"
+      - tapOn: "続ける"
       - waitForAnimationToEnd:
-          timeout: 3000
-      - takeScreenshot: "step2-after-date-select"
+          timeout: 5000
+
+# Step 2b: 日時選択 — date and time selection (conditional)
+- runFlow:
+    when:
+      visible: "日時を選択してください|ご希望の日時"
+    commands:
+      - takeScreenshot: "step2-datetime"
+      # Scroll down to reveal the time slot grid
       - scroll
       - waitForAnimationToEnd:
           timeout: 2000
-      - takeScreenshot: "step2-time-grid"
-      - tapOn:
-          point: "35%,40%"
+      - scroll
       - waitForAnimationToEnd:
           timeout: 2000
+      # Select a time slot using text-based tap (WebView grid cells only respond to text taps)
+      - tapOn: "13:00"
+      - waitForAnimationToEnd:
+          timeout: 3000
       - takeScreenshot: "step2-after-time-select"
       - tapOn: "続ける"
       - waitForAnimationToEnd:
@@ -79,6 +104,8 @@ tags:
           element:
             text: "この内容で予約する"
           direction: "DOWN"
-      - tapOn: "この内容で予約する"
+      # Use point-based tap on upper portion of button — WebView button center doesn't respond to taps
+      - tapOn:
+          point: "50%,94%"
       - waitForAnimationToEnd:
           timeout: 5000
