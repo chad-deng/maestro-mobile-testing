@@ -22,9 +22,25 @@ tags:
       visible: "メニューを選択してください|選択してください"
     commands:
       - takeScreenshot: "step1-before-select"
-      # Tap on the service text label area — WebView checkboxes only respond to text taps, not checkbox icon taps
-      - tapOn:
-          point: "54%,74%"
+      # Bundle 2 is not bookable in UAT; use the single service that passed availability.
+      - scroll
+      - waitForAnimationToEnd:
+          timeout: 1000
+      - runFlow:
+          when:
+            notVisible: "選択済み"
+          commands:
+            # Text taps do not reliably toggle this WebView checkbox.
+            - tapOn:
+                point: "50%,39%"
+      - waitForAnimationToEnd:
+          timeout: 1000
+      - runFlow:
+          when:
+            notVisible: "選択済み"
+          commands:
+            - tapOn:
+                point: "50%,87%"
       - waitForAnimationToEnd:
           timeout: 2000
       - scrollUntilVisible:
@@ -38,8 +54,12 @@ tags:
 # Step 2a: スタッフ選択 — staff selection (conditional, select default 指名なし)
 - runFlow:
     when:
-      visible: "スタッフを選択|スタッフを割り当て"
+      visible: ".*スタッフ.*選択.*|.*スタッフ.*割り当て.*|指名なし"
     commands:
+      - takeScreenshot: "step2-staff"
+      - tapOn: "指名なし"
+      - waitForAnimationToEnd:
+          timeout: 2000
       - scrollUntilVisible:
           element:
             text: "続ける"
@@ -51,7 +71,7 @@ tags:
 # Step 2b: 日時選択 — date and time selection (conditional)
 - runFlow:
     when:
-      visible: "日時を選択してください|ご希望の日時"
+      visible: ".*日時を選択してください.*|.*ご希望の日時.*"
     commands:
       - takeScreenshot: "step2-datetime"
       # Scroll down to reveal the time slot grid
@@ -61,8 +81,10 @@ tags:
       - scroll
       - waitForAnimationToEnd:
           timeout: 2000
-      # Select a time slot using text-based tap (WebView grid cells only respond to text taps)
-      - tapOn: "13:00"
+      # Select first available slot in the next-day column. Time labels are row headers,
+      # so tap the available circle cell rather than a hard-coded time string.
+      - tapOn:
+          point: "36%,32%"
       - waitForAnimationToEnd:
           timeout: 3000
       - takeScreenshot: "step2-after-time-select"
@@ -74,15 +96,15 @@ tags:
 - takeScreenshot: "step3-before-fix"
 - runFlow:
     when:
-      visible: "フリガナ"
+      visible: ".*お客様情報を入力してください.*|.*この予約はどなたの予約ですか.*|フリガナ"
     commands:
-      - tapOn: "フリガナ"
+      - tapOn:
+          point: "50%,77%"
       - waitForAnimationToEnd:
           timeout: 1000
+      # Furigana is optional; clear stale invalid cached text instead of relying
+      # on Japanese clipboard/IME delivery inside LINE WebView.
       - eraseText
-      # Clipboard must be pre-loaded with katakana before running this test:
-      # adb shell service call clipboard 1 i32 1 s16 "テスト"
-      - pasteText
       - waitForAnimationToEnd:
           timeout: 1000
       - takeScreenshot: "step3-after-furigana"
@@ -98,14 +120,15 @@ tags:
 - takeScreenshot: "step4-confirm"
 - runFlow:
     when:
-      visible: "この内容で予約する|予約内容をご確認"
+      visible: ".*予約内容.*確認.*|.*この内容で予約する.*"
     commands:
       - scrollUntilVisible:
           element:
             text: "この内容で予約する"
           direction: "DOWN"
-      # Use point-based tap on upper portion of button — WebView button center doesn't respond to taps
+      # WebView button hit-testing is inconsistent; calibrated against the
+      # fixed footer button, where 95% y triggers the submit action.
       - tapOn:
-          point: "50%,94%"
+          point: "50%,95%"
       - waitForAnimationToEnd:
-          timeout: 5000
+          timeout: 10000

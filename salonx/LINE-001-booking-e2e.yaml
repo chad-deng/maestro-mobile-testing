@@ -5,22 +5,19 @@ tags:
   - e2e
   - P0
 ---
-# Pre-load clipboard with katakana for フリガナ field
-# Run this before the test: adb shell service call clipboard 1 i32 1 s16 "テスト"
-
 # Launch LINE and open LIFF app via deep link
 - runFlow: subflow/line-open-liff.yaml
 
 # Complete booking steps (Steps 0-4)
 - runFlow: subflow/line-booking-steps.yaml
 
-# Wait for booking result — success screen, confirmation page, or booking-in-progress
+# Wait for booking result — success screen or post-booking detail page
 - extendedWaitUntil:
-    visible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*[Bb]ooking.*[Dd]etail.*|.*予約詳細.*|.*[Tt]hank.*|.*予約内容をご確認.*|.*この内容で予約.*|.*予約中.*"
-    timeout: 30000
+    visible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*予約詳細.*|.*[Tt]hank.*|.*ありがとうございます.*|.*予約が確定.*"
+    timeout: 60000
 
 # Capture evidence
 - takeScreenshot: "LINE-booking-success"
 
-# Final assertion — at least one success/confirmation indicator must be visible
-- assertVisible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*[Bb]ooking.*[Dd]etail.*|.*予約詳細.*|.*[Tt]hank.*|.*予約内容をご確認.*|.*この内容で予約.*|.*予約中.*"
+# Final assertion — at least one completed-booking indicator must be visible
+- assertVisible: ".*[Ss]uccess.*|.*完了.*|.*[Cc]onfirmed.*|.*予約完了.*|.*予約詳細.*|.*[Tt]hank.*|.*ありがとうございます.*|.*予約が確定.*"
