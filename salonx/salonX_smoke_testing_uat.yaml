@@ -9,16 +9,20 @@ appId: com.storehub.salonx.staff.dev
 # ─── Entry point ────────────────────────────────────────────────────────────
 # Wait until a meaningful, recognizable screen state appears (up to 30 s).
 # This covers every possible launch path:
+#   • Expo Dev Launcher home      → "Extensions"
 #   • Expo Dev Client OTA screen  → "Open Latest"
 #   • Legacy in-app update prompt → "Install Now"
 #   • SalonX login screen         → "Enter your email"
 #   • SalonX home (already in)    → "Profile / プロフィール / 個人 / Dashboard / ダッシュボード"
 - extendedWaitUntil:
-    visible: 'Open Latest|Install Now|Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+    visible: 'Extensions|EAS Update|Branch: development|Open Latest|Install Now|Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
     timeout: 30000
 - waitForAnimationToEnd
 
-# State 0a: Expo Dev Client — OTA update screen
+# State 0a: Expo Dev Launcher — EAS Update branch list
+- runFlow: subflow/open-development-update.yaml
+
+# State 0b: Expo Dev Client — OTA update screen
 - runFlow:
     when:
       visible: "Open Latest"
@@ -29,7 +33,7 @@ appId: com.storehub.salonx.staff.dev
           timeout: 20000
       - waitForAnimationToEnd
 
-# State 0b: Legacy "Install Now" in-app update prompt
+# State 0c: Legacy "Install Now" in-app update prompt
 - runFlow:
     when:
       visible: "Install Now"
