@@ -3,11 +3,12 @@
 #
 # Usage: maestro test salonx/REGRESSION-suite.yaml
 #
-# Total: 15 tests
+# Total: 21 tests
 # - REG: 5 tests (authentication, settings)
 # - BUG: 7 tests (bug regression)
 # - LR: 1 test (leave request)
 # - ROLE: 2 tests (role-based permissions)
+# - TEAM: 6 tests (team/staff management)
 
 appId: com.storehub.salonx.staff.dev
 ---
@@ -72,3 +73,25 @@ appId: com.storehub.salonx.staff.dev
 
 # ROLE-002: Staff Cannot View Basic Customer Info
 - runFlow: ROLE-002-staff-restricted-customer-info.yaml
+
+# ============================================
+# TEAM - Team/Staff Management Tests
+# ============================================
+
+# TEAM-001: Navigate to Team Screen and Verify Staff List
+- runFlow: TEAM-001-navigate-to-team.yaml
+
+# TEAM-002: Tap on Staff Member and Verify Details Screen
+- runFlow: TEAM-002-staff-member-details.yaml
+
+# TEAM-003: Role-Based Team Menu Access
+- runFlow: TEAM-003-role-based-team-access.yaml
+
+# TEAM-004: Navigate to Career Path and Verify Screen
+- runFlow: TEAM-004-career-path.yaml
+
+# TEAM-005: Navigate to Skill Categories and Verify Screen
+- runFlow: TEAM-005-skill-categories.yaml
+
+# TEAM-006: Navigate to Evaluations and Verify Screen
+- runFlow: TEAM-006-evaluations.yaml
