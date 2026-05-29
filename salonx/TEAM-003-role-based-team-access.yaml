@@ -1,0 +1,245 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - team
+  - staff-management
+  - role-permission
+  - P0
+---
+# TEAM-003: Role-Based Team Menu Access
+# Description: Verify Manager can access Team > Staff Management, Staff role has limited/no access
+# Expected: Manager sees Team section with Staff Management; Staff role does not see Team or sees limited view
+# Manager: chad.deng+111@storehub.com
+# Staff: chad.deng+112@storehub.com
+# Navigation path: Profile tab → Team section → Staff Management
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle Expo Dev Launcher / EAS Update screens
+- runFlow: subflow/open-development-update.yaml
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+- waitForAnimationToEnd
+
+# Reset to login if a previous test left the app signed in
+- runFlow:
+    when:
+      visible: "Profile|プロフィール|個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+      - tapOn: "Sign Out|ログアウト"
+
+- runFlow:
+    when:
+      visible: "Confirm|確認|确认|確定|确定"
+    commands:
+      - tapOn: "Confirm|確認|确认|確定|确定"
+
+- runFlow:
+    when:
+      visible: "Yes|はい"
+    commands:
+      - tapOn: "Yes|はい"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+- waitForAnimationToEnd
+
+# Handle "Open Latest" OTA screen
+- runFlow:
+    when:
+      visible: "Open Latest"
+    commands:
+      - tapOn: "Open Latest"
+      - extendedWaitUntil:
+          visible: 'Enter your email|.*@.*|Sign In|サインイン|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+          timeout: 20000
+      - waitForAnimationToEnd
+
+- waitForAnimationToEnd
+
+# ============================================
+# Part 1: Login as Manager - should see Team section
+# ============================================
+
+# Login as Manager
+- tapOn: ".*@.*|Enter your email|.*メール.*"
+- eraseText
+- tapOn: ".*@.*|Enter your email|.*メール.*"
+- eraseText
+- inputText: "chad.deng+111@storehub.com"
+- assertVisible: 'chad.deng\+111@storehub\.com'
+
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
+- eraseText
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
+- eraseText
+- inputText: 12345678
+
+- tapOn:
+    text: "Sign In|サインイン"
+    index: 1
+
+- waitForAnimationToEnd
+
+# Handle store selection if it appears
+- runFlow:
+    when:
+      visible: "auto_test"
+    commands:
+      - tapOn:
+          text: "auto_test"
+          index: 0
+      - tapOn: "Confirm|確認|确认|確定|确定"
+      - waitForAnimationToEnd
+
+# Verify successful login
+- assertVisible: "Profile|プロフィール|個人"
+
+# Navigate to Profile tab
+- tapOn: "Profile|プロフィール|個人"
+- waitForAnimationToEnd
+
+# Verify Manager CAN see Team section
+- assertVisible: "Team|チーム"
+
+# Verify Manager CAN see Staff Management option
+- assertVisible: "Staff Management|スタッフ管理"
+
+# Take screenshot of Manager Profile showing Team section
+- takeScreenshot: manager-team-section-visible.png
+
+# Navigate to Staff Management to confirm access
+- tapOn: "Staff Management|スタッフ管理"
+- waitForAnimationToEnd
+
+# Verify Staff Management screen loads for Manager
+- assertVisible: ".*[Ss]taff.*|.*スタッフ.*|.*メンバー.*|.*member.*"
+
+- takeScreenshot: manager-staff-management-accessible.png
+
+# Go back to Profile
+- back
+- waitForAnimationToEnd
+
+# Logout Manager
+- tapOn: "Sign Out|ログアウト"
+
+- runFlow:
+    when:
+      visible: "Confirm|確認|确认|確定|确定"
+    commands:
+      - tapOn: "Confirm|確認|确认|確定|确定"
+
+- runFlow:
+    when:
+      visible: "Yes|はい"
+    commands:
+      - tapOn: "Yes|はい"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+- waitForAnimationToEnd
+
+# ============================================
+# Part 2: Login as Staff - should NOT see Team section
+# ============================================
+
+# Login as Staff
+- tapOn: ".*@.*|Enter your email|.*メール.*"
+- eraseText
+- tapOn: ".*@.*|Enter your email|.*メール.*"
+- eraseText
+- inputText: "chad.deng+112@storehub.com"
+- assertVisible: 'chad.deng\+112@storehub\.com'
+
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
+- eraseText
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
+- eraseText
+- inputText: 12345678
+
+- tapOn:
+    text: "Sign In|サインイン"
+    index: 1
+
+- waitForAnimationToEnd
+
+# Handle store selection if it appears
+- runFlow:
+    when:
+      visible: "auto_test"
+    commands:
+      - tapOn:
+          text: "auto_test"
+          index: 0
+      - tapOn: "Confirm|確認|确认|確定|确定"
+      - waitForAnimationToEnd
+
+# Verify successful login
+- assertVisible: "Profile|プロフィール|個人"
+
+# Navigate to Profile tab
+- tapOn: "Profile|プロフィール|個人"
+- waitForAnimationToEnd
+
+# Verify Staff CAN see Team section (but with limited options)
+- assertVisible: "Team|チーム"
+
+# Verify Staff CANNOT see Staff Management option (manager-only)
+- assertNotVisible: "Staff Management|スタッフ管理"
+
+# Verify Staff CAN see Career Path (available to all)
+- assertVisible: "Career Path"
+
+# Verify Staff CAN see Skill Categories (available to all)
+- assertVisible: "Skill Categories"
+
+# Verify Staff CAN see Leave Requests (available to all)
+- assertVisible: "Leave Requests"
+
+# Take screenshot of Staff Profile (Team section with limited options)
+- takeScreenshot: staff-team-section-limited.png
+
+# Cleanup: logout Staff
+- tapOn: "Sign Out|ログアウト"
+
+- runFlow:
+    when:
+      visible: "Confirm|確認|确认|確定|确定"
+    commands:
+      - tapOn: "Confirm|確認|确认|確定|确定"
+
+- runFlow:
+    when:
+      visible: "Yes|はい"
+    commands:
+      - tapOn: "Yes|はい"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+- assertVisible: ".*@.*|Enter your email|.*メール.*"

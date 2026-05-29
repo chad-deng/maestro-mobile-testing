@@ -1,0 +1,178 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - team
+  - staff-management
+  - navigation
+  - P1
+---
+# TEAM-001: Navigate to Team > Staff Management and Verify Staff List
+# Description: Login as Manager, navigate to Profile > Team > Staff Management
+# Expected: Staff list loads and displays staff members
+# Role: Manager (chad.deng+111@storehub.com)
+# Navigation path: Profile tab → Team section → Staff Management
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle Expo Dev Launcher / EAS Update screens
+- runFlow: subflow/open-development-update.yaml
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+- waitForAnimationToEnd
+
+# Reset to login if a previous test left the app signed in
+- runFlow:
+    when:
+      visible: "Profile|プロフィール|個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+      - tapOn: "Sign Out|ログアウト"
+
+- runFlow:
+    when:
+      visible: "Confirm|確認|确认|確定|确定"
+    commands:
+      - tapOn: "Confirm|確認|确认|確定|确定"
+
+- runFlow:
+    when:
+      visible: "Yes|はい"
+    commands:
+      - tapOn: "Yes|はい"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+- waitForAnimationToEnd
+
+# Handle "Open Latest" OTA screen
+- runFlow:
+    when:
+      visible: "Open Latest"
+    commands:
+      - tapOn: "Open Latest"
+      - extendedWaitUntil:
+          visible: 'Enter your email|.*@.*|Sign In|サインイン|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+          timeout: 20000
+      - waitForAnimationToEnd
+
+- waitForAnimationToEnd
+
+# Login as Manager
+- tapOn: ".*@.*|Enter your email|.*メール.*"
+- eraseText
+- tapOn: ".*@.*|Enter your email|.*メール.*"
+- eraseText
+- inputText: "chad.deng+111@storehub.com"
+- assertVisible: 'chad.deng\+111@storehub\.com'
+
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
+- eraseText
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
+- eraseText
+- inputText: 12345678
+
+- tapOn:
+    text: "Sign In|サインイン"
+    index: 1
+
+- waitForAnimationToEnd
+
+# Handle store selection if it appears
+- runFlow:
+    when:
+      visible: "auto_test"
+    commands:
+      - tapOn:
+          text: "auto_test"
+          index: 0
+      - tapOn: "Confirm|確認|确认|確定|确定"
+      - waitForAnimationToEnd
+
+# Verify successful login
+- assertVisible: "Profile|プロフィール|個人"
+
+# Navigate to Profile tab (bottom navigation, rightmost)
+- tapOn: "Profile|プロフィール|個人"
+- waitForAnimationToEnd
+
+# Take screenshot of Profile screen
+- takeScreenshot: profile-screen.png
+
+# Verify Team section is visible
+- assertVisible: "Team|チーム"
+
+# Tap on Staff Management under Team section
+- tapOn: "Staff Management|スタッフ管理"
+- waitForAnimationToEnd
+
+# Take screenshot of Staff Management screen
+- takeScreenshot: staff-management-screen-loaded.png
+
+# Verify staff list is loaded - should see at least one staff member
+- assertVisible: ".*[Ss]taff.*|.*スタッフ.*|.*メンバー.*|.*member.*"
+
+# Verify the screen is not empty (no "no staff" or empty state)
+- assertNotVisible: "No staff found|スタッフが見つかりません|No members found"
+
+# ============================================
+# Filter check on staff list page
+# ============================================
+
+# Check for filter button/icon and tap it
+- runFlow:
+    when:
+      visible: "Filter|フィルター|filter|Filter by"
+    commands:
+      - tapOn: "Filter|フィルター|filter|Filter by"
+      - waitForAnimationToEnd
+      - takeScreenshot: staff-filter-opened.png
+
+# Check for search input field and interact with it
+- runFlow:
+    when:
+      visible: "Search|検索|.*[Ss]earch.*|.*search.*"
+    commands:
+      - tapOn: "Search|検索|.*[Ss]earch.*|.*search.*"
+      - inputText: "test"
+      - waitForAnimationToEnd
+      - takeScreenshot: staff-filter-search-entered.png
+      # Clear search text
+      - eraseText
+      - waitForAnimationToEnd
+
+# Check for sort option and tap it
+- runFlow:
+    when:
+      visible: "Sort|並び替え|sort|Sort by"
+    commands:
+      - tapOn: "Sort|並び替え|sort|Sort by"
+      - waitForAnimationToEnd
+      - takeScreenshot: staff-sort-opened.png
+
+# Check for role/position filter options
+- runFlow:
+    when:
+      visible: "Role|役割|Position|ポジション|All|すべて"
+    commands:
+      - tapOn: "Role|役割|Position|ポジション|All|すべて"
+      - waitForAnimationToEnd
+      - takeScreenshot: staff-role-filter-opened.png
+
+# Take final screenshot for verification
+- takeScreenshot: staff-management-verified.png

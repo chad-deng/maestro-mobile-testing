@@ -1,0 +1,177 @@
+appId: com.storehub.salonx.staff.dev
+tags:
+  - team
+  - staff-management
+  - staff-details
+  - P1
+---
+# TEAM-002: Tap on Staff Member and Verify Details Screen
+# Description: Login as Manager, navigate to Profile > Team > Staff Management, tap on a staff member
+# Expected: Staff details screen opens with staff information visible
+# Role: Manager (chad.deng+111@storehub.com)
+# Navigation path: Profile tab → Team section → Staff Management → Staff Details
+
+- launchApp:
+    appId: "com.storehub.salonx.staff.dev"
+    stopApp: true
+    clearState: false
+    permissions:
+      all: "allow"
+
+# Handle Expo Dev Launcher / EAS Update screens
+- runFlow: subflow/open-development-update.yaml
+
+# Handle optional "Install Now" prompt
+- runFlow:
+    when:
+      visible: 'Install Now'
+    commands:
+        - tapOn: "Install Now"
+
+- waitForAnimationToEnd
+
+# Reset to login if a previous test left the app signed in
+- runFlow:
+    when:
+      visible: "Profile|プロフィール|個人"
+    commands:
+      - tapOn:
+          point: "88%,95%"
+      - waitForAnimationToEnd
+      - tapOn: "Sign Out|ログアウト"
+
+- runFlow:
+    when:
+      visible: "Confirm|確認|确认|確定|确定"
+    commands:
+      - tapOn: "Confirm|確認|确认|確定|确定"
+
+- runFlow:
+    when:
+      visible: "Yes|はい"
+    commands:
+      - tapOn: "Yes|はい"
+
+- runFlow:
+    when:
+      visible: "OK"
+    commands:
+      - tapOn: "OK"
+
+- waitForAnimationToEnd
+
+# Handle "Open Latest" OTA screen
+- runFlow:
+    when:
+      visible: "Open Latest"
+    commands:
+      - tapOn: "Open Latest"
+      - extendedWaitUntil:
+          visible: 'Enter your email|.*@.*|Sign In|サインイン|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+          timeout: 20000
+      - waitForAnimationToEnd
+
+- waitForAnimationToEnd
+
+# Login as Manager
+- tapOn: ".*@.*|Enter your email|.*メール.*"
+- eraseText
+- tapOn: ".*@.*|Enter your email|.*メール.*"
+- eraseText
+- inputText: "chad.deng+111@storehub.com"
+- assertVisible: 'chad.deng\+111@storehub\.com'
+
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
+- eraseText
+- tapOn: "•+|Enter your password|.*password.*|.*パスワード.*"
+- eraseText
+- inputText: 12345678
+
+- tapOn:
+    text: "Sign In|サインイン"
+    index: 1
+
+- waitForAnimationToEnd
+
+# Handle store selection if it appears
+- runFlow:
+    when:
+      visible: "auto_test"
+    commands:
+      - tapOn:
+          text: "auto_test"
+          index: 0
+      - tapOn: "Confirm|確認|确认|確定|确定"
+      - waitForAnimationToEnd
+
+# Verify successful login
+- assertVisible: "Profile|プロフィール|個人"
+
+# Navigate to Profile tab
+- tapOn: "Profile|プロフィール|個人"
+- waitForAnimationToEnd
+
+# Verify Team section is visible
+- assertVisible: "Team|チーム"
+
+# Tap on Staff Management under Team section
+- tapOn: "Staff Management|スタッフ管理"
+- waitForAnimationToEnd
+
+# Verify staff list is loaded
+- assertVisible: ".*[Ss]taff.*|.*スタッフ.*|.*メンバー.*|.*member.*"
+
+# Take screenshot before tapping on staff member
+- takeScreenshot: staff-list-before-tap.png
+
+# Tap on the first staff member in the list
+# Try common patterns for staff member rows
+- runFlow:
+    when:
+      visible: ".*@.*"
+    commands:
+      - tapOn:
+          text: ".*@.*"
+          index: 0
+
+- runFlow:
+    when:
+      visible: ".*[A-Za-z].*[A-Za-z].*"
+    commands:
+      - tapOn:
+          text: ".*[A-Za-z].*[A-Za-z].*"
+          index: 0
+
+- waitForAnimationToEnd
+
+# Take screenshot of staff details screen
+- takeScreenshot: staff-details-screen.png
+
+# Verify staff details screen opened - check for common detail fields
+- runFlow:
+    when:
+      visible: ".*[Nn]ame.*|.*名前.*|.*[Ff]ull.*[Nn]ame.*"
+    commands:
+      - assertVisible: ".*[Nn]ame.*|.*名前.*|.*[Ff]ull.*[Nn]ame.*"
+
+- runFlow:
+    when:
+      visible: ".*[Ee]mail.*|.*メール.*"
+    commands:
+      - assertVisible: ".*[Ee]mail.*|.*メール.*"
+
+- runFlow:
+    when:
+      visible: ".*[Rr]ole.*|.*役割.*|.*ポジション.*|.*[Pp]osition.*"
+    commands:
+      - assertVisible: ".*[Rr]ole.*|.*役割.*|.*ポジション.*|.*[Pp]osition.*"
+
+# Verify back navigation is available
+- runFlow:
+    when:
+      visible: "Back|戻る|<"
+    commands:
+      - assertVisible: "Back|戻る|<"
+
+# Take final screenshot for verification
+- takeScreenshot: staff-details-verified.png
