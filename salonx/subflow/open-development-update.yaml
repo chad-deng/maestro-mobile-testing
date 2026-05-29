@@ -1,0 +1,36 @@
+appId: com.storehub.salonx.staff.dev
+---
+# Expo Dev Launcher can stop on Home/Extensions before the app shell loads.
+# When that happens, open the latest EAS Update from the development branch.
+- runFlow:
+    when:
+      visible: "Extensions|EAS Update|Branch: development"
+    commands:
+      - runFlow:
+          when:
+            visible: "Extensions"
+          commands:
+            - tapOn: "Extensions"
+            - waitForAnimationToEnd
+      - extendedWaitUntil:
+          visible: "Branch: development"
+          timeout: 10000
+      - tapOn:
+          text: "Open"
+          index: 0
+      - extendedWaitUntil:
+          visible: 'Continue|Connected to:|Reload|Go home|Open Latest|Install Now|Enter your email|.*@.*|Sign In|サインイン|Forgot Password\?|パスワードを忘れた.*|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+          timeout: 30000
+      - runFlow:
+          when:
+            visible: "Continue"
+          commands:
+            - tapOn: "Continue"
+            - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible: "Connected to:|Reload|Go home"
+          commands:
+            - tapOn:
+                point: "95%,48%"
+            - waitForAnimationToEnd

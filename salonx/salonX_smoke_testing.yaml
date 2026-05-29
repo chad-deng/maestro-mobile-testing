@@ -7,8 +7,19 @@ appId: com.storehub.salonx.staff.dev
       all: "allow"
 
 - extendedWaitUntil:
-    visible: 'Install Now|Enter your email|.*@.*|Sign In|サインイン|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+    visible: 'Extensions|EAS Update|Branch: development|Open Latest|Install Now|Enter your email|.*@.*|Sign In|サインイン|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
     timeout: 30000
+
+- runFlow: subflow/open-development-update.yaml
+- runFlow:
+    when:
+      visible: "Open Latest"
+    commands:
+      - tapOn: "Open Latest"
+      - extendedWaitUntil:
+          visible: 'Enter your email|.*@.*|Sign In|サインイン|Switch Store|Select Store|.*店舗.*|.*事業.*切.*|.*事业.*切.*|Profile|プロフィール|個人|Dashboard|ダッシュボード'
+          timeout: 20000
+      - waitForAnimationToEnd
 
 - runFlow:
     when:
